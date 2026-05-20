@@ -115,7 +115,7 @@ DEFAULT_RISKS = ["Macro slowdown impact", "Competitive pressure"]
 
 def fmp_get(endpoint: str, params: dict = {}) -> dict | list:
     """Call FMP API and return parsed JSON."""
-    base = "https://financialmodelingprep.com/api/v3"
+    base = "https://financialmodelingprep.com/stable"
     params["apikey"] = FMP_API_KEY
     qs = urllib.parse.urlencode(params)
     url = f"{base}/{endpoint}?{qs}"
@@ -130,24 +130,25 @@ def fmp_get(endpoint: str, params: dict = {}) -> dict | list:
 def fetch_earnings_calendar(days: int = 90) -> list[dict]:
     today = datetime.date.today()
     end   = today + datetime.timedelta(days=days)
-    data  = fmp_get("earning_calendar_confirmed", {
+    data  = fmp_get("earnings-calendar", {
         "from": today.isoformat(),
         "to":   end.isoformat(),
     })
     return data if isinstance(data, list) else []
 
 def fetch_quote(ticker: str) -> dict:
-    data = fmp_get(f"quote/{ticker}")
+    data = fmp_get(f"quote?symbol={ticker}")
     if isinstance(data, list) and data:
         return data[0]
     return {}
 
 
 def fetch_key_metrics(ticker: str) -> dict:
-    data = fmp_get(f"key-metrics-ttm/{ticker}")
+    data = fmp_get(f"key-metrics-ttm?symbol={ticker}")
     if isinstance(data, list) and data:
         return data[0]
     return {}
+
 
 
 def enrich_companies(raw: list[dict]) -> list[dict]:
