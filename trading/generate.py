@@ -351,18 +351,20 @@ def build_stocks_html(stocks_data: list) -> str:
 
 def build_crypto_html(crypto_data: list, global_data: dict) -> str:
     # Global stats bar
-    total_mcap  = global_data.get("total_market_cap", {}).get("usd", 0)
-    btc_dom     = global_data.get("market_cap_percentage", {}).get("btc", 0)
-    eth_dom     = global_data.get("market_cap_percentage", {}).get("eth", 0)
-    total_vol   = global_data.get("total_volume", {}).get("usd", 0)
-    fear_greed  = "—"  # would need separate API
+    total_mcap  = global_data.get("total_market_cap", {}).get("usd") or 0
+    btc_dom     = global_data.get("market_cap_percentage", {}).get("btc") or 0
+    eth_dom     = global_data.get("market_cap_percentage", {}).get("eth") or 0
+    total_vol   = global_data.get("total_volume", {}).get("usd") or 0
+
+    mcap_str_global = f"${total_mcap/1e12:.2f}T" if total_mcap else "—"
+    vol_str_global  = f"${total_vol/1e9:.0f}B"   if total_vol  else "—"
 
     global_bar = f"""
     <div class="crypto-global">
-      <div class="cg-item"><span class="cg-label">Total MCap</span><span class="cg-val">${total_mcap/1e12:.2f}T</span></div>
+      <div class="cg-item"><span class="cg-label">Total MCap</span><span class="cg-val">{mcap_str_global}</span></div>
       <div class="cg-item"><span class="cg-label">BTC Dom</span><span class="cg-val amber">{btc_dom:.1f}%</span></div>
       <div class="cg-item"><span class="cg-label">ETH Dom</span><span class="cg-val">{eth_dom:.1f}%</span></div>
-      <div class="cg-item"><span class="cg-label">24h Vol</span><span class="cg-val">${total_vol/1e9:.0f}B</span></div>
+      <div class="cg-item"><span class="cg-label">24h Vol</span><span class="cg-val">{vol_str_global}</span></div>
     </div>"""
 
     # Map by id
@@ -373,16 +375,15 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
         d = by_id.get(item["id"])
         if not d:
             continue
-        price    = d.get("current_price") or 0
-        chg_1h   = d.get("price_change_percentage_1h_in_currency", 0) or 0
-        chg_24h  = d.get("price_change_percentage_24h_in_currency", 0) or 0
-        chg_7d   = d.get("price_change_percentage_7d_in_currency", 0) or 0
-        volume   = d.get("total_volume", 0)
-        mcap     = d.get("market_cap", 0)
-        ath      = d.get("ath", 0)
-        ath_pct  = d.get("ath_change_percentage", 0) or 0
+        price   = d.get("current_price") or 0
+        chg_1h  = d.get("price_change_percentage_1h_in_currency") or 0
+        chg_24h = d.get("price_change_percentage_24h_in_currency") or 0
+        chg_7d  = d.get("price_change_percentage_7d_in_currency") or 0
+        volume  = d.get("total_volume") or 0
+        mcap    = d.get("market_cap") or 0
+        ath_pct = d.get("ath_change_percentage") or 0
+
         spark_prices = d.get("sparkline_in_7d", {}).get("price", [])
-        # downsample sparkline to 20 points
         if len(spark_prices) > 20:
             step = len(spark_prices) // 20
             spark_prices = spark_prices[::step][:20]
@@ -398,8 +399,10 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
         else:
             price_str = f"${price:.6f}"
 
+        vol_str  = f"${volume/1e6:.0f}M" if volume else "—"
+        mcap_str = f"${mcap/1e9:.1f}B"   if mcap   else "—"
+        ath_from = f"{ath_pct:.0f}%"      if ath_pct else "—"
         logo_url = d.get("image", "")
-        ath_from = f"{ath_pct:.0f}%" if ath_pct else "—"
 
         cards.append(f"""
         <div class="crypto-card">
@@ -427,9 +430,9 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
             </div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span class="mono" style="font-size:11px">${volume/1e6:.0f}M</span>
+            <span class="cg-label">Vol 24h</span> <span class="mono" style="font-size:11px">{vol_str}</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span class="mono" style="font-size:11px">${mcap/1e9:.1f}B</span>
+            <span class="cg-label">MCap</span> <span class="mono" style="font-size:11px">{mcap_str}</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="mono {chg_class(ath_pct)}" style="font-size:11px">{ath_from}</span>
           </div>
