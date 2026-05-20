@@ -8,8 +8,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   generate:
@@ -25,6 +23,8 @@ jobs:
         run: pip install requests
 
       - name: Generate dashboard
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: python trading/generate.py
 
       - name: Commit updated dashboard
@@ -34,23 +34,3 @@ jobs:
           git add trading/index.html
           git diff --staged --quiet || git commit -m "chore: update trading dashboard $(date +'%Y-%m-%d %H:%M')"
           git push
-
-  deploy:
-    needs: generate
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4.2.2
-        with:
-          ref: master
-
-      - uses: actions/configure-pages@v4
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
-      - id: deployment
-        uses: actions/deploy-pages@v4
