@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Enterprise — Trading Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090d;--surface:#0f1117;--surface2:#161820;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#e8eaf0;--muted:#6b7280;
+  --green:#00d4aa;--red:#ff4757;--amber:#ffa502;--blue:#3b82f6;
+  --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+
+/* HEADER */
+.header{padding:2rem 2rem 0;max-width:900px;margin:0 auto;width:100%}
+.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.logo-row h1{font-size:1.3rem;font-weight:600;letter-spacing:-0.02em}
+.subtitle{font-family:var(--mono);font-size:0.72rem;color:var(--muted);margin-bottom:2.5rem}
+.time-row{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.time-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;display:flex;flex-direction:column;gap:2px}
+.time-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-family:var(--mono)}
+.time-val{font-family:var(--mono);font-size:0.9rem;font-weight:600;color:var(--text)}
+.time-val.highlight{color:var(--amber)}
+
+/* MAIN */
+.main{flex:1;max-width:900px;margin:0 auto;width:100%;padding:0 2rem 3rem}
+
+/* STATUS BAR */
+.status-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.status-item{display:flex;align-items:center;gap:6px;font-size:0.78rem}
+.status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-amber{background:var(--amber)}
+.dot-red{background:var(--red)}
+.dot-gray{background:var(--muted)}
+
+/* DASHBOARD CARDS */
+.dashboards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:2rem}
+.dash-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;cursor:pointer;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.15s;display:block}
+.dash-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.dash-card.primary{border-color:rgba(0,212,170,0.2)}
+.dash-card.primary:hover{border-color:rgba(0,212,170,0.5)}
+.dash-icon{font-size:1.8rem;margin-bottom:12px}
+.dash-title{font-size:1rem;font-weight:600;margin-bottom:4px}
+.dash-desc{font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:1rem}
+.dash-meta{display:flex;gap:8px;flex-wrap:wrap}
+.meta-pill{font-family:var(--mono);font-size:0.62rem;padding:2px 8px;border-radius:4px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.meta-pill.green{background:rgba(0,212,170,0.08);color:var(--green);border-color:rgba(0,212,170,0.2)}
+.meta-pill.amber{background:rgba(255,165,2,0.08);color:var(--amber);border-color:rgba(255,165,2,0.2)}
+.dash-arrow{float:right;color:var(--muted);font-size:1.1rem;margin-top:-2px;transition:color 0.2s}
+.dash-card:hover .dash-arrow{color:var(--green)}
+.update-badge{font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:5px}
+.update-badge::before{content:'↻';color:var(--green)}
+
+/* PRE-MARKET REMINDER */
+.reminder{background:var(--surface);border:1px solid rgba(255,165,2,0.2);border-radius:10px;padding:1rem 1.2rem;margin-bottom:2rem}
+.reminder-title{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber);font-family:var(--mono);margin-bottom:10px;font-weight:600}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:6px}
+.checklist li{font-size:0.82rem;color:var(--muted);padding-left:18px;position:relative;line-height:1.4}
+.checklist li::before{content:'☐';position:absolute;left:0;color:var(--amber);font-size:0.8rem}
+.checklist li span{color:var(--text)}
+
+/* QUICK LINKS */
+.links-title{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-family:var(--mono);margin-bottom:10px}
+.links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:2rem}
+.link-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-decoration:none;color:var(--muted);font-size:0.75rem;display:flex;align-items:center;gap:6px;transition:all 0.15s;font-family:var(--mono)}
+.link-item:hover{border-color:var(--border2);color:var(--text)}
+
+/* FOOTER */
+.footer{text-align:center;padding:1.5rem;font-size:0.65rem;color:var(--muted);border-top:1px solid var(--border);font-family:var(--mono)}
+
+/* MOBILE */
+@media(max-width:600px){
+  .header,.main{padding-left:1rem;padding-right:1rem}
+  .dashboards{grid-template-columns:1fr}
+  .time-row{gap:0.75rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-dot"></div>
+    <h1>Claude Enterprise — Trading Hub</h1>
+  </div>
+  <p class="subtitle">NASDAQ · S&P 500 · Crypto · Earnings · Pre-apertura 15:30 CET</p>
+
+  <div class="time-row">
+    <div class="time-block">
+      <div class="time-label">Hora local (CET)</div>
+      <div class="time-val highlight" id="cet-time">--:--:--</div>
+    </div>
+    <div class="time-block">
+      <div class="time-label">New York (ET)</div>
+      <div class="time-val" id="et-time">--:--:--</div>
+    </div>
+    <div class="time-block">
+      <div class="time-label">NASDAQ abre en</div>
+      <div class="time-val" id="countdown">--:--:--</div>
+    </div>
+    <div class="time-block">
+      <div class="time-label">Mercado US</div>
+      <div class="time-val" id="market-status">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-dot dot-green"></div>
+      <span style="font-family:var(--mono);font-size:0.72rem">Datos actualizados automáticamente</span>
+    </div>
+    <div class="status-item">
+      <div class="status-dot dot-amber"></div>
+      <span style="font-family:var(--mono);font-size:0.72rem">Trading: L-V antes de 15:30 CET</span>
+    </div>
+    <div class="status-item">
+      <div class="status-dot dot-green"></div>
+      <span style="font-family:var(--mono);font-size:0.72rem">Earnings: L y V</span>
+    </div>
+  </div>
+
+  <!-- PRE-MARKET CHECKLIST -->
+  <div class="reminder">
+    <div class="reminder-title">☑ Checklist pre-apertura 15:30 CET</div>
+    <ul class="checklist">
+      <li><span>Ver futuros NQ y ES</span> — ¿gap significativo vs cierre anterior?</li>
+      <li><span>Revisar VIX</span> — si está por encima de 20 reducir size, por encima de 30 no operar</li>
+      <li><span>Comprobar datos macro del día</span> — CPI, NFP, Fed speakers en el calendario</li>
+      <li><span>Pre-market movers</span> — ¿algún ticker de la watchlist con gap >2%?</li>
+      <li><span>BTC overnight</span> — movimiento fuerte de crypto suele correlacionar con apertura</li>
+      <li><span>Earnings del día</span> — no operar el subyacente los primeros 5 minutos si reportó</li>
+      <li><span>Definir niveles</span> — VWAP, pre-market high/low antes de entrar</li>
+    </ul>
+  </div>
+
+  <!-- DASHBOARD CARDS -->
+  <div class="dashboards">
+    <a class="dash-card primary" href="trading/index.html">
+      <span class="dash-arrow">→</span>
+      <div class="dash-icon">📊</div>
+      <div class="dash-title">Day Trading Dashboard</div>
+      <div class="dash-desc">NASDAQ watchlist con niveles de scalping, pre-market, futuros, crypto y macro. Optimizado para la apertura de las 15:30 CET.</div>
+      <div class="dash-meta">
+        <span class="meta-pill green">NVDA · GOOGL · MSFT</span>
+        <span class="meta-pill green">BTC · ETH · ZEC</span>
+        <span class="meta-pill amber">Pre-apertura</span>
+        <span class="meta-pill">VIX · Futuros</span>
+      </div>
+      <div class="update-badge">Se actualiza L-V a las 13:00 y 21:30 UTC</div>
+    </a>
+
+    <a class="dash-card" href="earnings/index.html">
+      <span class="dash-arrow">→</span>
+      <div class="dash-icon">📅</div>
+      <div class="dash-title">Earnings Calendar</div>
+      <div class="dash-desc">Calendario de resultados empresariales con EPS estimado, revenue, último surprise, fwd P/E y qué vigilar en cada earnings call.</div>
+      <div class="dash-meta">
+        <span class="meta-pill">EPS est · Rev est</span>
+        <span class="meta-pill">Surprise %</span>
+        <span class="meta-pill amber">What to Watch</span>
+      </div>
+      <div class="update-badge">Se actualiza L y V a las 06:00 y 20:00 UTC</div>
+    </a>
+  </div>
+
+  <!-- QUICK LINKS -->
+  <div class="links-title">Links rápidos</div>
+  <div class="links-grid">
+    <a class="link-item" href="https://finance.yahoo.com/quote/%5EIXIC/" target="_blank">↗ NASDAQ Yahoo</a>
+    <a class="link-item" href="https://www.tradingview.com/chart/?symbol=NASDAQ%3ANDX" target="_blank">↗ NQ TradingView</a>
+    <a class="link-item" href="https://www.cmegroup.com/markets/equities/nasdaq/e-mini-nasdaq-100.html" target="_blank">↗ NQ Futuros CME</a>
+    <a class="link-item" href="https://www.investing.com/economic-calendar/" target="_blank">↗ Calendario macro</a>
+    <a class="link-item" href="https://finance.yahoo.com/quote/%5EVIX/" target="_blank">↗ VIX Yahoo</a>
+    <a class="link-item" href="https://www.coinmarketcap.com" target="_blank">↗ CoinMarketCap</a>
+    <a class="link-item" href="https://earningswhispers.com/calendar" target="_blank">↗ Earnings Whispers</a>
+    <a class="link-item" href="https://www.federalreserve.gov/newsevents/calendar.htm" target="_blank">↗ Fed Calendar</a>
+  </div>
+
+</div>
+
+<div class="footer">
+  Claude Enterprise Trading Hub · Datos: Yahoo Finance + CoinGecko + FMP ·
+  No es asesoramiento financiero · Opera siempre con gestión de riesgo
+</div>
+
+<script>
+function pad(n){return String(n).padStart(2,'0')}
+
+function updateClocks(){
+  const now = new Date();
+
+  // CET = UTC+1 (winter) / UTC+2 (summer) — use Intl
+  const cet = new Intl.DateTimeFormat('es-ES',{
+    timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false
+  }).format(now);
+
+  const et = new Intl.DateTimeFormat('en-US',{
+    timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false
+  }).format(now);
+
+  document.getElementById('cet-time').textContent = cet;
+  document.getElementById('et-time').textContent  = et;
+
+  // Market status
+  const etDate = new Date(now.toLocaleString('en-US',{timeZone:'America/New_York'}));
+  const etH = etDate.getHours();
+  const etM = etDate.getMinutes();
+  const etDay = etDate.getDay(); // 0=Sun, 6=Sat
+  const etMins = etH * 60 + etM;
+  const statusEl = document.getElementById('market-status');
+  const cdEl     = document.getElementById('countdown');
+
+  if(etDay === 0 || etDay === 6){
+    statusEl.textContent = 'Cerrado';
+    statusEl.style.color = 'var(--muted)';
+    cdEl.textContent = 'Weekend';
+    return;
+  }
+
+  if(etMins >= 570 && etMins < 960){ // 9:30 - 16:00
+    statusEl.textContent = '🟢 Abierto';
+    statusEl.style.color = 'var(--green)';
+    // time since open
+    const elapsed = etMins - 570;
+    cdEl.textContent = `Abierto ${pad(Math.floor(elapsed/60))}h ${pad(elapsed%60)}m`;
+    cdEl.style.color = 'var(--green)';
+  } else if(etMins >= 240 && etMins < 570){ // 4:00 - 9:30 pre-market
+    statusEl.textContent = '🟡 Pre-market';
+    statusEl.style.color = 'var(--amber)';
+    const remaining = 570 - etMins;
+    cdEl.textContent = `Abre en ${pad(Math.floor(remaining/60))}h ${pad(remaining%60)}m`;
+    cdEl.style.color = 'var(--amber)';
+  } else if(etMins >= 960 && etMins < 1200){ // 16:00 - 20:00 after-hours
+    statusEl.textContent = '🔵 After-hours';
+    statusEl.style.color = 'var(--blue)';
+    cdEl.textContent = 'After hours';
+    cdEl.style.color = 'var(--blue)';
+  } else {
+    statusEl.textContent = '⚫ Cerrado';
+    statusEl.style.color = 'var(--muted)';
+    // next open
+    const minsToOpen = etMins < 240 ? 240 - etMins : (24*60 - etMins) + 240;
+    cdEl.textContent = `Abre en ${pad(Math.floor(minsToOpen/60))}h ${pad(minsToOpen%60)}m`;
+    cdEl.style.color = 'var(--muted)';
+  }
+}
+
+updateClocks();
+setInterval(updateClocks, 1000);
+</script>
+</body>
+</html>

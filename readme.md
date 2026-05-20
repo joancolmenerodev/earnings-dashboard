@@ -1,133 +1,156 @@
-# Earnings Calendar Dashboard — Setup completo
+# Claude Enterprise — Trading Hub
 
-> Dashboard de earnings automático y gratuito. Se actualiza solo cada semana, vive en una URL pública de GitHub Pages, y puedes compartirlo en la comunidad como recurso fijo.
+> Dashboard de trading completo y gratuito. Earnings calendar + day trading dashboard en un solo repo. Se actualiza automáticamente, vive en una URL pública de GitHub Pages y está optimizado para la apertura de NASDAQ a las 15:30 CET.
 
 ---
 
 ## Qué obtienes
 
-Un archivo HTML autocontenido con:
+### Landing page (raíz)
+- Reloj en tiempo real con hora CET, hora ET y cuenta atrás hasta las 15:30 CET
+- Estado del mercado live (Pre-market / Abierto / After-hours / Cerrado)
+- Checklist pre-apertura de 7 puntos para tu rutina diaria
+- Links rápidos a TradingView, CME futuros, calendario macro, VIX, etc.
 
-- Headline con la temporada de earnings actual y KPIs (beats, misses, avg surprise)
-- Countdown strip con las próximas 5 empresas en reportar
-- Filtros por sector y búsqueda por ticker
-- Cards por semana con: logo, ticker, fecha, AMC/BMO, EPS est, rev est, último surprise, Fwd P/E, precio actual
+### Day Trading Dashboard (`/trading`)
+- Índices y ETFs: NASDAQ 100, S&P 500, VIX, QQQ, SPY
+- Watchlist NASDAQ: NVDA, GOOGL, MSFT, AAPL, META, AMZN, TSLA, AMD, PLTR y más
+- Cada fila expandible con niveles de scalping, setup VWAP, catalizadores y notas de opciones
+- Pre-market price y cambio para cada ticker
+- Crypto: BTC, ETH, ZEC, SOL, XRP, AVAX, LINK, ARB, MATIC, SUI, DOGE con cambios 1h/24h/7d
+- Global crypto: dominancia BTC/ETH, market cap total, volumen 24h
+- Calendario macro semanal con impacto y reglas de gestión de riesgo para scalping
+- Se actualiza L-V a las 13:00 UTC (15:00 CET, antes de apertura) y 21:30 UTC
+
+### Earnings Calendar (`/earnings`)
+- KPIs de temporada: beats, misses, avg surprise
+- Countdown con las próximas 5 empresas en reportar
+- Cards por semana: EPS est, rev est, último surprise, Fwd P/E, precio actual
 - Expandir cada card para ver "What to Watch" y riesgos clave
-- Verde/rojo automático según si ya reportaron beat o miss
-- Mobile-friendly, sin dependencias externas
+- Verde/rojo automático según beat o miss
+- Se actualiza L y V a las 06:00 y 20:00 UTC
 
-Se regenera automáticamente cada lunes a las 6:00 UTC y cada viernes a las 20:00 UTC via GitHub Actions.
+---
+
+## Estructura del repo
+
+```
+earnings-dashboard/
+├── index.html                     ← landing page (raíz)
+├── trading/
+│   ├── generate.py                ← script day trading dashboard
+│   └── index.html                 ← generado automáticamente
+├── earnings/
+│   ├── generate.py                ← script earnings calendar
+│   └── index.html                 ← generado automáticamente
+└── .github/
+    └── workflows/
+        ├── trading.yml            ← cron L-V 13:00 y 21:30 UTC
+        └── earnings.yml           ← cron L y V 06:00 y 20:00 UTC
+```
 
 ---
 
 ## Requisitos
 
 - Cuenta de GitHub (gratis)
-- API key de Financial Modeling Prep (plan gratuito suficiente)
-- Python 3.11+ (solo para correrlo localmente)
+- API key de Financial Modeling Prep — solo para earnings (plan gratuito suficiente)
+- Day trading dashboard usa Yahoo Finance y CoinGecko — sin API key necesaria
+- Python 3.11+ para correrlo localmente
 
 ---
 
-## Paso 1 — Obtener API key gratuita de FMP
+## Setup inicial
+
+### Paso 1 — API key de FMP (solo para earnings)
 
 1. Ve a [financialmodelingprep.com](https://financialmodelingprep.com)
-2. Crea cuenta gratuita
-3. Ve a Dashboard → API Key
-4. Copia tu API key (empieza por letras/números, ~32 caracteres)
+2. Crea cuenta gratuita → Dashboard → API Key
+3. Copia tu API key (~32 caracteres)
 
-El plan gratuito incluye el earnings calendar y datos de cotización. Suficiente para este dashboard.
+### Paso 2 — Añadir el secreto en GitHub
 
----
+1. En tu repo → **Settings → Secrets and variables → Actions**
+2. **New repository secret**
+3. Name: `FMP_API_KEY` · Value: tu API key
+4. **Add secret**
 
-## Paso 2 — Crear el repositorio en GitHub
+### Paso 3 — Activar GitHub Pages
 
-1. Ve a [github.com/new](https://github.com/new)
-2. Nombre del repo: `earnings-dashboard` (o el que quieras)
-3. Visibilidad: **Public** (necesario para GitHub Pages gratis)
-4. Haz click en **Create repository**
-
----
-
-## Paso 3 — Subir los archivos
-
-Tienes dos opciones:
-
-### Opción A — Desde GitHub web (sin terminal)
-
-1. En tu repo, haz click en **Add file → Upload files**
-2. Sube `generate.py`
-3. Crea la carpeta `.github/workflows/` manualmente:
-   - Haz click en **Add file → Create new file**
-   - Escribe el nombre: `.github/workflows/generate.yml`
-   - Pega el contenido del archivo `generate.yml`
-   - Haz commit
-
-### Opción B — Desde terminal
-
-```bash
-git clone https://github.com/TU-USUARIO/earnings-dashboard.git
-cd earnings-dashboard
-
-# Copia los archivos generate.py y .github/workflows/generate.yml aquí
-# Luego:
-git add .
-git commit -m "feat: add earnings dashboard generator"
-git push
-```
-
----
-
-## Paso 4 — Añadir la API key como secreto
-
-Nunca pongas la API key directamente en el código.
-
-1. En tu repo, ve a **Settings → Secrets and variables → Actions**
-2. Haz click en **New repository secret**
-3. Name: `FMP_API_KEY`
-4. Value: tu API key de FMP
-5. Haz click en **Add secret**
-
----
-
-## Paso 5 — Activar GitHub Pages
-
-1. En tu repo, ve a **Settings → Pages**
+1. En tu repo → **Settings → Pages**
 2. Source: **GitHub Actions**
 3. Guarda
 
----
+### Paso 4 — Primera ejecución manual
 
-## Paso 6 — Primera ejecución manual
-
-El workflow se ejecuta automáticamente los lunes y viernes. Para ejecutarlo ahora:
+Ejecuta cada workflow por separado la primera vez:
 
 1. Ve a **Actions** en tu repo
-2. Haz click en **Generate Earnings Dashboard**
-3. Haz click en **Run workflow → Run workflow**
-4. Espera 2-3 minutos
+2. Selecciona **Generate Trading Dashboard** → **Run workflow**
+3. Espera 2-3 minutos
+4. Repite con **Generate Earnings Dashboard**
 
-Cuando termine, ve a **Settings → Pages** y verás la URL pública. Formato:
+Tu URL pública:
 ```
 https://tu-usuario.github.io/earnings-dashboard/
 ```
 
 ---
 
-## Personalización
+## Correrlo localmente
 
-### Cambiar qué empresas aparecen
+```bash
+# Instalar dependencias
+pip install requests yfinance
 
-El script fetch automaticamente las empresas con earnings en los próximos 90 días.
-Para cambiar el número de días o el máximo de empresas, edita estas líneas en `generate.py`:
+# Trading dashboard (sin API key)
+cd trading
+python generate.py
+open index.html
 
-```python
-DAYS_AHEAD = 90   # días hacia adelante
-TOP_N      = 60   # máximo de empresas
+# Earnings dashboard (requiere FMP key)
+cd earnings
+export FMP_API_KEY=tu-api-key-aqui
+python generate.py
+open index.html
 ```
 
-### Añadir metadatos de empresas específicas
+---
 
-Para empresas que quieres con contexto personalizado, edita el diccionario `EXTRA_META` en `generate.py`:
+## Personalización
+
+### Añadir o quitar stocks del trading dashboard
+
+Edita la lista `STOCKS` en `trading/generate.py`:
+
+```python
+STOCKS = [
+    {"ticker": "NVDA",  "name": "NVIDIA",    "sector": "AI/Semis"},
+    {"ticker": "GOOGL", "name": "Alphabet",  "sector": "Mega Cap"},
+    # Añade o quita aquí
+]
+```
+
+### Añadir contexto de scalping por ticker
+
+Edita `SCALP_META` en `trading/generate.py`:
+
+```python
+SCALP_META = {
+    "NVDA": {
+        "vwap_note": "Respeta VWAP con fuerza. Pre-market gaps frecuentes.",
+        "key_levels": ["Soporte en redondos ($100, $110...)", "ATH como resistencia"],
+        "catalysts":  ["Export controls news", "Hyperscaler capex"],
+        "avg_range":  "4-8% daily range en días de noticias",
+        "options_note": "Alta IV en earnings. Gamma squeeze frecuente.",
+    },
+    # Añade más tickers aquí
+}
+```
+
+### Añadir contexto de earnings por empresa
+
+Edita `EXTRA_META` en `earnings/generate.py`:
 
 ```python
 EXTRA_META = {
@@ -136,108 +159,78 @@ EXTRA_META = {
         "watch": [
             "iPhone 16 cycle sell-through vs analyst models",
             "Services revenue growth rate",
-            ...
         ],
         "risks": ["China regulatory pressure", "Antitrust scrutiny"],
     },
-    # Añade más empresas aquí
 }
 ```
 
-### Cambiar la frecuencia de actualización
+### Cambiar frecuencia de actualización
 
-Edita el cron en `.github/workflows/generate.yml`:
-
+`trading/.github/workflows/trading.yml`:
 ```yaml
 schedule:
-  - cron: '0 6 * * 1'   # Lunes 6:00 UTC
-  - cron: '0 20 * * 5'  # Viernes 20:00 UTC
+  - cron: '0 13 * * 1-5'   # L-V 13:00 UTC (15:00 CET)
+  - cron: '30 21 * * 1-5'  # L-V 21:30 UTC (after close)
 ```
 
-Formato: `minuto hora día-mes mes día-semana`
-
-Para actualización diaria a las 7:00 UTC:
+`earnings/.github/workflows/earnings.yml`:
 ```yaml
-  - cron: '0 7 * * *'
+schedule:
+  - cron: '0 6 * * 1'    # Lunes 6:00 UTC
+  - cron: '0 20 * * 5'   # Viernes 20:00 UTC
 ```
 
----
-
-## Correrlo localmente
-
-Si quieres probar el dashboard antes de subirlo o hacer cambios:
-
-```bash
-# Instalar dependencias
-pip install requests yfinance
-
-# Configurar API key
-export FMP_API_KEY=tu-api-key-aqui
-
-# Generar dashboard
-python generate.py
-
-# Abrir en el navegador
-open index.html       # Mac
-start index.html      # Windows
-xdg-open index.html   # Linux
-```
-
-El archivo `index.html` generado es 100% autocontenido. Puedes abrirlo directamente en cualquier navegador sin servidor.
+Generador de cron: [crontab.guru](https://crontab.guru)
 
 ---
 
 ## Cómo compartirlo en la comunidad
 
-Una vez desplegado, tienes una URL fija tipo:
+URL fija siempre actualizada:
 ```
 https://tu-usuario.github.io/earnings-dashboard/
 ```
 
-Esa URL siempre mostrará la versión más reciente. Cada vez que hay earnings relevantes puedes compartir esa URL en WhatsApp con contexto:
+Formato para WhatsApp:
 
 ```
-📅 Q2 2025 Earnings Season — dashboard actualizado
+📊 Trading Hub actualizado — apertura NASDAQ 15:30
 
-NVDA, MSFT, AAPL y 47 empresas más reportan las próximas semanas.
-Cards con EPS est, surprise histórico, fwd P/E y qué vigilar.
+Dashboard con NVDA, GOOGL, MSFT y crypto en tiempo real.
+Checklist pre-apertura, niveles de scalping y earnings de la semana.
 
-→ [tu URL de GitHub Pages]
-```
-
----
-
-## Estructura de archivos
-
-```
-earnings-dashboard/
-├── generate.py              ← script principal
-├── index.html               ← dashboard generado (auto-actualizado)
-└── .github/
-    └── workflows/
-        └── generate.yml     ← automatización semanal
+→ https://tu-usuario.github.io/earnings-dashboard/
 ```
 
 ---
 
 ## Solución de problemas
 
-**El workflow falla con error 401**
-→ Tu FMP_API_KEY no está configurada correctamente. Revisa Settings → Secrets.
+**El workflow de trading falla**
+→ Yahoo Finance y CoinGecko son gratuitos pero tienen rate limits. Espera 30 minutos y reintenta.
 
-**El workflow falla con "No data returned"**
-→ El plan gratuito de FMP tiene límite de llamadas. Espera 24h o actualiza el plan.
+**El workflow de earnings falla con 401**
+→ `FMP_API_KEY` no configurada. Revisa Settings → Secrets and variables → Actions.
 
-**GitHub Pages muestra 404**
-→ Asegúrate de que el repo es público y que Pages está configurado como "GitHub Actions" source.
+**El workflow de earnings falla con "No data returned"**
+→ Límite del plan gratuito de FMP. Espera 24h.
 
-**Los logos no aparecen**
-→ Normal para empresas pequeñas o sin dominio web estándar. Se muestra el fallback con las iniciales del ticker.
+**GitHub Pages muestra 404 en `/trading` o `/earnings`**
+→ Los `index.html` de cada subcarpeta se generan cuando el workflow corre. Ejecuta ambos workflows manualmente la primera vez.
+
+**Los logos de stocks no aparecen**
+→ Clearbit logo API tiene límites. Normal para empresas pequeñas. Muestra iniciales del ticker como fallback.
+
+**El reloj de la landing page muestra hora incorrecta**
+→ El reloj usa la zona horaria del navegador para CET. Si estás fuera de España ajusta la zona en el `index.html`.
 
 ---
 
 ## Recursos
 
-- Financial Modeling Prep API docs: [site.financialmodelingprep.com/developer/docs](https://site.financialmodelingprep.com/developer/docs)
-- GitHub Pages docs: [docs.github.com/pages](https://docs.github.com/pages)
-- GitHub Actions cron syntax: [crontab.guru](https://crontab.guru)
+- Financial Modeling Prep API: [site.financialmodelingprep.com/developer/docs](https://site.financialmodelingprep.com/developer/docs)
+- CoinGecko API: [docs.coingecko.com](https://docs.coingecko.com)
+- GitHub Pages: [docs.github.com/pages](https://docs.github.com/pages)
+- GitHub Actions cron: [crontab.guru](https://crontab.guru)
+- Comunidad: Claude Enterprise (WhatsApp)
