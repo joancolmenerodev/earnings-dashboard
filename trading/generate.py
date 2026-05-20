@@ -373,7 +373,7 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
         d = by_id.get(item["id"])
         if not d:
             continue
-        price    = d.get("current_price", 0)
+        price    = d.get("current_price") or 0
         chg_1h   = d.get("price_change_percentage_1h_in_currency", 0) or 0
         chg_24h  = d.get("price_change_percentage_24h_in_currency", 0) or 0
         chg_7d   = d.get("price_change_percentage_7d_in_currency", 0) or 0
@@ -389,7 +389,9 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
         spark = sparkline_svg([round(p, 4) for p in spark_prices], 80, 28)
 
         # price display
-        if price >= 1000:
+        if not price:
+            price_str = "—"
+        elif price >= 1000:
             price_str = f"${price:,.0f}"
         elif price >= 1:
             price_str = f"${price:,.2f}"
