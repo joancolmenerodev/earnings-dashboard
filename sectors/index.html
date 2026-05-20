@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&P 500 Sector Heatmap — May 20, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090d;--surface:#0f1117;--surface2:#161820;--surface3:#1c1e28;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#e8eaf0;--muted:#6b7280;
+  --green:#00d4aa;--red:#ff4757;--amber:#ffa502;--blue:#3b82f6;
+  --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+.up{color:var(--green)}.down{color:var(--red)}.neutral{color:var(--muted)}
+
+/* ── HEADER ── */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.header-left h1{font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.header-left p{font-size:0.7rem;color:var(--muted);font-family:var(--mono);margin-top:3px}
+.header-right{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.summary-item{font-family:var(--mono);font-size:0.72rem;display:flex;flex-direction:column;gap:2px}
+.summary-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted)}
+
+/* ── INDEX PILLS ── */
+.pills-row{background:var(--surface);border-bottom:1px solid var(--border);padding:0.75rem 1.5rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.index-pill{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;display:flex;align-items:center;gap:8px}
+.ip-name{font-size:0.72rem;font-weight:500}
+.ip-etf{font-family:var(--mono);font-size:0.65rem;color:var(--muted);background:rgba(255,255,255,0.05);padding:1px 5px;border-radius:3px}
+.ip-ytd{font-family:var(--mono);font-size:0.8rem;font-weight:700}
+.ip-price{font-family:var(--mono);font-size:0.72rem}
+
+/* ── CONTROLS ── */
+.controls{padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--surface)}
+.sort-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-family:var(--mono)}
+.sort-btns{display:flex;gap:4px}
+.sort-btn{font-size:0.75rem;padding:4px 12px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all 0.15s}
+.sort-btn:hover,.sort-btn.active{background:var(--green);color:#000;border-color:var(--green);font-weight:500}
+.legend-wrap{margin-left:auto;display:flex;flex-direction:column;gap:3px}
+.legend-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:var(--mono)}
+.legend-bar{height:8px;width:220px;border-radius:4px}
+.legend-ticks{display:flex;justify-content:space-between;width:220px}
+
+/* ── SECTOR GRID ── */
+.main{padding:1.2rem 1.5rem;max-width:1400px;margin:0 auto}
+.sectors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+
+/* ── SECTOR CARD ── */
+.sector-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color 0.2s}
+.sector-card:hover{border-color:var(--border2)}
+.sc-header{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px 8px;cursor:pointer;gap:8px}
+.sc-header-left{flex:1;min-width:0}
+.sc-name{font-size:0.88rem;font-weight:600;line-height:1.2}
+.sc-meta{font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-top:3px}
+.sc-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.sc-ytd-badge{font-family:var(--mono);font-size:0.85rem;font-weight:700;padding:2px 8px;border-radius:5px;white-space:nowrap}
+.sc-rating{font-family:var(--mono);font-size:0.62rem;font-weight:600;letter-spacing:0.04em}
+
+/* ── PERF BAR ── */
+.perf-bar-wrap{position:relative;height:4px;background:rgba(255,255,255,0.06);margin:0 14px 4px}
+.perf-bar-fill{position:absolute;top:0;height:100%;border-radius:2px}
+.perf-bar-center{position:absolute;left:50%;top:-3px;width:1px;height:10px;background:rgba(255,255,255,0.15)}
+
+/* ── STATS ── */
+.sc-stats{display:grid;grid-template-columns:repeat(5,1fr);padding:6px 14px 10px;cursor:pointer;gap:4px}
+.sc-stat{background:var(--surface2);border-radius:5px;padding:5px 6px;text-align:center}
+.sc-stat-lbl{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);font-family:var(--mono);margin-bottom:2px}
+.sc-stat-val{font-family:var(--mono);font-size:0.78rem;font-weight:500}
+
+/* ── EXPANDED ── */
+.sc-expanded{border-top:1px solid var(--border);padding:12px 14px}
+.sc-exp-inner{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sc-exp-title{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--green);font-family:var(--mono);font-weight:600;margin-bottom:8px}
+.sc-holdings{display:flex;flex-direction:column;gap:5px}
+.holding-row{display:flex;align-items:center;gap:6px;font-size:0.72rem}
+.holding-ticker{font-family:var(--mono);font-weight:600;min-width:40px;font-size:0.68rem}
+.holding-name{color:var(--muted);flex:1;font-size:0.68rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.holding-bar-wrap{width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;flex-shrink:0}
+.holding-bar{height:3px;background:var(--green);border-radius:2px}
+.holding-pct{font-family:var(--mono);font-size:0.65rem;color:var(--muted);min-width:32px;text-align:right}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:1.5rem;font-size:0.65rem;color:var(--muted);border-top:1px solid var(--border);font-family:var(--mono);margin-top:2rem}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .main{padding:0.75rem 1rem}
+  .controls,.pills-row{padding:0.75rem 1rem}
+  .sectors-grid{grid-template-columns:1fr}
+  .sc-exp-inner{grid-template-columns:1fr}
+  .legend-wrap{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1><div class="live-dot"></div>S&P 500 Sector Heatmap</h1>
+    <p>11 sectores GICS · ETFs · YTD · P/E · Dividendo · 2026-05-20 20:00 UTC</p>
+  </div>
+  <div class="header-right">
+    <div class="summary-item">
+      <span class="summary-lbl">Mejor sector</span>
+      <span><span style="color:#00d4aa">Energy</span> <span style="color:#6b7280">+31.0%</span></span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-lbl">Peor sector</span>
+      <span><span style="color:#ff4757">Financials</span> <span style="color:#6b7280">-6.0%</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="pills-row">
+  <div class="index-pill"><span class="ip-name">S&P 500</span><span class="ip-etf">SPY</span><span class="ip-ytd" style="color:#00d4aa">YTD +8.50%</span><span class="ip-price" style="color:#e8eaf0">$741.26</span></div>
+<div class="index-pill"><span class="ip-name">NASDAQ 100</span><span class="ip-etf">QQQ</span><span class="ip-ytd" style="color:#00956e">YTD +16.31%</span><span class="ip-price" style="color:#e8eaf0">$713.15</span></div>
+<div class="index-pill"><span class="ip-name">Russell 2000</span><span class="ip-etf">IWM</span><span class="ip-ytd" style="color:#00d4aa">YTD +12.49%</span><span class="ip-price" style="color:#e8eaf0">$279.86</span></div>
+</div>
+
+<div class="controls">
+  <span class="sort-label">Ordenar por</span>
+  <div class="sort-btns">
+    <button class="sort-btn active" onclick="sortCards('ytd', this)">YTD</button>
+    <button class="sort-btn" onclick="sortCards('weight', this)">Peso S&P</button>
+    <button class="sort-btn" onclick="sortCards('pe', this)">P/E</button>
+    <button class="sort-btn" onclick="sortCards('div', this)">Dividendo</button>
+  </div>
+  
+<div class="legend-wrap">
+  <div class="legend-label">Performance</div>
+  <div class="legend-bar" style="background:linear-gradient(to right,#cc1a2e, #ff4757, #ffa502, #6b7280, #4dcfb0, #00d4aa, #00956e)"></div>
+  <div class="legend-ticks"><span style="font-size:9px;color:#6b7280;font-family:monospace">< −15%</span><span style="font-size:9px;color:#6b7280;font-family:monospace">−15%</span><span style="font-size:9px;color:#6b7280;font-family:monospace">−7%</span><span style="font-size:9px;color:#6b7280;font-family:monospace">0%</span><span style="font-size:9px;color:#6b7280;font-family:monospace">+2%</span><span style="font-size:9px;color:#6b7280;font-family:monospace">+7%</span><span style="font-size:9px;color:#6b7280;font-family:monospace">+15%</span></div>
+</div>
+</div>
+
+<div class="main">
+  <div class="sectors-grid" id="sectors-grid">
+    
+<div class="sector-card" data-ytd="22.75" data-weight="28.0"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #00956e;background:rgba(0,212,170,0.08)">
+  <div class="sc-header" onclick="toggleSector('XLK')">
+    <div class="sc-header-left">
+      <div class="sc-name">Information Technology</div>
+      <div class="sc-meta">XLK &nbsp;·&nbsp; 28.0% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#00956e;background:#00956e1a">+22.8%</div>
+      <div class="sc-rating" style="color:#00d4aa">STRONG OW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:45.5%;background:#00956e"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLK')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$177.13</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+29.7%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+56.2%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLK" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">NVDA</span>
+          <span class="holding-name">NVIDIA</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:45%"></div>
+          </div>
+          <span class="holding-pct">15.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">AAPL</span>
+          <span class="holding-name">Apple</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:37%"></div>
+          </div>
+          <span class="holding-pct">12.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">MSFT</span>
+          <span class="holding-name">Microsoft</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:26%"></div>
+          </div>
+          <span class="holding-pct">8.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">AVGO</span>
+          <span class="holding-name">Broadcom</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:17%"></div>
+          </div>
+          <span class="holding-pct">5.6%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">MU</span>
+          <span class="holding-name">Micron</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:16%"></div>
+          </div>
+          <span class="holding-pct">5.2%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:95%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$112.55</span><span>$180.22</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$177.13</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="-5.38" data-weight="12.0"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #ffa502;background:rgba(255,165,2,0.05)">
+  <div class="sc-header" onclick="toggleSector('XLV')">
+    <div class="sc-header-left">
+      <div class="sc-name">Health Care</div>
+      <div class="sc-meta">XLV &nbsp;·&nbsp; 12.0% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#ffa502;background:#ffa5021a">-5.4%</div>
+      <div class="sc-rating" style="color:#6b7280">NEUTRAL</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:39.2%;width:10.8%;background:#ffa502"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLV')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$147.14</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val down">-4.8%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+12.9%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLV" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">LLY</span>
+          <span class="holding-name">Eli Lilly</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:45%"></div>
+          </div>
+          <span class="holding-pct">15.0%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">JNJ</span>
+          <span class="holding-name">J&J</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:32%"></div>
+          </div>
+          <span class="holding-pct">10.5%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">ABBV</span>
+          <span class="holding-name">AbbVie</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:21%"></div>
+          </div>
+          <span class="holding-pct">7.0%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">UNH</span>
+          <span class="holding-name">UnitedHealth</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:20%"></div>
+          </div>
+          <span class="holding-pct">6.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">MRK</span>
+          <span class="holding-name">Merck</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:16%"></div>
+          </div>
+          <span class="holding-pct">5.3%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:59%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$127.96</span><span>$160.59</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$147.14</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="-5.97" data-weight="12.0"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #ffa502;background:rgba(255,165,2,0.05)">
+  <div class="sc-header" onclick="toggleSector('XLF')">
+    <div class="sc-header-left">
+      <div class="sc-name">Financials</div>
+      <div class="sc-meta">XLF &nbsp;·&nbsp; 12.0% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#ffa502;background:#ffa5021a">-6.0%</div>
+      <div class="sc-rating" style="color:#ffa502">SLIGHT UW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:38.1%;width:11.9%;background:#ffa502"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLF')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$51.65</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val down">-0.0%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+3.2%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLF" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">BRK-B</span>
+          <span class="holding-name">Berkshire Hathaway</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:37%"></div>
+          </div>
+          <span class="holding-pct">12.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">JPM</span>
+          <span class="holding-name">JPMorgan Chase</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:33%"></div>
+          </div>
+          <span class="holding-pct">11.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">V</span>
+          <span class="holding-name">Visa</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:22%"></div>
+          </div>
+          <span class="holding-pct">7.4%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">MA</span>
+          <span class="holding-name">Mastercard</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:16%"></div>
+          </div>
+          <span class="holding-pct">5.5%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">BAC</span>
+          <span class="holding-name">Bank of America</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:14%"></div>
+          </div>
+          <span class="holding-pct">4.5%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:45%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$47.67</span><span>$56.52</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$51.65</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="-0.35" data-weight="10.0"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #6b7280;background:rgba(107,114,128,0.04)">
+  <div class="sc-header" onclick="toggleSector('XLY')">
+    <div class="sc-header-left">
+      <div class="sc-name">Consumer Discretionary</div>
+      <div class="sc-meta">XLY &nbsp;·&nbsp; 10.0% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#6b7280;background:#6b72801a">-0.3%</div>
+      <div class="sc-rating" style="color:#3b82f6">SLIGHT OW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:49.3%;width:0.7%;background:#6b7280"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLY')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$117.94</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+4.6%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+12.0%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLY" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">AMZN</span>
+          <span class="holding-name">Amazon</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:84%"></div>
+          </div>
+          <span class="holding-pct">28.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">TSLA</span>
+          <span class="holding-name">Tesla</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:59%"></div>
+          </div>
+          <span class="holding-pct">19.6%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">HD</span>
+          <span class="holding-name">Home Depot</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:15%"></div>
+          </div>
+          <span class="holding-pct">5.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">TJX</span>
+          <span class="holding-name">TJX Cos.</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:12%"></div>
+          </div>
+          <span class="holding-pct">3.9%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">MCD</span>
+          <span class="holding-name">McDonald's</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:11%"></div>
+          </div>
+          <span class="holding-pct">3.8%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:67%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$103.86</span><span>$125.01</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$117.94</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="8.07" data-weight="8.9"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #00d4aa;background:rgba(0,212,170,0.08)">
+  <div class="sc-header" onclick="toggleSector('XLI')">
+    <div class="sc-header-left">
+      <div class="sc-name">Industrials</div>
+      <div class="sc-meta">XLI &nbsp;·&nbsp; 8.9% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#00d4aa;background:#00d4aa1a">+8.1%</div>
+      <div class="sc-rating" style="color:#00d4aa">STRONG OW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:16.1%;background:#00d4aa"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLI')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$170.73</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+14.1%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+21.2%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLI" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">GE</span>
+          <span class="holding-name">GE Aerospace</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:16%"></div>
+          </div>
+          <span class="holding-pct">5.4%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">CAT</span>
+          <span class="holding-name">Caterpillar</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:11%"></div>
+          </div>
+          <span class="holding-pct">3.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">RTX</span>
+          <span class="holding-name">RTX Corp.</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:10%"></div>
+          </div>
+          <span class="holding-pct">3.3%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">HON</span>
+          <span class="holding-name">Honeywell</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:10%"></div>
+          </div>
+          <span class="holding-pct">3.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">UPS</span>
+          <span class="holding-name">UPS</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:9%"></div>
+          </div>
+          <span class="holding-pct">3.0%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:78%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$139.63</span><span>$179.31</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$170.73</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="-0.68" data-weight="8.8"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #6b7280;background:rgba(107,114,128,0.04)">
+  <div class="sc-header" onclick="toggleSector('XLC')">
+    <div class="sc-header-left">
+      <div class="sc-name">Communication Services</div>
+      <div class="sc-meta">XLC &nbsp;·&nbsp; 8.8% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#6b7280;background:#6b72801a">-0.7%</div>
+      <div class="sc-rating" style="color:#3b82f6">SLIGHT OW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:48.6%;width:1.4%;background:#6b7280"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLC')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$116.11</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+3.8%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+15.9%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLC" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">META</span>
+          <span class="holding-name">Meta</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:66%"></div>
+          </div>
+          <span class="holding-pct">21.9%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">GOOGL</span>
+          <span class="holding-name">Alphabet A</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:47%"></div>
+          </div>
+          <span class="holding-pct">15.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">GOOG</span>
+          <span class="holding-name">Alphabet C</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:43%"></div>
+          </div>
+          <span class="holding-pct">14.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">NFLX</span>
+          <span class="holding-name">Netflix</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:25%"></div>
+          </div>
+          <span class="holding-pct">8.3%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">TMUS</span>
+          <span class="holding-name">T-Mobile</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:12%"></div>
+          </div>
+          <span class="holding-pct">4.1%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:79%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$99.60</span><span>$120.41</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$116.11</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="10.05" data-weight="5.5"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #00d4aa;background:rgba(0,212,170,0.08)">
+  <div class="sc-header" onclick="toggleSector('XLP')">
+    <div class="sc-header-left">
+      <div class="sc-name">Consumer Staples</div>
+      <div class="sc-meta">XLP &nbsp;·&nbsp; 5.5% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#00d4aa;background:#00d4aa1a">+10.1%</div>
+      <div class="sc-rating" style="color:#00d4aa">OVERWEIGHT</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:20.1%;background:#00d4aa"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLP')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$85.50</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+9.8%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+4.8%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLP" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">PG</span>
+          <span class="holding-name">Procter & Gamble</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:43%"></div>
+          </div>
+          <span class="holding-pct">14.3%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">COST</span>
+          <span class="holding-name">Costco</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:38%"></div>
+          </div>
+          <span class="holding-pct">12.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">WMT</span>
+          <span class="holding-name">Walmart</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:29%"></div>
+          </div>
+          <span class="holding-pct">9.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">KO</span>
+          <span class="holding-name">Coca-Cola</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:26%"></div>
+          </div>
+          <span class="holding-pct">8.6%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">PEP</span>
+          <span class="holding-name">PepsiCo</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:22%"></div>
+          </div>
+          <span class="holding-pct">7.2%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:69%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$75.16</span><span>$90.14</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$85.50</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="31.00" data-weight="3.8"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #00956e;background:rgba(0,212,170,0.08)">
+  <div class="sc-header" onclick="toggleSector('XLE')">
+    <div class="sc-header-left">
+      <div class="sc-name">Energy</div>
+      <div class="sc-meta">XLE &nbsp;·&nbsp; 3.8% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#00956e;background:#00956e1a">+31.0%</div>
+      <div class="sc-rating" style="color:#00d4aa">STRONG OW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:50.0%;background:#00956e"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLE')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$59.80</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+33.8%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+45.9%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLE" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">XOM</span>
+          <span class="holding-name">Exxon Mobil</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:70%"></div>
+          </div>
+          <span class="holding-pct">23.5%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">CVX</span>
+          <span class="holding-name">Chevron</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:49%"></div>
+          </div>
+          <span class="holding-pct">16.4%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">COP</span>
+          <span class="holding-name">ConocoPhillips</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:22%"></div>
+          </div>
+          <span class="holding-pct">7.5%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">EOG</span>
+          <span class="holding-name">EOG Resources</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:16%"></div>
+          </div>
+          <span class="holding-pct">5.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">SLB</span>
+          <span class="holding-name">SLB</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:13%"></div>
+          </div>
+          <span class="holding-pct">4.4%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:84%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$40.36</span><span>$63.46</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$59.80</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="3.11" data-weight="2.4"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #4dcfb0;background:rgba(0,212,170,0.04)">
+  <div class="sc-header" onclick="toggleSector('XLU')">
+    <div class="sc-header-left">
+      <div class="sc-name">Utilities</div>
+      <div class="sc-meta">XLU &nbsp;·&nbsp; 2.4% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#4dcfb0;background:#4dcfb01a">+3.1%</div>
+      <div class="sc-rating" style="color:#3b82f6">SLIGHT OW</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:6.2%;background:#4dcfb0"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLU')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$44.52</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+1.0%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+9.9%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLU" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">NEE</span>
+          <span class="holding-name">NextEra Energy</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:45%"></div>
+          </div>
+          <span class="holding-pct">15.0%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">SO</span>
+          <span class="holding-name">Southern Co.</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:17%"></div>
+          </div>
+          <span class="holding-pct">5.7%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">DUK</span>
+          <span class="holding-name">Duke Energy</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:15%"></div>
+          </div>
+          <span class="holding-pct">5.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">AEP</span>
+          <span class="holding-name">Am. Electric Power</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:13%"></div>
+          </div>
+          <span class="holding-pct">4.4%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">EXC</span>
+          <span class="holding-name">Exelon</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:11%"></div>
+          </div>
+          <span class="holding-pct">3.8%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:60%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$39.59</span><span>$47.80</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$44.52</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="10.03" data-weight="2.3"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #00d4aa;background:rgba(0,212,170,0.08)">
+  <div class="sc-header" onclick="toggleSector('XLRE')">
+    <div class="sc-header-left">
+      <div class="sc-name">Real Estate</div>
+      <div class="sc-meta">XLRE &nbsp;·&nbsp; 2.3% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#00d4aa;background:#00d4aa1a">+10.0%</div>
+      <div class="sc-rating" style="color:#00d4aa">OVERWEIGHT</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:20.1%;background:#00d4aa"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLRE')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$44.43</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+8.6%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+9.3%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLRE" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">PLD</span>
+          <span class="holding-name">Prologis</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:30%"></div>
+          </div>
+          <span class="holding-pct">10.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">AMT</span>
+          <span class="holding-name">American Tower</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:25%"></div>
+          </div>
+          <span class="holding-pct">8.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">EQIX</span>
+          <span class="holding-name">Equinix</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:22%"></div>
+          </div>
+          <span class="holding-pct">7.3%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">WELL</span>
+          <span class="holding-name">Welltower</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:18%"></div>
+          </div>
+          <span class="holding-pct">6.0%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">PSA</span>
+          <span class="holding-name">Public Storage</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:15%"></div>
+          </div>
+          <span class="holding-pct">5.1%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:91%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$39.73</span><span>$44.91</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$44.43</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sector-card" data-ytd="7.82" data-weight="2.2"
+     data-pe="999" data-div="0"
+     style="border-left:3px solid #00d4aa;background:rgba(0,212,170,0.08)">
+  <div class="sc-header" onclick="toggleSector('XLB')">
+    <div class="sc-header-left">
+      <div class="sc-name">Materials</div>
+      <div class="sc-meta">XLB &nbsp;·&nbsp; 2.2% del S&P 500</div>
+    </div>
+    <div class="sc-header-right">
+      <div class="sc-ytd-badge" style="color:#00d4aa;background:#00d4aa1a">+7.8%</div>
+      <div class="sc-rating" style="color:#00d4aa">OVERWEIGHT</div>
+    </div>
+  </div>
+
+  <div class="perf-bar-wrap"><div class="perf-bar-fill" style="left:50.0%;width:15.6%;background:#00d4aa"></div><div class="perf-bar-center"></div></div>
+
+  <div class="sc-stats" onclick="toggleSector('XLB')">
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Precio</div>
+      <div class="sc-stat-val">$49.73</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">P/E</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">Div</div>
+      <div class="sc-stat-val">—</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">6M</div>
+      <div class="sc-stat-val up">+15.2%</div>
+    </div>
+    <div class="sc-stat">
+      <div class="sc-stat-lbl">1Y</div>
+      <div class="sc-stat-val up">+16.1%</div>
+    </div>
+  </div>
+
+  <div class="sc-expanded" id="exp-XLB" style="display:none">
+    <div class="sc-exp-inner">
+      <div class="sc-holdings">
+        <div class="sc-exp-title">Top 5 Holdings</div>
+        
+        <div class="holding-row">
+          <span class="holding-ticker">LIN</span>
+          <span class="holding-name">Linde</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:52%"></div>
+          </div>
+          <span class="holding-pct">17.5%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">APD</span>
+          <span class="holding-name">Air Products</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:18%"></div>
+          </div>
+          <span class="holding-pct">6.1%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">SHW</span>
+          <span class="holding-name">Sherwin-Williams</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:17%"></div>
+          </div>
+          <span class="holding-pct">5.8%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">FCX</span>
+          <span class="holding-name">Freeport-McMoRan</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:16%"></div>
+          </div>
+          <span class="holding-pct">5.2%</span>
+        </div>
+        <div class="holding-row">
+          <span class="holding-ticker">NEM</span>
+          <span class="holding-name">Newmont</span>
+          <div class="holding-bar-wrap">
+            <div class="holding-bar" style="width:12%"></div>
+          </div>
+          <span class="holding-pct">4.1%</span>
+        </div>
+      </div>
+      <div class="sc-range">
+        <div class="sc-exp-title">Rango 52 semanas</div>
+        <div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-3px;left:64%;width:10px;height:10px;border-radius:50%;background:#ffa502;transform:translateX(-50%);border:1px solid rgba(0,0,0,0.3)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-family:monospace;margin-top:2px"><span>$42.03</span><span>$54.14</span></div>
+        <div style="font-size:11px;color:#6b7280;font-family:monospace;margin-top:8px">
+          Precio actual: <span style="color:#e8eaf0;font-weight:600">$49.73</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+<div class="footer">
+  S&P 500 Sector Heatmap · 2026-05-20 20:00 UTC · Datos: Yahoo Finance ·
+  No es asesoramiento financiero
+</div>
+
+<script>
+function toggleSector(etf) {
+  const exp = document.getElementById('exp-' + etf);
+  if (!exp) return;
+  exp.style.display = exp.style.display === 'none' ? 'block' : 'none';
+}
+
+function sortCards(key, btn) {
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const grid  = document.getElementById('sectors-grid');
+  const cards = [...grid.querySelectorAll('.sector-card')];
+  const asc   = (key === 'pe');  // P/E: lowest first; all others: highest first
+  cards.sort((a, b) => {
+    const va = parseFloat(a.dataset[key] ?? 0);
+    const vb = parseFloat(b.dataset[key] ?? 0);
+    return asc ? va - vb : vb - va;
+  });
+  cards.forEach(c => grid.appendChild(c));
+}
+</script>
+</body>
+</html>
