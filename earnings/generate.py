@@ -130,12 +130,11 @@ def fmp_get(endpoint: str, params: dict = {}) -> dict | list:
 def fetch_earnings_calendar(days: int = 90) -> list[dict]:
     today = datetime.date.today()
     end   = today + datetime.timedelta(days=days)
-    data  = fmp_get("earning_calendar", {
+    data  = fmp_get("earning_calendar_confirmed", {
         "from": today.isoformat(),
         "to":   end.isoformat(),
     })
     return data if isinstance(data, list) else []
-
 
 def fetch_quote(ticker: str) -> dict:
     data = fmp_get(f"quote/{ticker}")
