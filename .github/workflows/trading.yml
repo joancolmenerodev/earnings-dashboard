@@ -2,9 +2,7 @@ name: Generate Trading Dashboard
 
 on:
   schedule:
-    # Every weekday at 13:00 UTC (before US market open 9:30 ET)
     - cron: '0 13 * * 1-5'
-    # Also at 21:30 UTC (after US market close)
     - cron: '30 21 * * 1-5'
   workflow_dispatch:
 
@@ -17,9 +15,9 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5.6.0
         with:
           python-version: '3.11'
 
@@ -27,13 +25,13 @@ jobs:
         run: pip install requests
 
       - name: Generate dashboard
-        run: python generate.py
+        run: python trading/generate.py
 
       - name: Commit updated dashboard
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add index.html
+          git add trading/index.html
           git diff --staged --quiet || git commit -m "chore: update trading dashboard $(date +'%Y-%m-%d %H:%M')"
           git push
 
@@ -44,7 +42,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           ref: master
 
