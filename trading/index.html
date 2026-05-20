@@ -38,15 +38,32 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .index-price{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:600;margin-bottom:2px}
 .index-chg{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:500}
 .pre-badge{font-family:'JetBrains Mono',monospace;font-size:0.62rem;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);margin-top:3px;display:inline-block}
+/* ── MARKET SIGNAL CARD ── */
+.signal-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.5rem}
+.signal-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0.75rem}
+.signal-main-block{display:flex;align-items:center;gap:12px}
+.signal-emoji{font-size:1.6rem;line-height:1}
+.signal-label-big{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;letter-spacing:0.05em}
+.signal-score-text{font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px}
+.risk-block{text-align:right}
+.risk-label{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.06em}
+.risk-vix{font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:3px}
+.signal-factors-grid{display:flex;flex-direction:column;gap:4px;margin-bottom:0.75rem}
+.sig-factor{display:flex;align-items:flex-start;gap:8px;font-size:0.76rem;color:var(--muted);font-family:'JetBrains Mono',monospace;line-height:1.4}
+.signal-setup{font-size:0.78rem;color:var(--muted);background:var(--surface2);border-radius:6px;padding:8px 12px;border-left:3px solid var(--amber);line-height:1.5}
+/* ── SIGNAL BADGE (stocks) ── */
+.sig-badge{font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:4px;border:1px solid;white-space:nowrap;display:inline-block;letter-spacing:0.04em}
+/* ── NEWS ── */
 .news-list{display:flex;flex-direction:column}
 .news-row{padding:10px 0;border-bottom:1px solid var(--border)}
 .news-row:last-child{border-bottom:none}
-.news-meta{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.news-meta{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
 .news-pub{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
 .news-date{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-left:auto}
 .news-title{font-size:13px;font-weight:500;color:var(--text);text-decoration:none;display:block;margin-bottom:3px;line-height:1.4}
 .news-title:hover{color:var(--green)}
 .news-text{font-size:11px;color:var(--muted);line-height:1.5}
+/* ── STOCKS TABLE ── */
 .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead th{background:var(--surface2);padding:8px 12px;text-align:left;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;border-bottom:1px solid var(--border)}
@@ -63,6 +80,7 @@ td{padding:10px 12px;vertical-align:middle}
 .exp-list li{font-size:0.76rem;color:var(--muted);padding-left:12px;position:relative;line-height:1.4}
 .exp-list li::before{content:'>';position:absolute;left:0;color:var(--green)}
 .exp-note{font-size:0.76rem;color:var(--muted);line-height:1.5;margin-top:4px}
+/* ── CRYPTO ── */
 .crypto-global{display:flex;gap:1.5rem;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:1.5rem}
 .cg-item{display:flex;flex-direction:column;gap:2px}
 .cg-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:'JetBrains Mono',monospace}
@@ -80,6 +98,7 @@ td{padding:10px 12px;vertical-align:middle}
 .chg-label{font-size:0.58rem;text-transform:uppercase;color:var(--muted);font-family:'JetBrains Mono',monospace}
 .chg-val{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:500;margin-top:1px}
 .crypto-footer{font-size:0.7rem;color:var(--muted);margin-top:6px}
+/* ── MACRO ── */
 .macro-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 .macro-calendar,.macro-rules{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem}
 .macro-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
@@ -100,6 +119,8 @@ td{padding:10px 12px;vertical-align:middle}
   .crypto-grid{grid-template-columns:repeat(2,1fr)}
   .macro-grid{grid-template-columns:1fr}
   .expanded-grid{grid-template-columns:1fr}
+  .signal-top{flex-direction:column;align-items:flex-start}
+  .risk-block{text-align:left}
 }
 </style>
 </head>
@@ -107,7 +128,7 @@ td{padding:10px 12px;vertical-align:middle}
 <div class="header">
   <div>
     <h1><span class="live-dot"></span>Day Trading Dashboard</h1>
-    <p>NASDAQ · S&P 500 · Futuros · Crypto · Noticias — 2026-05-20 19:36 UTC</p>
+    <p>NASDAQ · S&P 500 · Futuros · Crypto · Noticias — 2026-05-20 22:52 UTC</p>
   </div>
 </div>
 <div class="tabs">
@@ -118,6 +139,27 @@ td{padding:10px 12px;vertical-align:middle}
 </div>
 
 <div id="tab-markets" class="tab-content active">
+  <div class="section-title">Sesgo de mercado NQ / ES</div>
+  
+<div class="signal-card">
+  <div class="signal-top">
+    <div class="signal-main-block">
+      <div class="signal-emoji">▲</div>
+      <div>
+        <div class="signal-label-big" style="color:#00d4aa">COMPRA</div>
+        <div class="signal-score-text">Puntuacion: <span style="color:#00d4aa;font-weight:700">+3</span></div>
+      </div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-label" style="color:#ffa502">RIESGO MODERADO</div>
+      <div class="risk-vix">VIX <span style="color:#ffa502;font-weight:700">17.4</span> <span style="font-size:10px;color:#6b7280">(-3.4% — cayendo)</span></div>
+    </div>
+  </div>
+  <div class="signal-factors-grid"><div class="sig-factor"><span style="color:#00d4aa;font-weight:700;min-width:14px">✓</span><span>VIX 17.4 (-3.4%) — volatilidad controlada</span></div><div class="sig-factor"><span style="color:#00d4aa;font-weight:700;min-width:14px">✓</span><span>Futuros positivos — NQ +0.91% · ES +0.53%</span></div><div class="sig-factor"><span style="color:#00d4aa;font-weight:700;min-width:14px">✓</span><span>Amplitud positiva — 4/4 índices al alza</span></div></div>
+  <div class="signal-setup">
+    <span style="color:#ffa502;font-weight:600;margin-right:6px">Setup:</span>Sesgo largo. Size estándar. Entradas en pullbacks a VWAP con confirmación.
+  </div>
+</div>
   <div class="section-title">Indices y ETFs</div>
   <div class="indices-grid">
         <div class="index-card up-border">
@@ -126,11 +168,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">NQ</div>
               <div class="index-fullname">NASDAQ 100</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,16.7 40.0,21.5 60.0,28.0 80.0,11.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,16.7 40.0,21.5 60.0,28.0 80.0,10.4" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">29,256.46</div>
-          <div class="index-chg up">+1.52%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:30%;background:#00d4aa"></div></div>
+          <div class="index-price">29,297.70</div>
+          <div class="index-chg up">+1.66%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:33%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card up-border">
@@ -139,11 +181,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">SPX</div>
               <div class="index-fullname">S&P 500</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,17.6 40.0,18.6 60.0,28.0 80.0,13.8" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,17.6 40.0,18.6 60.0,28.0 80.0,12.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">7,428.35</div>
-          <div class="index-chg up">+1.02%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:20%;background:#00d4aa"></div></div>
+          <div class="index-price">7,432.97</div>
+          <div class="index-chg up">+1.08%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:22%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card down-border">
@@ -152,11 +194,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">VIX</div>
               <div class="index-fullname">VIX</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,28.0 20.0,0.0 40.0,14.6 60.0,8.9 80.0,23.9" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,28.0 20.0,0.0 40.0,14.6 60.0,8.9 80.0,23.7" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">17.43</div>
-          <div class="index-chg down">-3.49%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:70%;background:#ff4757"></div></div>
+          <div class="index-price">17.44</div>
+          <div class="index-chg down">-3.43%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:69%;background:#ff4757"></div></div>
         </div>
 
         <div class="index-card up-border">
@@ -165,11 +207,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">QQQ</div>
               <div class="index-fullname">QQQ ETF</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,16.7 40.0,21.3 60.0,28.0 80.0,12.2" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,16.7 40.0,21.3 60.0,28.0 80.0,10.2" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">711.87</div>
-          <div class="index-chg up">+1.47%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:29%;background:#00d4aa"></div></div>
+          <div class="index-price">713.15</div>
+          <div class="index-chg up">+1.66%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:33%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card up-border">
@@ -178,10 +220,10 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">SPY</div>
               <div class="index-fullname">SPY ETF</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,17.5 40.0,18.5 60.0,28.0 80.0,13.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,17.5 40.0,18.5 60.0,28.0 80.0,13.4" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">741.02</div>
-          <div class="index-chg up">+0.99%</div>
+          <div class="index-price">741.25</div>
+          <div class="index-chg up">+1.02%</div>
           <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:20%;background:#00d4aa"></div></div>
         </div></div>
   <div class="section-title" style="margin-top:0.5rem">Futuros — NQ · ES · YM · RTY · Gold · Oil</div>
@@ -192,11 +234,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">NQ Fut</div>
               <div class="index-fullname">NASDAQ 100 Fut</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,7.4 26.7,16.5 53.3,28.0 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 26.7,12.4 53.3,28.0 80.0,4.1" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">29,341.75</div>
-          <div class="index-chg up">+1.44%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:29%;background:#00d4aa"></div></div>
+          <div class="index-price">29,186.75</div>
+          <div class="index-chg up">+0.91%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:18%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card up-border" style="border-top:2px solid #00d4aa">
@@ -205,11 +247,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">ES Fut</div>
               <div class="index-fullname">S&P 500 Fut</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,5.9 26.7,8.6 53.3,28.0 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 26.7,3.4 53.3,28.0 80.0,7.7" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">7,446.75</div>
-          <div class="index-chg up">+0.93%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:19%;background:#00d4aa"></div></div>
+          <div class="index-price">7,417.25</div>
+          <div class="index-chg up">+0.53%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:11%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card up-border" style="border-top:2px solid #00d4aa">
@@ -218,11 +260,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">YM Fut</div>
               <div class="index-fullname">Dow Jones Fut</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,21.0 26.7,14.3 53.3,28.0 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,19.3 26.7,11.0 53.3,28.0 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">50,091.00</div>
-          <div class="index-chg up">+1.28%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:26%;background:#00d4aa"></div></div>
+          <div class="index-price">49,967.00</div>
+          <div class="index-chg up">+1.03%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:21%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card up-border" style="border-top:2px solid #00d4aa">
@@ -231,11 +273,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">RTY</div>
               <div class="index-fullname">Russell 2000</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,7.2 26.7,14.8 53.3,28.0 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,5.0 26.7,13.4 53.3,28.0 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">2,815.80</div>
-          <div class="index-chg up">+2.27%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:45%;background:#00d4aa"></div></div>
+          <div class="index-price">2,809.80</div>
+          <div class="index-chg up">+2.06%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:41%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card up-border" style="border-top:2px solid #00d4aa">
@@ -244,11 +286,11 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">Gold</div>
               <div class="index-fullname">Gold</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 26.7,1.9 53.3,28.0 80.0,4.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 26.7,1.9 53.3,28.0 80.0,7.5" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">4,547.20</div>
-          <div class="index-chg up">+0.91%</div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:18%;background:#00d4aa"></div></div>
+          <div class="index-price">4,542.50</div>
+          <div class="index-chg up">+0.80%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:16%;background:#00d4aa"></div></div>
         </div>
 
         <div class="index-card down-border" style="border-top:2px solid #ff4757">
@@ -257,85 +299,14 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="index-name">Oil</div>
               <div class="index-fullname">Crude Oil</div>
             </div>
-            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,8.7 26.7,0.0 53.3,2.4 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,9.3 26.7,0.0 53.3,2.6 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="index-price">98.22</div>
-          <div class="index-chg down">-8.86%</div>
+          <div class="index-price">98.90</div>
+          <div class="index-chg down">-8.23%</div>
           <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#ff4757"></div></div>
         </div></div>
   <div class="section-title" style="margin-top:0.5rem">Noticias relevantes NQ / S&P 500</div>
-  <div class="news-list">
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 17:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/tjx-companies-q1-earnings-revenue-beats-estimates" target="_blank">The TJX Companies, Inc. (NYSE: TJX) Reports Strong First-Quarter Earnings and Revenue</a>
-          <p class="news-text">The TJX Companies, Inc. (NYSE: TJX) exceeded analyst expectations with strong first-quarter earnings per share (EPS) of $1.19 and total revenue of $14.32 billion . The off-price re</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 16:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/hasbro-has-q1-earnings-beat-magic-gathering" target="_blank">Hasbro (NASDAQ: HAS) Soars Past Expectations with Strong Quarterly Financial Results</a>
-          <p class="news-text">Hasbro (NASDAQ: HAS) significantly surpassed analyst expectations for both earnings per share and revenue in its latest quarterly report. The strong financial performance was prima</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 15:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/analog-devices-adi-q2-earnings-beat-strong-growth-financials" target="_blank">Analog Devices (NASDAQ: ADI) Q2 Earnings Beat: Strong Revenue Growth and Healthy Financials</a>
-          <p class="news-text">Analog Devices (NASDAQ: ADI) reported robust second-quarter financial results , surpassing analyst expectations for both earnings per share (EPS) and revenue . The company demonstr</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 14:04</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/lowes-low-q1-earnings-beat-housing-fears" target="_blank">Lowe's Companies, Inc. (NYSE:LOW) Q1 Earnings: Strong Performance Amidst Housing Market Concerns</a>
-          <p class="news-text">Lowe's Companies, Inc. (NYSE:LOW) reported robust first-quarter 2026 financial results, surpassing analyst expectations for both earnings per share and revenue. The home improvemen</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 14:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/urban-outfitters-urbn-earnings-preview-financial-health" target="_blank">Urban Outfitters (NASDAQ: URBN) Stock Analysis: Earnings Preview and Financial Health</a>
-          <p class="news-text">Urban Outfitters (NASDAQ: URBN) is set to report earnings on May 20, 2026, with analysts forecasting an EPS of $1.12 and revenue of $1.46 billion . Despite higher revenue forecasts</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 13:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/e-l-f-beauty-earnings-preview-revenue-growth-profitability" target="_blank">e.l.f. Beauty Earnings Preview: Revenue Growth & Profitability</a>
-          <p class="news-text">e.l.f. Beauty, Inc. (NYSE: ELF) Earnings Preview: Revenue Growth and Profitability Outlook e.l.f. Beauty is projected to achieve significant revenue growth, with estimates around $</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#00d4aa22;color:#00d4aa;font-family:monospace;font-weight:600">NVDA</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 12:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/nvidia-earnings-preview-ai-dominance-valuation-investor-outlook" target="_blank">NVIDIA (NASDAQ: NVDA) Earnings Preview: AI Dominance, Valuation, and Investor Outlook</a>
-          <p class="news-text">NVIDIA is set to release its quarterly earnings, with Wall Street anticipating earnings per share of $1.76 and revenue of $78.42 billion , driven by strong AI chip demand . Investo</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 03:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/red-robin-rrgb-q1-2026-financial-results" target="_blank">Red Robin Gourmet Burgers (NASDAQ: RRGB) Reports Mixed Q1 2026 Financial Results</a>
-          <p class="news-text">Red Robin Gourmet Burgers (NASDAQ: RRGB) reported mixed Q1 2026 financial results, with revenue exceeding analyst expectations but earnings per share falling short. Despite a year-</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 02:04</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/8x8-eght-reports-strong-q4-fy2026-financial-results" target="_blank">8x8, Inc. (NASDAQ: EGHT) Reports Strong Q4 and Full Fiscal Year 2026 Financial Results</a>
-          <p class="news-text">8x8 reported an earnings per share (EPS) of $0.11 , significantly beating analyst estimates of $0.07 . The company's quarterly revenue reached $185.25 million , surpassing estimate</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 01:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/keysight-keys-record-q2-earnings-revenue-2026" target="_blank">Keysight (KEYS) Achieves Record Q2 Earnings, Revenue Soars</a>
-          <p class="news-text">Keysight Technologies (NYSE: KEYS) Achieves Record-Breaking Quarter with Strong Financial Performance Keysight Technologies, Inc. (NYSE: KEYS) reported exceptional second-quarter r</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-20 00:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/cava-group-nyse-cava-q1-earnings-beat-revenue-jumps" target="_blank">Cava Group (NYSE: CAVA) Q1 Earnings Beat, Revenue Jumps</a>
-          <p class="news-text">Cava Group (NYSE: CAVA) Q1 Earnings Beat Expectations, Fueled by Revenue Growth and Expansion Cava Group (NYSE: CAVA) exceeded Q1 earnings estimates, reporting $0.20 per share . Th</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-05-19 23:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/toll-brothers-tol-q2-earnings-revenue-beat-estimates" target="_blank">Toll Brothers (NYSE: TOL) Exceeds Analyst Expectations with Strong Q2 Earnings and Revenue</a>
-          <p class="news-text">Toll Brothers (NYSE: TOL) is strategically expanding its market presence in the luxury homebuilding sector through acquisitions. The company reported strong Q2 financial results, w</p>
-        </div></div>
+  <div class="news-list"><p style="color:#6b7280;font-size:12px;font-family:monospace;padding:1rem 0">No news available — check FMP_API_KEY.</p></div>
 </div>
 
 <div id="tab-stocks" class="tab-content">
@@ -344,7 +315,7 @@ td{padding:10px 12px;vertical-align:middle}
     <table>
       <thead><tr>
         <th>Empresa</th><th>Sector</th><th>Precio</th><th>Cambio</th>
-        <th>Pre-mkt</th><th>Volumen</th><th>Day range</th><th>52w pos</th><th>5d chart</th>
+        <th>Pre-mkt</th><th>Volumen</th><th>Day range</th><th>52w pos</th><th>5d chart</th><th>Senal</th>
       </tr></thead>
       <tbody>
         <tr class="stock-row" onclick="toggleRow('NVDA')" data-ticker="NVDA">
@@ -358,17 +329,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">AI/Semis</span></td>
-          <td class="price-cell" style="font-family:monospace">$223.20</td>
-          <td class="up" style="font-family:monospace">+1.17%</td>
+          <td class="price-cell" style="font-family:monospace">$223.47</td>
+          <td class="up" style="font-family:monospace">+1.30%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">114.3M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:48%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$220.50</span><span>$226.13</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">171.1M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:53%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$220.50</span><span>$226.13</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:88%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,15.2 30.0,19.5 45.0,22.0 60.0,18.2" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,15.2 30.0,19.5 45.0,22.0 60.0,17.8" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#6b7280;background:rgba(107,114,128,0.06);border-color:#6b728040">NEUTRAL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Tendencia positiva +1.3%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-NVDA" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -398,17 +370,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Mega Cap</span></td>
-          <td class="price-cell" style="font-family:monospace">$388.27</td>
-          <td class="up" style="font-family:monospace">+0.16%</td>
+          <td class="price-cell" style="font-family:monospace">$388.91</td>
+          <td class="up" style="font-family:monospace">+0.32%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">20.1M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:49%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$382.90</span><span>$393.86</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">30.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:55%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$382.90</span><span>$393.86</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:92%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,7.0 30.0,6.8 45.0,22.0 60.0,21.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,7.0 30.0,6.8 45.0,22.0 60.0,19.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#6b7280;background:rgba(107,114,128,0.06);border-color:#6b728040">NEUTRAL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Momentum neutro</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-GOOGL" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -438,17 +411,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Mega Cap</span></td>
-          <td class="price-cell" style="font-family:monospace">$420.58</td>
-          <td class="up" style="font-family:monospace">+0.76%</td>
+          <td class="price-cell" style="font-family:monospace">$421.06</td>
+          <td class="up" style="font-family:monospace">+0.87%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">18.6M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:94%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$411.30</span><span>$421.16</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:32%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,22.0 15.0,2.5 30.0,0.0 45.0,9.5 60.0,4.6" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">27.7M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:91%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$411.30</span><span>$422.08</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:33%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,22.0 15.0,2.5 30.0,0.0 45.0,9.5 60.0,3.9" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#00d4aa;background:rgba(0,212,170,0.08);border-color:#00d4aa40">BUY</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Tendencia positiva +0.9%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-MSFT" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -478,17 +452,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Mega Cap</span></td>
-          <td class="price-cell" style="font-family:monospace">$302.05</td>
-          <td class="up" style="font-family:monospace">+1.03%</td>
+          <td class="price-cell" style="font-family:monospace">$302.25</td>
+          <td class="up" style="font-family:monospace">+1.10%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">24.6M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:84%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$298.09</span><span>$302.80</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">37.3M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:88%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$298.09</span><span>$302.80</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:99%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,20.1 15.0,9.5 30.0,22.0 45.0,16.1 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,20.2 15.0,10.1 30.0,22.0 45.0,16.4 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#3b82f6;background:rgba(59,130,246,0.08);border-color:#3b82f640">LONG BIAS</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Tendencia positiva +1.1%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-AAPL" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -518,17 +493,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Mega Cap</span></td>
-          <td class="price-cell" style="font-family:monospace">$603.48</td>
-          <td class="up" style="font-family:monospace">+0.14%</td>
+          <td class="price-cell" style="font-family:monospace">$605.06</td>
+          <td class="up" style="font-family:monospace">+0.41%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">8.2M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:56%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$597.81</span><span>$608.00</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:30%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,5.8 30.0,10.0 45.0,22.0 60.0,20.8" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">11.3M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:71%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$597.81</span><span>$608.00</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:31%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,5.8 30.0,10.0 45.0,22.0 60.0,18.6" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#6b7280;background:rgba(107,114,128,0.06);border-color:#6b728040">NEUTRAL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Momentum neutro</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-META" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -558,17 +534,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Mega Cap</span></td>
-          <td class="price-cell" style="font-family:monospace">$264.33</td>
-          <td class="up" style="font-family:monospace">+1.92%</td>
+          <td class="price-cell" style="font-family:monospace">$265.01</td>
+          <td class="up" style="font-family:monospace">+2.19%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">23.1M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:79%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$259.53</span><span>$265.58</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:83%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,8.6 30.0,6.6 45.0,22.0 60.0,8.1" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">34.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:91%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$259.53</span><span>$265.58</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:84%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,8.6 30.0,6.6 45.0,22.0 60.0,6.2" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#00d4aa;background:rgba(0,212,170,0.08);border-color:#00d4aa40">BUY</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Momentum alcista +2.2%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-AMZN" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -598,17 +575,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">EV/Tech</span></td>
-          <td class="price-cell" style="font-family:monospace">$413.15</td>
-          <td class="up" style="font-family:monospace">+2.24%</td>
+          <td class="price-cell" style="font-family:monospace">$417.26</td>
+          <td class="up" style="font-family:monospace">+3.25%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">33.7M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:77%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$406.39</span><span>$415.15</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:62%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,11.8 30.0,18.7 45.0,22.0 60.0,16.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">44.9M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:98%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$406.39</span><span>$417.46</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:64%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,11.8 30.0,18.7 45.0,22.0 60.0,14.6" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#3b82f6;background:rgba(59,130,246,0.08);border-color:#3b82f640">LONG BIAS</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Momentum alcista +3.2%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-TSLA" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -638,17 +616,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">AI/Semis</span></td>
-          <td class="price-cell" style="font-family:monospace">$447.94</td>
-          <td class="up" style="font-family:monospace">+8.19%</td>
+          <td class="price-cell" style="font-family:monospace">$447.58</td>
+          <td class="up" style="font-family:monospace">+8.10%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">27.7M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:94%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$426.05</span><span>$449.39</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">35.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:92%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$426.05</span><span>$449.39</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:94%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,15.8 30.0,17.7 45.0,22.0 60.0,1.1" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,15.8 30.0,17.7 45.0,22.0 60.0,1.3" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#00d4aa;background:rgba(0,212,170,0.08);border-color:#00d4aa40">BUY</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Gap fuerte +8.1%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-AMD" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -678,17 +657,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">AI/Data</span></td>
-          <td class="price-cell" style="font-family:monospace">$136.56</td>
-          <td class="up" style="font-family:monospace">+0.96%</td>
+          <td class="price-cell" style="font-family:monospace">$137.15</td>
+          <td class="up" style="font-family:monospace">+1.40%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">23.3M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:93%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$132.42</span><span>$136.85</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:20%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,22.0 15.0,20.0 30.0,11.0 45.0,10.1 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">29.9M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:98%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$132.42</span><span>$137.24</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:21%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,22.0 15.0,20.3 30.0,12.9 45.0,12.2 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#00d4aa;background:rgba(0,212,170,0.08);border-color:#00d4aa40">BUY</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Tendencia positiva +1.4%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-PLTR" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -718,17 +698,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Semis</span></td>
-          <td class="price-cell" style="font-family:monospace">$728.53</td>
-          <td class="up" style="font-family:monospace">+4.26%</td>
+          <td class="price-cell" style="font-family:monospace">$731.99</td>
+          <td class="up" style="font-family:monospace">+4.76%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">40.9M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:80%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$700.66</span><span>$735.66</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">47.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:90%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$700.66</span><span>$735.66</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:88%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,12.0 30.0,22.0 45.0,18.0 60.0,11.1" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,12.0 30.0,22.0 45.0,18.0 60.0,10.3" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#3b82f6;background:rgba(59,130,246,0.08);border-color:#3b82f640">LONG BIAS</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Gap fuerte +4.8%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-MU" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -758,17 +739,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">AI/Semis</span></td>
-          <td class="price-cell" style="font-family:monospace">$418.07</td>
-          <td class="up" style="font-family:monospace">+1.70%</td>
+          <td class="price-cell" style="font-family:monospace">$417.76</td>
+          <td class="up" style="font-family:monospace">+1.63%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">10.2M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:52%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$411.42</span><span>$424.17</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">16.2M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:50%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$411.42</span><span>$424.17</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:89%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,11.2 30.0,14.6 45.0,22.0 60.0,16.6" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,11.2 30.0,14.6 45.0,22.0 60.0,16.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#6b7280;background:rgba(107,114,128,0.06);border-color:#6b728040">NEUTRAL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Tendencia positiva +1.6%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-AVGO" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -798,17 +780,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">Streaming</span></td>
-          <td class="price-cell" style="font-family:monospace">$88.30</td>
-          <td class="down" style="font-family:monospace">-1.15%</td>
+          <td class="price-cell" style="font-family:monospace">$88.09</td>
+          <td class="down" style="font-family:monospace">-1.39%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">15.4M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:76%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$87.50</span><span>$88.55</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">21.3M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:56%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$87.50</span><span>$88.55</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:22%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,22.0 15.0,21.4 30.0,0.0 45.0,2.6 60.0,11.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,22.0 15.0,21.4 30.0,0.0 45.0,2.6 60.0,12.7" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#6b7280;background:rgba(107,114,128,0.06);border-color:#6b728040">NEUTRAL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Debilidad relativa -1.4%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-NFLX" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -838,17 +821,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">AI Infra</span></td>
-          <td class="price-cell" style="font-family:monospace">$33.56</td>
-          <td class="up" style="font-family:monospace">+9.81%</td>
+          <td class="price-cell" style="font-family:monospace">$33.46</td>
+          <td class="up" style="font-family:monospace">+9.49%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">32.2M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:87%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$30.87</span><span>$33.96</span></div></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">37.1M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:84%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$30.87</span><span>$33.96</span></div></td>
           <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:33%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,3.9 15.0,18.5 30.0,19.9 45.0,22.0 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,3.3 15.0,18.4 30.0,19.8 45.0,22.0 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#00d4aa;background:rgba(0,212,170,0.08);border-color:#00d4aa40">BUY</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Gap fuerte +9.5%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-SMCI" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -878,17 +862,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">AI/Semis</span></td>
-          <td class="price-cell" style="font-family:monospace">$255.13</td>
-          <td class="up" style="font-family:monospace">+14.33%</td>
+          <td class="price-cell" style="font-family:monospace">$256.73</td>
+          <td class="up" style="font-family:monospace">+15.05%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">15.9M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:87%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$226.54</span><span>$259.44</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:97%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,12.7 15.0,22.0 30.0,19.1 45.0,15.3 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">17.8M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:92%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$226.54</span><span>$259.44</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:98%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,13.1 15.0,22.0 30.0,19.2 45.0,15.5 60.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#00d4aa;background:rgba(0,212,170,0.12);border-color:#00d4aa40">STRONG BUY</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Gap fuerte +15.1%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-ARM" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -918,17 +903,18 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
           </td>
           <td><span class="sector-pill">BTC Proxy</span></td>
-          <td class="price-cell" style="font-family:monospace">$166.69</td>
-          <td class="up" style="font-family:monospace">+1.25%</td>
+          <td class="price-cell" style="font-family:monospace">$165.81</td>
+          <td class="up" style="font-family:monospace">+0.72%</td>
           <td><span style="color:#6b7280;font-size:10px">-</span></td>
-          <td style="color:#6b7280;font-size:11px;font-family:monospace">6.7M</td>
-          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:57%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$163.26</span><span>$169.23</span></div></td>
-          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:18%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
-          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,9.4 30.0,20.0 45.0,22.0 60.0,20.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">9.8M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:43%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$163.26</span><span>$169.23</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:17%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,9.4 30.0,20.0 45.0,22.0 60.0,20.8" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#6b7280;background:rgba(107,114,128,0.06);border-color:#6b728040">NEUTRAL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Tendencia positiva +0.7%</div></td>
         </tr>
         
         <tr class="stock-expanded" id="exp-MSTR" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -957,10 +943,10 @@ td{padding:10px 12px;vertical-align:middle}
   <div class="section-title">Crypto — BTC · ETH · ZEC · Altcoins</div>
   
     <div class="crypto-global">
-      <div class="cg-item"><span class="cg-label">Total MCap</span><span class="cg-val">$2.67T</span></div>
+      <div class="cg-item"><span class="cg-label">Total MCap</span><span class="cg-val">$2.66T</span></div>
       <div class="cg-item"><span class="cg-label">BTC Dom</span><span class="cg-val amber">58.2%</span></div>
-      <div class="cg-item"><span class="cg-label">ETH Dom</span><span class="cg-val">9.7%</span></div>
-      <div class="cg-item"><span class="cg-label">24h Vol</span><span class="cg-val">$76B</span></div>
+      <div class="cg-item"><span class="cg-label">ETH Dom</span><span class="cg-val">9.6%</span></div>
+      <div class="cg-item"><span class="cg-label">24h Vol</span><span class="cg-val">$77B</span></div>
     </div>
 <div class="crypto-grid">
 
@@ -973,16 +959,16 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,10.3 4.2,11.8 8.4,10.6 12.6,0.0 16.8,1.6 21.1,4.6 25.3,12.2 29.5,13.2 33.7,19.1 37.9,17.6 42.1,19.3 46.3,16.6 50.5,17.6 54.7,25.1 58.9,25.1 63.2,28.0 67.4,26.1 71.6,23.9 75.8,25.2 80.0,25.8" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$77,496</div>
+          <div class="crypto-price">$77,388</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.05%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.89%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-2.66%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.18%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.92%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-2.86%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$28109M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$28430M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1552.5B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1550.5B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-39%</span>
           </div>
@@ -998,20 +984,20 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,6.1 4.2,7.3 8.4,6.0 12.6,0.0 16.8,4.1 21.1,5.8 25.3,10.2 29.5,10.1 33.7,16.8 37.9,15.8 42.1,16.8 46.3,14.4 50.5,15.1 54.7,24.0 58.9,24.0 63.2,28.0 67.4,23.1 71.6,23.6 75.8,24.1 80.0,24.9" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$2,136</div>
+          <div class="crypto-price">$2,125</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.05%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+1.09%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-5.49%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.27%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.91%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-6.08%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$10875M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$11195M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$257.8B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$256.5B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-57%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:11%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:9%;background:#00d4aa"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1023,16 +1009,16 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,11.8 4.2,16.9 8.4,17.5 12.6,13.8 16.8,9.6 21.1,12.7 25.3,17.5 29.5,21.6 33.7,28.0 37.9,21.6 42.1,24.7 46.3,17.5 50.5,17.9 54.7,16.4 58.9,17.8 63.2,13.7 67.4,4.5 71.6,6.7 75.8,1.7 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$681.08</div>
+          <div class="crypto-price">$668.95</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+4.62%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+18.95%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val up">+25.90%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.16%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+17.49%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val up">+27.20%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$898M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$976M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$11.3B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$11.2B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-79%</span>
           </div>
@@ -1048,20 +1034,20 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,7.0 4.2,8.1 8.4,6.9 12.6,0.0 16.8,2.8 21.1,5.8 25.3,10.4 29.5,12.5 33.7,21.9 37.9,18.9 42.1,21.7 46.3,18.9 50.5,20.7 54.7,25.1 58.9,26.5 63.2,28.0 67.4,25.1 71.6,25.9 75.8,26.3 80.0,27.6" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$86.08</div>
+          <div class="crypto-price">$85.99</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.12%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+2.04%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-5.34%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.10%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+2.26%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-5.35%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$2587M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$2715M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$49.7B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-71%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:20%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:23%;background:#00d4aa"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1075,18 +1061,18 @@ td{padding:10px 12px;vertical-align:middle}
           </div>
           <div class="crypto-price">$1.37</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.10%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.81%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-4.00%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.20%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.58%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-3.73%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$1612M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$1483M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$84.7B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$84.4B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-62%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-63%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:8%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:6%;background:#00d4aa"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1098,14 +1084,14 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,8.0 4.2,9.1 8.4,10.1 12.6,0.0 16.8,4.5 21.1,7.4 25.3,13.8 29.5,15.0 33.7,23.1 37.9,20.1 42.1,23.3 46.3,19.0 50.5,22.0 54.7,23.8 58.9,27.5 63.2,28.0 67.4,23.7 71.6,25.2 75.8,25.8 80.0,27.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$9.31</div>
+          <div class="crypto-price">$9.26</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.22%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+2.03%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-4.64%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.26%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+2.05%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-4.76%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$137M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$147M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$4.0B</span>
             &nbsp;·&nbsp;
@@ -1123,20 +1109,20 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,9.9 4.2,10.3 8.4,9.1 12.6,0.0 16.8,4.9 21.1,7.1 25.3,12.0 29.5,13.0 33.7,21.3 37.9,19.2 42.1,21.5 46.3,18.2 50.5,20.4 54.7,23.8 58.9,26.2 63.2,28.0 67.4,21.6 71.6,22.9 75.8,24.6 80.0,25.5" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$9.65</div>
+          <div class="crypto-price">$9.61</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.48%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+1.86%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-5.50%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.24%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+1.72%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-5.92%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$352M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$343M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$7.0B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-82%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:19%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:17%;background:#00d4aa"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1148,20 +1134,20 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,1.3 4.2,4.5 8.4,5.0 12.6,0.0 16.8,4.2 21.1,6.4 25.3,10.5 29.5,12.5 33.7,20.3 37.9,17.7 42.1,20.0 46.3,15.8 50.5,20.2 54.7,22.1 58.9,24.8 63.2,25.3 67.4,22.6 71.6,23.9 75.8,25.0 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.111957</div>
+          <div class="crypto-price">$0.110652</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.09%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.20%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-15.64%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.57%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.54%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-16.65%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$38M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$42M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$0.7B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-95%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:22%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:25%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1200,18 +1186,18 @@ td{padding:10px 12px;vertical-align:middle}
           </div>
           <div class="crypto-price">$1.07</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.30%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+1.53%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-11.68%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.06%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+1.98%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-10.80%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$460M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$481M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$4.3B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-80%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:15%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:20%;background:#00d4aa"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1225,18 +1211,18 @@ td{padding:10px 12px;vertical-align:middle}
           </div>
           <div class="crypto-price">$0.000004</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.22%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+2.26%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-8.35%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.34%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+2.04%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-8.69%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$131M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$134M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1.6B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-87%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:23%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:20%;background:#00d4aa"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -1248,20 +1234,20 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,7.1 4.2,7.3 8.4,7.3 12.6,0.0 16.8,1.5 21.1,4.1 25.3,7.9 29.5,9.0 33.7,16.3 37.9,14.8 42.1,16.3 46.3,10.7 50.5,13.5 54.7,20.3 58.9,24.4 63.2,26.7 67.4,24.8 71.6,24.8 75.8,25.9 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.104214</div>
+          <div class="crypto-price">$0.103439</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.12%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.85%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-8.21%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.48%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val up">+0.69%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-8.65%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$621M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$622M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$16.1B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$16.0B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-86%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:8%;background:#00d4aa"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:7%;background:#00d4aa"></div></div>
         </div>
 </div>
 </div>
@@ -1307,7 +1293,7 @@ td{padding:10px 12px;vertical-align:middle}
 </div>
 
 <div class="footer">
-  Day Trading Dashboard · 2026-05-20 19:36 UTC · Yahoo Finance + CoinGecko + FMP ·
+  Day Trading Dashboard · 2026-05-20 22:52 UTC · Yahoo Finance + CoinGecko + FMP ·
   No es asesoramiento financiero
 </div>
 <script>
