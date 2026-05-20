@@ -6,6 +6,7 @@ Fuentes: Yahoo Finance (indices, futuros, stocks), CoinGecko (crypto), FMP (noti
 
 import json
 import os
+import re
 import sys
 import datetime
 import urllib.request
@@ -68,7 +69,7 @@ CRYPTO_IDS = [
     {"id": "dogecoin",      "ticker": "DOGE", "name": "Dogecoin"},
 ]
 
-NEWS_TICKERS = {"NVDA","MSFT","AAPL","GOOGL","META","AMZN","TSLA","AMD","SPY","QQQ"}
+NEWS_TICKERS  = {"NVDA","MSFT","AAPL","GOOGL","META","AMZN","TSLA","AMD","SPY","QQQ"}
 NEWS_KEYWORDS = ["nasdaq","s&p","fed","rate","inflation","gdp","jobs","payroll",
                  "nvidia","microsoft","apple","google","meta","amazon","tesla","amd",
                  "interest rate","fomc","treasury","earnings","market"]
@@ -118,6 +119,24 @@ DEFAULT_SCALP = {
     "avg_range": "2-4% daily range",
     "options_note": "Revisar IV rank vs historico antes de operar opciones.",
 }
+
+# ─── SIGNAL KEYWORDS ──────────────────────────────────────────
+
+BULLISH_WORDS = {
+    "beat", "beats", "exceeded", "surpassed", "strong", "growth", "raised guidance",
+    "record", "profit", "outperform", "upgrade", "rally", "surge", "soar",
+    "better than expected", "upside", "momentum", "acceleration", "wins",
+    "optimistic", "robust", "solid", "expansion", "record high", "breakout",
+    "positive", "recovery", "demand", "breakthrough", "jumped", "climbed",
+}
+BEARISH_WORDS = {
+    "miss", "missed", "below", "decline", "weak", "cut guidance", "downgrade",
+    "concern", "risk", "lower", "fall", "drop", "disappointing", "loss",
+    "warning", "headwind", "slowdown", "uncertainty", "pressure", "layoff",
+    "restructuring", "investigation", "lawsuit", "tariff", "recession",
+    "contraction", "missed estimates", "worse than expected", "plunged", "tumbled",
+}
+
 
 # ─── FETCHING ─────────────────────────────────────────────────
 
@@ -220,20 +239,16 @@ def fetch_news() -> list:
         return []
     out = []
     for item in data:
-        # tickers field is like "NASDAQ:NVDA" or "NYSE:AAPL"
         raw_tickers = (item.get("tickers") or "").upper()
-        # extract just the symbol part after the colon
         symbols = {t.split(":")[-1].strip() for t in raw_tickers.split(",") if t.strip()}
         title   = (item.get("title") or "").lower()
         ticker_match  = bool(symbols & NEWS_TICKERS)
         keyword_match = any(k in title for k in NEWS_KEYWORDS)
         if ticker_match or keyword_match:
             display = ", ".join(sorted(symbols & NEWS_TICKERS)) if symbols & NEWS_TICKERS else "MACRO"
-            # strip HTML tags from content for the snippet
             content = item.get("content") or ""
-            import re
             clean = re.sub(r"<[^>]+>", " ", content)
-            clean = re.sub(r"\s+", " ", clean).strip()[:180]
+            clean = re.sub(r"\s+", " ", clean).strip()[:200]
             out.append({
                 "title":     item.get("title", ""),
                 "ticker":    display,
@@ -245,6 +260,275 @@ def fetch_news() -> list:
         if len(out) >= 12:
             break
     return out
+
+
+# ─── SIGNAL ENGINE ────────────────────────────────────────────
+
+def news_sentiment(title: str, text: str) -> tuple:
+    """Returns (score, label). Positive = bullish, negative = bearish."""
+    combined = (title + " " + text).lower()
+    bull = sum(1 for w in BULLISH_WORDS if w in combined)
+    bear = sum(1 for w in BEARISH_WORDS if w in combined)
+    score = bull - bear
+    if score >= 2:   return score, "BULLISH"
+    if score <= -2:  return score, "BEARISH"
+    return score, "NEUTRAL"
+
+
+def compute_risk(indices_data: list, futures_data: list) -> dict:
+    vix = next((i["data"].get("price", 20) for i in indices_data
+                if i["ticker"] == "^VIX" and i["data"]), 20)
+    vix_chg = next((i["data"].get("change_pct", 0) for i in indices_data
+                    if i["ticker"] == "^VIX" and i["data"]), 0)
+    nq_chg  = next((f["data"].get("change_pct", 0) for f in futures_data
+                    if f["ticker"] == "NQ=F" and f["data"]), 0)
+
+    if vix < 15:
+        level, color = "BAJO", "#00d4aa"
+    elif vix < 20:
+        level, color = "MODERADO", "#ffa502"
+    elif vix < 28:
+        level, color = "ELEVADO", "#ff6b35"
+    else:
+        level, color = "EXTREMO", "#ff4757"
+
+    # Large futures move upgrades risk
+    if abs(nq_chg) > 2.5 and level == "BAJO":
+        level, color = "MODERADO", "#ffa502"
+
+    vix_trend = "cayendo" if vix_chg < -3 else ("subiendo" if vix_chg > 3 else "estable")
+    return {"level": level, "color": color, "vix": vix, "vix_chg": vix_chg,
+            "vix_trend": vix_trend, "nq_chg": nq_chg}
+
+
+def compute_market_signal(indices_data: list, futures_data: list, news: list) -> dict:
+    score = 0
+    factors = []  # (icon, text)
+
+    # VIX
+    vix_data = next((i["data"] for i in indices_data
+                     if i["ticker"] == "^VIX" and i["data"]), {})
+    vix     = vix_data.get("price", 20) or 20
+    vix_chg = vix_data.get("change_pct", 0) or 0
+    if vix < 15:
+        score += 2
+        factors.append(("pos", f"VIX {vix:.1f} ({vix_chg:+.1f}%) — volatilidad baja, sesgo risk-on"))
+    elif vix < 20:
+        score += 1
+        factors.append(("pos", f"VIX {vix:.1f} ({vix_chg:+.1f}%) — volatilidad controlada"))
+    elif vix < 25:
+        score -= 1
+        factors.append(("neg", f"VIX {vix:.1f} ({vix_chg:+.1f}%) — volatilidad elevada, precaución"))
+    else:
+        score -= 2
+        factors.append(("neg", f"VIX {vix:.1f} ({vix_chg:+.1f}%) — miedo en el mercado"))
+
+    # Futures NQ + ES
+    nq_chg = next((f["data"].get("change_pct", 0) for f in futures_data
+                   if f["ticker"] == "NQ=F" and f["data"]), 0) or 0
+    es_chg = next((f["data"].get("change_pct", 0) for f in futures_data
+                   if f["ticker"] == "ES=F" and f["data"]), 0) or 0
+    avg_fut = (nq_chg + es_chg) / 2
+    if avg_fut > 1:
+        score += 2
+        factors.append(("pos", f"Futuros alcistas — NQ {nq_chg:+.2f}% · ES {es_chg:+.2f}%"))
+    elif avg_fut > 0.3:
+        score += 1
+        factors.append(("pos", f"Futuros positivos — NQ {nq_chg:+.2f}% · ES {es_chg:+.2f}%"))
+    elif avg_fut < -1:
+        score -= 2
+        factors.append(("neg", f"Futuros bajistas — NQ {nq_chg:+.2f}% · ES {es_chg:+.2f}%"))
+    elif avg_fut < -0.3:
+        score -= 1
+        factors.append(("neg", f"Futuros negativos — NQ {nq_chg:+.2f}% · ES {es_chg:+.2f}%"))
+    else:
+        factors.append(("neu", f"Futuros planos — NQ {nq_chg:+.2f}% · ES {es_chg:+.2f}%"))
+
+    # Market breadth (excl. VIX)
+    chgs = [i["data"].get("change_pct", 0) for i in indices_data
+            if i["data"] and i["ticker"] != "^VIX"]
+    if chgs:
+        n_pos = sum(1 for c in chgs if c > 0)
+        breadth = n_pos / len(chgs)
+        if breadth >= 0.8:
+            score += 1
+            factors.append(("pos", f"Amplitud positiva — {n_pos}/{len(chgs)} índices al alza"))
+        elif breadth <= 0.2:
+            score -= 1
+            factors.append(("neg", f"Amplitud negativa — {n_pos}/{len(chgs)} índices al alza"))
+        else:
+            factors.append(("neu", f"Amplitud mixta — {n_pos}/{len(chgs)} índices al alza"))
+
+    # News sentiment
+    if news:
+        sent_scores = [news_sentiment(n["title"], n.get("text",""))[0] for n in news]
+        avg_sent = sum(sent_scores) / len(sent_scores)
+        bull_count = sum(1 for s in sent_scores if s > 0)
+        bear_count = sum(1 for s in sent_scores if s < 0)
+        if avg_sent > 0.5:
+            score += 1
+            factors.append(("pos", f"Noticias alcistas — {bull_count} positivas / {bear_count} negativas"))
+        elif avg_sent < -0.5:
+            score -= 1
+            factors.append(("neg", f"Noticias bajistas — {bull_count} positivas / {bear_count} negativas"))
+        else:
+            factors.append(("neu", f"Noticias mixtas — {bull_count} positivas / {bear_count} negativas"))
+
+    # Signal label
+    if score >= 5:
+        label, color, emoji = "COMPRA FUERTE", "#00d4aa", "▲▲"
+    elif score >= 3:
+        label, color, emoji = "COMPRA", "#00d4aa", "▲"
+    elif score >= 1:
+        label, color, emoji = "SESGO ALCISTA", "#3b82f6", "↗"
+    elif score > -1:
+        label, color, emoji = "NEUTRAL", "#6b7280", "→"
+    elif score > -3:
+        label, color, emoji = "SESGO BAJISTA", "#ffa502", "↘"
+    elif score > -5:
+        label, color, emoji = "VENTA", "#ff4757", "▼"
+    else:
+        label, color, emoji = "VENTA FUERTE", "#ff4757", "▼▼"
+
+    return {"label": label, "color": color, "emoji": emoji,
+            "score": score, "factors": factors}
+
+
+def get_setup_tip(signal_label: str, risk_level: str) -> str:
+    tips = {
+        ("COMPRA FUERTE",  "BAJO"):      "Agresivo: longs en cualquier pullback, size máximo. Trailing stop amplio.",
+        ("COMPRA FUERTE",  "MODERADO"):  "Fuerte sesgo largo. Size alto. Longs en pullbacks a VWAP, confirmar con volumen.",
+        ("COMPRA",         "BAJO"):      "Sesgo largo claro. Size normal-alto. Comprar breaks de pre-market high.",
+        ("COMPRA",         "MODERADO"):  "Sesgo largo. Size estándar. Entradas en pullbacks a VWAP con confirmación.",
+        ("COMPRA",         "ELEVADO"):   "Sesgo largo con precaución. Reducir size 30%. Esperar confirmación en VWAP.",
+        ("SESGO ALCISTA",  "BAJO"):      "Ligero sesgo largo. Size reducido. Confirmar dirección con los primeros 15min.",
+        ("SESGO ALCISTA",  "MODERADO"):  "Ligero sesgo largo. Size reducido. Esperar setup claro, no perseguir.",
+        ("SESGO ALCISTA",  "ELEVADO"):   "Mercado mixto con riesgo elevado. Size mínimo, solo setups A+.",
+        ("NEUTRAL",        "BAJO"):      "Mercado lateral. Range trading: comprar soporte, vender resistencia.",
+        ("NEUTRAL",        "MODERADO"):  "Sin sesgo claro. Esperar ruptura de rango o no operar.",
+        ("NEUTRAL",        "ELEVADO"):   "Riesgo elevado sin dirección. Mejor no operar.",
+        ("NEUTRAL",        "EXTREMO"):   "VIX extremo. NO OPERAR hasta que el mercado muestre dirección.",
+        ("SESGO BAJISTA",  "MODERADO"):  "Ligero sesgo corto. Size reducido. Shorts en rebotes fallidos a VWAP.",
+        ("SESGO BAJISTA",  "ELEVADO"):   "Sesgo bajista con riesgo alto. Shorts selectivos en rebotes, stop ajustado.",
+        ("VENTA",          "ELEVADO"):   "Sesgo corto. Shorts en rebotes a VWAP. Evitar longs hasta recaptura de nivel clave.",
+        ("VENTA",          "EXTREMO"):   "Mercado en distribución. Size mínimo. Solo shorts muy selectivos.",
+        ("VENTA FUERTE",   "ELEVADO"):   "Mercado bajista. Solo shorts, no longs. Gestión de riesgo estricta.",
+        ("VENTA FUERTE",   "EXTREMO"):   "Pánico en el mercado. NO OPERAR. Si operas, micro-size en shorts y salida rápida.",
+    }
+    key = (signal_label, risk_level)
+    if key in tips:
+        return tips[key]
+    if "COMPRA" in signal_label:
+        return f"Sesgo alcista. Adaptar size al riesgo actual ({risk_level})."
+    if "VENTA" in signal_label:
+        return f"Sesgo bajista. Adaptar size al riesgo actual ({risk_level})."
+    return "Mercado sin sesgo claro. Esperar setup definido antes de operar."
+
+
+def compute_stock_signal(stock: dict, news: list, market_score: int = 0) -> dict:
+    d = stock["data"]
+    if not d:
+        return {"label": "S/D", "color": "#6b7280", "bg": "transparent",
+                "score": 0, "reason": "Sin datos"}
+
+    score = 0
+    reasons = []
+    ticker = stock["ticker"]
+
+    # Day change momentum
+    chg = d.get("change_pct", 0) or 0
+    if chg > 4:
+        score += 3; reasons.append(f"Gap fuerte +{chg:.1f}%")
+    elif chg > 2:
+        score += 2; reasons.append(f"Momentum alcista +{chg:.1f}%")
+    elif chg > 0.5:
+        score += 1; reasons.append(f"Tendencia positiva +{chg:.1f}%")
+    elif chg < -4:
+        score -= 3; reasons.append(f"Caida fuerte {chg:.1f}%")
+    elif chg < -2:
+        score -= 2; reasons.append(f"Presion bajista {chg:.1f}%")
+    elif chg < -0.5:
+        score -= 1; reasons.append(f"Debilidad relativa {chg:.1f}%")
+
+    # 5-day trend
+    closes = d.get("closes", [])
+    if len(closes) >= 3 and closes[0]:
+        trend = (closes[-1] - closes[0]) / closes[0] * 100
+        if trend > 5:
+            score += 2; reasons.append("Tendencia 5d fuerte")
+        elif trend > 2:
+            score += 1
+        elif trend < -5:
+            score -= 2; reasons.append("Tendencia 5d bajista")
+        elif trend < -2:
+            score -= 1
+
+    # Pre-market
+    pre = d.get("pre_chg")
+    if pre is not None:
+        if pre > 2:
+            score += 2; reasons.append(f"Pre-mkt fuerte +{pre:.1f}%")
+        elif pre > 0.5:
+            score += 1; reasons.append(f"Pre-mkt positivo")
+        elif pre < -2:
+            score -= 2; reasons.append(f"Pre-mkt debil {pre:.1f}%")
+        elif pre < -0.5:
+            score -= 1
+
+    # News catalyst for this specific ticker
+    for n in news:
+        if ticker in (n.get("ticker") or ""):
+            sent_score, sent_label = news_sentiment(n["title"], n.get("text", ""))
+            if sent_score >= 2:
+                score += 2; reasons.append(f"Noticia positiva ({sent_label})")
+            elif sent_score >= 1:
+                score += 1; reasons.append("Catalizador positivo en noticias")
+            elif sent_score <= -2:
+                score -= 2; reasons.append(f"Noticia negativa ({sent_label})")
+            elif sent_score <= -1:
+                score -= 1; reasons.append("Catalizador negativo en noticias")
+            break
+
+    # 52-week position
+    w52h  = d.get("week52_high") or 0
+    w52l  = d.get("week52_low")  or 0
+    price = d.get("price")       or 0
+    if w52h and w52l and w52h != w52l:
+        pos = (price - w52l) / (w52h - w52l) * 100
+        if pos > 95 and chg > 0:
+            score -= 1; reasons.append("Cerca de maximo anual (resistencia)")
+        elif pos < 10:
+            score += 1; reasons.append("Cerca de minimo anual (soporte potencial)")
+
+    # Market context slight weight
+    if market_score >= 3:
+        score += 1
+    elif market_score <= -3:
+        score -= 1
+
+    reason_str = reasons[0] if reasons else "Momentum neutro"
+
+    if score >= 5:
+        return {"label": "STRONG BUY", "color": "#00d4aa", "bg": "rgba(0,212,170,0.12)",
+                "score": score, "reason": reason_str}
+    elif score >= 3:
+        return {"label": "BUY",        "color": "#00d4aa", "bg": "rgba(0,212,170,0.08)",
+                "score": score, "reason": reason_str}
+    elif score >= 1:
+        return {"label": "LONG BIAS",  "color": "#3b82f6", "bg": "rgba(59,130,246,0.08)",
+                "score": score, "reason": reason_str}
+    elif score > -1:
+        return {"label": "NEUTRAL",    "color": "#6b7280", "bg": "rgba(107,114,128,0.06)",
+                "score": score, "reason": reason_str}
+    elif score > -3:
+        return {"label": "SHORT BIAS", "color": "#ffa502", "bg": "rgba(255,165,2,0.08)",
+                "score": score, "reason": reason_str}
+    elif score > -5:
+        return {"label": "SELL",       "color": "#ff4757", "bg": "rgba(255,71,87,0.08)",
+                "score": score, "reason": reason_str}
+    else:
+        return {"label": "STRONG SELL","color": "#ff4757", "bg": "rgba(255,71,87,0.12)",
+                "score": score, "reason": reason_str}
 
 
 # ─── HTML HELPERS ─────────────────────────────────────────────
@@ -304,6 +588,40 @@ def range_bar(price, low, high) -> str:
 
 
 # ─── HTML SECTION BUILDERS ────────────────────────────────────
+
+def build_market_signal_html(market_signal: dict, risk: dict) -> str:
+    setup = get_setup_tip(market_signal["label"], risk["level"])
+
+    factor_rows = ""
+    icon_map = {"pos": ("✓", "#00d4aa"), "neg": ("✗", "#ff4757"), "neu": ("≈", "#6b7280")}
+    for kind, text in market_signal["factors"]:
+        sym, col = icon_map.get(kind, ("·", "#6b7280"))
+        factor_rows += f'<div class="sig-factor"><span style="color:{col};font-weight:700;min-width:14px">{sym}</span><span>{text}</span></div>'
+
+    score_sign = "+" if market_signal["score"] >= 0 else ""
+    vix_col = risk["color"]
+
+    return f"""
+<div class="signal-card">
+  <div class="signal-top">
+    <div class="signal-main-block">
+      <div class="signal-emoji">{market_signal["emoji"]}</div>
+      <div>
+        <div class="signal-label-big" style="color:{market_signal['color']}">{market_signal['label']}</div>
+        <div class="signal-score-text">Puntuacion: <span style="color:{market_signal['color']};font-weight:700">{score_sign}{market_signal['score']}</span></div>
+      </div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-label" style="color:{vix_col}">RIESGO {risk['level']}</div>
+      <div class="risk-vix">VIX <span style="color:{vix_col};font-weight:700">{risk['vix']:.1f}</span> <span style="font-size:10px;color:#6b7280">({risk['vix_chg']:+.1f}% — {risk['vix_trend']})</span></div>
+    </div>
+  </div>
+  <div class="signal-factors-grid">{factor_rows}</div>
+  <div class="signal-setup">
+    <span style="color:#ffa502;font-weight:600;margin-right:6px">Setup:</span>{setup}
+  </div>
+</div>"""
+
 
 def build_indices_html(indices_data: list) -> str:
     cards = []
@@ -370,34 +688,50 @@ def build_futures_html(futures_data: list) -> str:
 def build_news_html(news: list) -> str:
     if not news:
         return '<p style="color:#6b7280;font-size:12px;font-family:monospace;padding:1rem 0">No news available — check FMP_API_KEY.</p>'
-    colors = {
+    ticker_colors = {
         "NVDA":"#00d4aa","AMD":"#00d4aa","MSFT":"#3b82f6","AAPL":"#3b82f6",
         "GOOGL":"#3b82f6","META":"#ffa502","AMZN":"#ffa502","TSLA":"#ff4757",
         "SPY":"#6b7280","QQQ":"#6b7280","MACRO":"#6b7280",
     }
+    sent_cfg = {
+        "BULLISH": ("▲", "#00d4aa", "rgba(0,212,170,0.1)"),
+        "BEARISH": ("▼", "#ff4757", "rgba(255,71,87,0.1)"),
+        "NEUTRAL": ("—", "#6b7280", "rgba(107,114,128,0.08)"),
+    }
     rows = []
     for n in news:
         t   = n["ticker"].split(",")[0].strip()
-        col = colors.get(t, "#6b7280")
-        badge = f'<span style="font-size:10px;padding:1px 7px;border-radius:4px;background:{col}22;color:{col};font-family:monospace;font-weight:600">{t}</span>'
-        url   = n.get("url", "#")
+        col = ticker_colors.get(t, "#6b7280")
+        ticker_badge = (f'<span style="font-size:10px;padding:1px 7px;border-radius:4px;'
+                        f'background:{col}22;color:{col};font-family:monospace;font-weight:600">{t}</span>')
+
+        _, sent_label = news_sentiment(n["title"], n.get("text", ""))
+        sym, scol, sbg = sent_cfg[sent_label]
+        sent_badge = (f'<span style="font-size:10px;padding:1px 6px;border-radius:4px;'
+                      f'background:{sbg};color:{scol};font-family:monospace;font-weight:700">'
+                      f'{sym} {sent_label}</span>')
+
+        url = n.get("url", "#")
         rows.append(f"""
         <div class="news-row">
-          <div class="news-meta">{badge}<span class="news-pub">{n['publisher']}</span><span class="news-date">{n['date']}</span></div>
+          <div class="news-meta">{ticker_badge}{sent_badge}<span class="news-pub">{n['publisher']}</span><span class="news-date">{n['date']}</span></div>
           <a class="news-title" href="{url}" target="_blank">{n['title']}</a>
           <p class="news-text">{n['text']}</p>
         </div>""")
     return "\n".join(rows)
 
 
-def build_stocks_html(stocks_data: list) -> str:
+def build_stocks_html(stocks_data: list, news: list, market_score: int = 0) -> str:
     rows = []
     for item in stocks_data:
         d    = item["data"]
         meta = SCALP_META.get(item["ticker"], DEFAULT_SCALP)
+        sig  = compute_stock_signal(item, news, market_score)
+
         if not d:
-            rows.append(f'<tr><td>{item["ticker"]}</td><td colspan="8" style="color:#6b7280">No data</td></tr>')
+            rows.append(f'<tr><td>{item["ticker"]}</td><td colspan="9" style="color:#6b7280">No data</td></tr>')
             continue
+
         chg   = d.get("change_pct", 0)
         cc    = chg_class(chg)
         pre   = d.get("pre_chg")
@@ -409,11 +743,16 @@ def build_stocks_html(stocks_data: list) -> str:
         w52_pct = ((price - w52l) / (w52h - w52l) * 100) if w52h and w52l and w52h != w52l else 0
         w52_bar = (f'<div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle">'
                    f'<div style="width:{w52_pct:.0f}%;height:3px;background:#ffa502;border-radius:2px"></div></div>')
+
+        sig_badge = (f'<div class="sig-badge" style="color:{sig["color"]};background:{sig["bg"]};border-color:{sig["color"]}40">'
+                     f'{sig["label"]}</div>'
+                     f'<div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">{sig["reason"]}</div>')
+
         watch_li = "".join(f"<li>{w}</li>" for w in meta["key_levels"])
         cat_li   = "".join(f"<li>{c}</li>" for c in meta["catalysts"])
         expanded = f"""
         <tr class="stock-expanded" id="exp-{item['ticker']}" style="display:none">
-          <td colspan="9" style="padding:0 12px 12px 48px">
+          <td colspan="10" style="padding:0 12px 12px 48px">
             <div class="expanded-grid">
               <div>
                 <div class="exp-title">Niveles clave</div>
@@ -450,6 +789,7 @@ def build_stocks_html(stocks_data: list) -> str:
           <td>{range_bar(price, d.get('day_low', 0), d.get('day_high', 0))}</td>
           <td>{w52_bar}</td>
           <td>{spark}</td>
+          <td>{sig_badge}</td>
         </tr>
         {expanded}""")
     return "\n".join(rows)
@@ -569,13 +909,17 @@ def build_macro_html() -> str:
 
 # ─── MAIN HTML ────────────────────────────────────────────────
 
-def build_html(indices_data, stocks_data, crypto_html, macro_html, futures_data=None, news=None) -> str:
+def build_html(indices_data, stocks_data, crypto_html, macro_html,
+               futures_data=None, news=None,
+               market_signal=None, risk=None) -> str:
     now          = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
     today        = datetime.date.today()
     indices_html = build_indices_html(indices_data)
     futures_html = build_futures_html(futures_data or [])
-    stocks_html  = build_stocks_html(stocks_data)
     news_html    = build_news_html(news or [])
+    market_score = (market_signal or {}).get("score", 0)
+    stocks_html  = build_stocks_html(stocks_data, news or [], market_score)
+    sig_html     = build_market_signal_html(market_signal, risk) if market_signal and risk else ""
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -617,15 +961,32 @@ body{{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;mi
 .index-price{{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:600;margin-bottom:2px}}
 .index-chg{{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:500}}
 .pre-badge{{font-family:'JetBrains Mono',monospace;font-size:0.62rem;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);margin-top:3px;display:inline-block}}
+/* ── MARKET SIGNAL CARD ── */
+.signal-card{{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.5rem}}
+.signal-top{{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:0.75rem}}
+.signal-main-block{{display:flex;align-items:center;gap:12px}}
+.signal-emoji{{font-size:1.6rem;line-height:1}}
+.signal-label-big{{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;letter-spacing:0.05em}}
+.signal-score-text{{font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px}}
+.risk-block{{text-align:right}}
+.risk-label{{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.06em}}
+.risk-vix{{font-size:0.72rem;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-top:3px}}
+.signal-factors-grid{{display:flex;flex-direction:column;gap:4px;margin-bottom:0.75rem}}
+.sig-factor{{display:flex;align-items:flex-start;gap:8px;font-size:0.76rem;color:var(--muted);font-family:'JetBrains Mono',monospace;line-height:1.4}}
+.signal-setup{{font-size:0.78rem;color:var(--muted);background:var(--surface2);border-radius:6px;padding:8px 12px;border-left:3px solid var(--amber);line-height:1.5}}
+/* ── SIGNAL BADGE (stocks) ── */
+.sig-badge{{font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:4px;border:1px solid;white-space:nowrap;display:inline-block;letter-spacing:0.04em}}
+/* ── NEWS ── */
 .news-list{{display:flex;flex-direction:column}}
 .news-row{{padding:10px 0;border-bottom:1px solid var(--border)}}
 .news-row:last-child{{border-bottom:none}}
-.news-meta{{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}}
+.news-meta{{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}}
 .news-pub{{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}}
 .news-date{{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-left:auto}}
 .news-title{{font-size:13px;font-weight:500;color:var(--text);text-decoration:none;display:block;margin-bottom:3px;line-height:1.4}}
 .news-title:hover{{color:var(--green)}}
 .news-text{{font-size:11px;color:var(--muted);line-height:1.5}}
+/* ── STOCKS TABLE ── */
 .table-wrap{{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}}
 table{{width:100%;border-collapse:collapse;font-size:13px}}
 thead th{{background:var(--surface2);padding:8px 12px;text-align:left;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;border-bottom:1px solid var(--border)}}
@@ -642,6 +1003,7 @@ td{{padding:10px 12px;vertical-align:middle}}
 .exp-list li{{font-size:0.76rem;color:var(--muted);padding-left:12px;position:relative;line-height:1.4}}
 .exp-list li::before{{content:'>';position:absolute;left:0;color:var(--green)}}
 .exp-note{{font-size:0.76rem;color:var(--muted);line-height:1.5;margin-top:4px}}
+/* ── CRYPTO ── */
 .crypto-global{{display:flex;gap:1.5rem;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:1.5rem}}
 .cg-item{{display:flex;flex-direction:column;gap:2px}}
 .cg-label{{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-family:'JetBrains Mono',monospace}}
@@ -659,6 +1021,7 @@ td{{padding:10px 12px;vertical-align:middle}}
 .chg-label{{font-size:0.58rem;text-transform:uppercase;color:var(--muted);font-family:'JetBrains Mono',monospace}}
 .chg-val{{font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:500;margin-top:1px}}
 .crypto-footer{{font-size:0.7rem;color:var(--muted);margin-top:6px}}
+/* ── MACRO ── */
 .macro-grid{{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}}
 .macro-calendar,.macro-rules{{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem}}
 .macro-row{{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}}
@@ -679,6 +1042,8 @@ td{{padding:10px 12px;vertical-align:middle}}
   .crypto-grid{{grid-template-columns:repeat(2,1fr)}}
   .macro-grid{{grid-template-columns:1fr}}
   .expanded-grid{{grid-template-columns:1fr}}
+  .signal-top{{flex-direction:column;align-items:flex-start}}
+  .risk-block{{text-align:left}}
 }}
 </style>
 </head>
@@ -697,6 +1062,8 @@ td{{padding:10px 12px;vertical-align:middle}}
 </div>
 
 <div id="tab-markets" class="tab-content active">
+  <div class="section-title">Sesgo de mercado NQ / ES</div>
+  {sig_html}
   <div class="section-title">Indices y ETFs</div>
   <div class="indices-grid">{indices_html}</div>
   <div class="section-title" style="margin-top:0.5rem">Futuros — NQ · ES · YM · RTY · Gold · Oil</div>
@@ -711,7 +1078,7 @@ td{{padding:10px 12px;vertical-align:middle}}
     <table>
       <thead><tr>
         <th>Empresa</th><th>Sector</th><th>Precio</th><th>Cambio</th>
-        <th>Pre-mkt</th><th>Volumen</th><th>Day range</th><th>52w pos</th><th>5d chart</th>
+        <th>Pre-mkt</th><th>Volumen</th><th>Day range</th><th>52w pos</th><th>5d chart</th><th>Senal</th>
       </tr></thead>
       <tbody>{stocks_html}</tbody>
     </table>
@@ -788,11 +1155,17 @@ def main():
     news = fetch_news()
     print(f"  Got {len(news)} news items")
 
+    print("\nComputing signals...")
+    risk          = compute_risk(indices_data, futures_data)
+    market_signal = compute_market_signal(indices_data, futures_data, news)
+    print(f"  Market: {market_signal['label']} (score {market_signal['score']:+d}) | Risk: {risk['level']} (VIX {risk['vix']:.1f})")
+
     crypto_html = build_crypto_html(crypto_raw, global_data)
     macro_html  = build_macro_html()
 
     print("\nGenerating HTML...")
-    html = build_html(indices_data, stocks_data, crypto_html, macro_html, futures_data, news)
+    html = build_html(indices_data, stocks_data, crypto_html, macro_html,
+                      futures_data, news, market_signal, risk)
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(html, encoding="utf-8")

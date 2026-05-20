@@ -42,7 +42,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .dot-gray{background:var(--muted)}
 
 /* DASHBOARD CARDS */
-.dashboards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:2rem}
+.dashboards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:2rem}
 .dash-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;cursor:pointer;text-decoration:none;color:inherit;transition:border-color 0.2s,transform 0.15s;display:block}
 .dash-card:hover{border-color:var(--border2);transform:translateY(-2px)}
 .dash-card.primary{border-color:rgba(0,212,170,0.2)}
@@ -172,6 +172,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         <span class="meta-pill amber">What to Watch</span>
       </div>
       <div class="update-badge">Se actualiza L y V a las 06:00 y 20:00 UTC</div>
+    </a>
+
+    <a class="dash-card" href="sectors/index.html">
+      <span class="dash-arrow">→</span>
+      <div class="dash-icon">🗺️</div>
+      <div class="dash-title">Sector Heatmap</div>
+      <div class="dash-desc">Heatmap de los 11 sectores GICS del S&P 500. YTD, P/E, dividendo, top 5 holdings y rango de 52 semanas por sector.</div>
+      <div class="dash-meta">
+        <span class="meta-pill green">XLK · XLV · XLF</span>
+        <span class="meta-pill">YTD · P/E · Div</span>
+        <span class="meta-pill amber">Top 5 Holdings</span>
+      </div>
+      <div class="update-badge">Se actualiza L-V a las 13:30 y 22:00 UTC</div>
     </a>
   </div>
 
