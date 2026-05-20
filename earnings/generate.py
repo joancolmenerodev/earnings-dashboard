@@ -137,14 +137,14 @@ def fetch_earnings_calendar(days: int = 90) -> list[dict]:
     return data if isinstance(data, list) else []
 
 def fetch_quote(ticker: str) -> dict:
-    data = fmp_get(f"quote?symbol={ticker}")
+    data = fmp_get(f"profile", {"symbol": ticker})
     if isinstance(data, list) and data:
         return data[0]
     return {}
 
 
 def fetch_key_metrics(ticker: str) -> dict:
-    data = fmp_get(f"key-metrics-ttm?symbol={ticker}")
+    data = fmp_get(f"key-metrics-ttm", {"symbol": ticker})
     if isinstance(data, list) and data:
         return data[0]
     return {}
@@ -183,7 +183,7 @@ def enrich_companies(raw: list[dict]) -> list[dict]:
 
         companies.append({
             "ticker":        ticker,
-            "name":          quote.get("name") or row.get("symbol"),
+            "name":          quote.get("companyName") or row.get("symbol"),
             "date":          row.get("date", ""),
             "time":          row.get("time", "").upper() or "TBD",
             "eps_est":       eps_est,
@@ -194,8 +194,8 @@ def enrich_companies(raw: list[dict]) -> list[dict]:
             "market_cap":    quote.get("marketCap"),
             "price":         quote.get("price"),
             "change_pct":    quote.get("changesPercentage"),
-            "fwd_pe":        round(metrics.get("peRatioTTM", 0), 1) if metrics.get("peRatioTTM") else None,
-            "sector":        quote.get("sector") or "—",
+            "fwd_pe":        round(1 / metrics["earningsYieldTTM"], 1) if metrics.get("earningsYieldTTM") else None,
+            "sector":        quote.get("sector") or quote.get("industry") or "—",
             "exchange":      quote.get("exchange") or "",
             "theme":         extra.get("theme", f"{ticker} quarterly results"),
             "watch":         extra.get("watch", DEFAULT_WATCH),
