@@ -215,26 +215,32 @@ def fetch_futures() -> list:
 
 
 def fetch_news() -> list:
-    data = fmp_get("news/stock-latest", {"limit": 50})
+    data = fmp_get("fmp-articles", {"limit": 50, "page": 0})
     if not isinstance(data, list) or len(data) == 0:
-        data = fmp_get("news/general-latest", {"limit": 30})
-    if not isinstance(data, list):
         return []
     out = []
     for item in data:
-        sym   = (item.get("symbol") or item.get("tickers") or "").upper().strip()
-        title = (item.get("title") or "").lower()
-        ticker_match  = any(t in sym for t in NEWS_TICKERS)
+        # tickers field is like "NASDAQ:NVDA" or "NYSE:AAPL"
+        raw_tickers = (item.get("tickers") or "").upper()
+        # extract just the symbol part after the colon
+        symbols = {t.split(":")[-1].strip() for t in raw_tickers.split(",") if t.strip()}
+        title   = (item.get("title") or "").lower()
+        ticker_match  = bool(symbols & NEWS_TICKERS)
         keyword_match = any(k in title for k in NEWS_KEYWORDS)
         if ticker_match or keyword_match:
-            display_ticker = sym[:12] if sym else "MACRO"
+            display = ", ".join(sorted(symbols & NEWS_TICKERS)) if symbols & NEWS_TICKERS else "MACRO"
+            # strip HTML tags from content for the snippet
+            content = item.get("content") or ""
+            import re
+            clean = re.sub(r"<[^>]+>", " ", content)
+            clean = re.sub(r"\s+", " ", clean).strip()[:180]
             out.append({
                 "title":     item.get("title", ""),
-                "ticker":    display_ticker,
-                "publisher": item.get("publisher") or item.get("site", ""),
-                "date":      (item.get("publishedDate") or item.get("date") or "")[:16],
-                "url":       item.get("url") or item.get("link", "#"),
-                "text":      (item.get("text") or item.get("content") or "")[:180],
+                "ticker":    display,
+                "publisher": item.get("site", "FMP"),
+                "date":      (item.get("date") or "")[:16],
+                "url":       item.get("link", "#"),
+                "text":      clean,
             })
         if len(out) >= 12:
             break
