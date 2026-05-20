@@ -15,67 +15,74 @@ import urllib.parse
 import time
 from pathlib import Path
 
-OUTPUT_FILE  = Path(__file__).parent / "index.html"
-FMP_API_KEY  = os.getenv("FMP_API_KEY", "")
+OUTPUT_FILE = Path(__file__).parent / "index.html"
+FMP_API_KEY = os.getenv("FMP_API_KEY", "")
 
 FUTURES = [
-    {"ticker": "NQ=F",  "name": "NASDAQ 100 Fut", "short": "NQ Fut"},
-    {"ticker": "ES=F",  "name": "S&P 500 Fut",    "short": "ES Fut"},
-    {"ticker": "YM=F",  "name": "Dow Jones Fut",  "short": "YM Fut"},
-    {"ticker": "RTY=F", "name": "Russell 2000",   "short": "RTY"},
-    {"ticker": "GC=F",  "name": "Gold",           "short": "Gold"},
-    {"ticker": "CL=F",  "name": "Crude Oil",      "short": "Oil"},
+    {"ticker": "NQ=F", "name": "NASDAQ 100 Fut", "short": "NQ Fut"},
+    {"ticker": "ES=F", "name": "S&P 500 Fut", "short": "ES Fut"},
+    {"ticker": "YM=F", "name": "Dow Jones Fut", "short": "YM Fut"},
+    {"ticker": "RTY=F", "name": "Russell 2000", "short": "RTY"},
+    {"ticker": "GC=F", "name": "Gold", "short": "Gold"},
+    {"ticker": "CL=F", "name": "Crude Oil", "short": "Oil"},
 ]
 
 # Tickers relevantes para noticias de NQ/SP
 NEWS_TICKERS = "NVDA,MSFT,AAPL,GOOGL,META,AMZN,TSLA,AMD,SPY,QQQ"
 
 INDICES = [
-    {"ticker": "^NDX",  "name": "NASDAQ 100", "short": "NQ"},
-    {"ticker": "^GSPC", "name": "S&P 500",    "short": "SPX"},
-    {"ticker": "^VIX",  "name": "VIX",        "short": "VIX"},
-    {"ticker": "QQQ",   "name": "QQQ ETF",    "short": "QQQ"},
-    {"ticker": "SPY",   "name": "SPY ETF",    "short": "SPY"},
+    {"ticker": "^NDX", "name": "NASDAQ 100", "short": "NQ"},
+    {"ticker": "^GSPC", "name": "S&P 500", "short": "SPX"},
+    {"ticker": "^VIX", "name": "VIX", "short": "VIX"},
+    {"ticker": "QQQ", "name": "QQQ ETF", "short": "QQQ"},
+    {"ticker": "SPY", "name": "SPY ETF", "short": "SPY"},
 ]
 
 STOCKS = [
-    {"ticker": "NVDA",  "name": "NVIDIA",        "sector": "AI/Semis"},
-    {"ticker": "GOOGL", "name": "Alphabet",      "sector": "Mega Cap"},
-    {"ticker": "MSFT",  "name": "Microsoft",     "sector": "Mega Cap"},
-    {"ticker": "AAPL",  "name": "Apple",         "sector": "Mega Cap"},
-    {"ticker": "META",  "name": "Meta",          "sector": "Mega Cap"},
-    {"ticker": "AMZN",  "name": "Amazon",        "sector": "Mega Cap"},
-    {"ticker": "TSLA",  "name": "Tesla",         "sector": "EV/Tech"},
-    {"ticker": "AMD",   "name": "AMD",           "sector": "AI/Semis"},
-    {"ticker": "PLTR",  "name": "Palantir",      "sector": "AI/Data"},
-    {"ticker": "MU",    "name": "Micron",        "sector": "Semis"},
-    {"ticker": "AVGO",  "name": "Broadcom",      "sector": "AI/Semis"},
-    {"ticker": "NFLX",  "name": "Netflix",       "sector": "Streaming"},
-    {"ticker": "SMCI",  "name": "Super Micro",   "sector": "AI Infra"},
-    {"ticker": "ARM",   "name": "Arm Holdings",  "sector": "AI/Semis"},
-    {"ticker": "MSTR",  "name": "MicroStrategy", "sector": "BTC Proxy"},
+    {"ticker": "NVDA", "name": "NVIDIA", "sector": "AI/Semis"},
+    {"ticker": "GOOGL", "name": "Alphabet", "sector": "Mega Cap"},
+    {"ticker": "MSFT", "name": "Microsoft", "sector": "Mega Cap"},
+    {"ticker": "AAPL", "name": "Apple", "sector": "Mega Cap"},
+    {"ticker": "META", "name": "Meta", "sector": "Mega Cap"},
+    {"ticker": "AMZN", "name": "Amazon", "sector": "Mega Cap"},
+    {"ticker": "TSLA", "name": "Tesla", "sector": "EV/Tech"},
+    {"ticker": "AMD", "name": "AMD", "sector": "AI/Semis"},
+    {"ticker": "PLTR", "name": "Palantir", "sector": "AI/Data"},
+    {"ticker": "MU", "name": "Micron", "sector": "Semis"},
+    {"ticker": "AVGO", "name": "Broadcom", "sector": "AI/Semis"},
+    {"ticker": "NFLX", "name": "Netflix", "sector": "Streaming"},
+    {"ticker": "SMCI", "name": "Super Micro", "sector": "AI Infra"},
+    {"ticker": "ARM", "name": "Arm Holdings", "sector": "AI/Semis"},
+    {"ticker": "MSTR", "name": "MicroStrategy", "sector": "BTC Proxy"},
 ]
 
 CRYPTO_IDS = [
-    {"id": "bitcoin",       "ticker": "BTC",  "name": "Bitcoin"},
-    {"id": "ethereum",      "ticker": "ETH",  "name": "Ethereum"},
-    {"id": "zcash",         "ticker": "ZEC",  "name": "Zcash"},
-    {"id": "solana",        "ticker": "SOL",  "name": "Solana"},
-    {"id": "ripple",        "ticker": "XRP",  "name": "XRP"},
-    {"id": "avalanche-2",   "ticker": "AVAX", "name": "Avalanche"},
-    {"id": "chainlink",     "ticker": "LINK", "name": "Chainlink"},
-    {"id": "arbitrum",      "ticker": "ARB",  "name": "Arbitrum"},
-    {"id": "matic-network", "ticker": "MATIC","name": "Polygon"},
-    {"id": "sui",           "ticker": "SUI",  "name": "Sui"},
-    {"id": "pepe",          "ticker": "PEPE", "name": "Pepe"},
-    {"id": "dogecoin",      "ticker": "DOGE", "name": "Dogecoin"},
+    {"id": "bitcoin", "ticker": "BTC", "name": "Bitcoin"},
+    {"id": "ethereum", "ticker": "ETH", "name": "Ethereum"},
+    {"id": "zcash", "ticker": "ZEC", "name": "Zcash"},
+    {"id": "solana", "ticker": "SOL", "name": "Solana"},
+    {"id": "ripple", "ticker": "XRP", "name": "XRP"},
+    {"id": "avalanche-2", "ticker": "AVAX", "name": "Avalanche"},
+    {"id": "chainlink", "ticker": "LINK", "name": "Chainlink"},
+    {"id": "arbitrum", "ticker": "ARB", "name": "Arbitrum"},
+    {"id": "matic-network", "ticker": "MATIC", "name": "Polygon"},
+    {"id": "sui", "ticker": "SUI", "name": "Sui"},
+    {"id": "pepe", "ticker": "PEPE", "name": "Pepe"},
+    {"id": "dogecoin", "ticker": "DOGE", "name": "Dogecoin"},
 ]
 
 SCALP_META = {
     "NVDA": {
         "vwap_note": "Respeta VWAP con fuerza. Pre-market gaps frecuentes en noticias de IA.",
-        "key_levels": ["Soporte psicologico en redondos ($100, $110, $120...)", "ATH como resistencia clave"],
-        "catalysts": ["Comentarios de hyperscalers", "Noticias de export controls", "Datos de chips"],
+        "key_levels": [
+            "Soporte psicologico en redondos ($100, $110, $120...)",
+            "ATH como resistencia clave",
+        ],
+        "catalysts": [
+            "Comentarios de hyperscalers",
+            "Noticias de export controls",
+            "Datos de chips",
+        ],
         "avg_range": "4-8% daily range en dias de noticias",
         "options_note": "Alta IV en earnings. Gamma squeeze frecuente.",
     },
@@ -88,21 +95,34 @@ SCALP_META = {
     },
     "MSFT": {
         "vwap_note": "El mas estable de los mega caps. Rebotes en VWAP muy limpios.",
-        "key_levels": ["200-day MA como soporte mayor", "Niveles de earnings anteriores"],
-        "catalysts": ["Azure cloud numbers", "Copilot adoption news", "OpenAI developments"],
+        "key_levels": [
+            "200-day MA como soporte mayor",
+            "Niveles de earnings anteriores",
+        ],
+        "catalysts": [
+            "Azure cloud numbers",
+            "Copilot adoption news",
+            "OpenAI developments",
+        ],
         "avg_range": "1.5-3% daily range",
         "options_note": "IV relativamente baja fuera de earnings. Bueno para spreads.",
     },
     "TSLA": {
         "vwap_note": "Alta volatilidad. Fakeouts frecuentes en VWAP. Confirmar con volumen.",
-        "key_levels": ["$200, $250, $300 niveles psicologicos fuertes", "Pre-market high/low criticos"],
+        "key_levels": [
+            "$200, $250, $300 niveles psicologicos fuertes",
+            "Pre-market high/low criticos",
+        ],
         "catalysts": ["Musk tweets/news", "Delivery numbers", "FSD news", "China data"],
         "avg_range": "4-10% daily range",
         "options_note": "IV cronicamente alta. Premium selling viable en rangos.",
     },
     "AMD": {
         "vwap_note": "Correlacion alta con NVDA. Suele seguir con rezago de 15-30min.",
-        "key_levels": ["Ratio AMD/NVDA como senal de rotacion", "$100 soporte psicologico"],
+        "key_levels": [
+            "Ratio AMD/NVDA como senal de rotacion",
+            "$100 soporte psicologico",
+        ],
         "catalysts": ["MI300X AI chip news", "Data center wins", "NVDA news"],
         "avg_range": "3-6% daily range",
         "options_note": "Buena liquidez en opciones. Spreads razonables.",
@@ -126,31 +146,31 @@ def yf_get(ticker: str) -> dict:
         with urllib.request.urlopen(req, timeout=10) as r:
             data = json.loads(r.read())
         result = data["chart"]["result"][0]
-        meta   = result["meta"]
+        meta = result["meta"]
         closes = result["indicators"]["quote"][0].get("close", [])
         closes = [c for c in closes if c is not None]
-        prev_close  = closes[-2] if len(closes) >= 2 else meta.get("previousClose", 0)
-        price       = meta.get("regularMarketPrice") or meta.get("chartPreviousClose", 0)
-        change_pct  = ((price - prev_close) / prev_close * 100) if prev_close else 0
-        volume      = meta.get("regularMarketVolume", 0)
-        day_high    = meta.get("regularMarketDayHigh", 0)
-        day_low     = meta.get("regularMarketDayLow",  0)
+        prev_close = closes[-2] if len(closes) >= 2 else meta.get("previousClose", 0)
+        price = meta.get("regularMarketPrice") or meta.get("chartPreviousClose", 0)
+        change_pct = ((price - prev_close) / prev_close * 100) if prev_close else 0
+        volume = meta.get("regularMarketVolume", 0)
+        day_high = meta.get("regularMarketDayHigh", 0)
+        day_low = meta.get("regularMarketDayLow", 0)
         week52_high = meta.get("fiftyTwoWeekHigh", 0)
-        week52_low  = meta.get("fiftyTwoWeekLow",  0)
-        pre_price   = meta.get("preMarketPrice")
-        pre_chg     = ((pre_price - price) / price * 100) if pre_price and price else None
+        week52_low = meta.get("fiftyTwoWeekLow", 0)
+        pre_price = meta.get("preMarketPrice")
+        pre_chg = ((pre_price - price) / price * 100) if pre_price and price else None
         return {
-            "price":       round(price, 2),
-            "change_pct":  round(change_pct, 2),
-            "prev_close":  round(prev_close, 2),
-            "volume":      volume,
-            "day_high":    round(day_high, 2),
-            "day_low":     round(day_low,  2),
+            "price": round(price, 2),
+            "change_pct": round(change_pct, 2),
+            "prev_close": round(prev_close, 2),
+            "volume": volume,
+            "day_high": round(day_high, 2),
+            "day_low": round(day_low, 2),
             "week52_high": round(week52_high, 2),
-            "week52_low":  round(week52_low,  2),
-            "pre_price":   round(pre_price, 2) if pre_price else None,
-            "pre_chg":     round(pre_chg, 2)   if pre_chg  else None,
-            "closes":      [round(c, 2) for c in closes[-5:]],
+            "week52_low": round(week52_low, 2),
+            "pre_price": round(pre_price, 2) if pre_price else None,
+            "pre_chg": round(pre_chg, 2) if pre_chg else None,
+            "closes": [round(c, 2) for c in closes[-5:]],
         }
     except Exception as e:
         print(f"  WARNING yfinance ({ticker}): {e}", file=sys.stderr)
@@ -159,9 +179,11 @@ def yf_get(ticker: str) -> dict:
 
 def cg_get_markets() -> list:
     ids = ",".join(c["id"] for c in CRYPTO_IDS)
-    url = (f"https://api.coingecko.com/api/v3/coins/markets"
-           f"?vs_currency=usd&ids={ids}&order=volume_desc"
-           f"&per_page=50&page=1&sparkline=true&price_change_percentage=1h,24h,7d")
+    url = (
+        f"https://api.coingecko.com/api/v3/coins/markets"
+        f"?vs_currency=usd&ids={ids}&order=volume_desc"
+        f"&per_page=50&page=1&sparkline=true&price_change_percentage=1h,24h,7d"
+    )
     headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json"}
     try:
         req = urllib.request.Request(url, headers=headers)
@@ -190,7 +212,7 @@ def fmp_get(endpoint: str, params: dict = {}) -> list:
         return []
     base = "https://financialmodelingprep.com/stable"
     params["apikey"] = FMP_API_KEY
-    qs  = urllib.parse.urlencode(params)
+    qs = urllib.parse.urlencode(params)
     url = f"{base}/{endpoint}?{qs}"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -215,43 +237,74 @@ def fetch_futures() -> list:
 
 def fetch_news() -> list:
     """Fetch market-moving news for NQ/SP watchlist from FMP."""
-    data = fmp_get("news/stock-latest", {"limit": 30})
+    data = fmp_get("news/stock-latest", {"limit": 50})
+    if not isinstance(data, list):
+        # try general news as fallback
+        data = fmp_get("news/general-latest", {"limit": 30})
     if not isinstance(data, list):
         return []
-    # Filter only tickers relevant to NQ/SP
     relevant = set(NEWS_TICKERS.split(","))
+    keywords = [
+        "nasdaq",
+        "s&p",
+        "fed",
+        "rate",
+        "inflation",
+        "gdp",
+        "jobs",
+        "earnings",
+        "nvda",
+        "nvidia",
+        "microsoft",
+        "apple",
+        "google",
+        "meta",
+        "amazon",
+        "tesla",
+        "amd",
+    ]
     out = []
     for item in data:
-        sym = (item.get("symbol") or "").upper()
-        if sym in relevant:
-            out.append({
-                "title":     item.get("title", ""),
-                "ticker":    sym,
-                "publisher": item.get("publisher") or item.get("site", ""),
-                "date":      (item.get("publishedDate") or "")[:16],
-                "url":       item.get("url", ""),
-                "text":      (item.get("text") or "")[:180],
-            })
+        sym = (item.get("symbol") or item.get("tickers") or "").upper()
+        title = (item.get("title") or "").lower()
+        # include if ticker matches OR title contains relevant keyword
+        ticker_match = any(t in sym for t in relevant)
+        keyword_match = any(k in title for k in keywords)
+        if ticker_match or keyword_match:
+            out.append(
+                {
+                    "title": item.get("title", ""),
+                    "ticker": sym[:10] if sym else "MACRO",
+                    "publisher": item.get("publisher") or item.get("site", ""),
+                    "date": (item.get("publishedDate") or item.get("date") or "")[:16],
+                    "url": item.get("url") or item.get("link", "#"),
+                    "text": (item.get("text") or item.get("content") or "")[:180],
+                }
+            )
         if len(out) >= 12:
             break
     return out
 
-
-
-    if not n: return "-"
-    if n >= 1e9: return f"{n/1e9:.1f}B"
-    if n >= 1e6: return f"{n/1e6:.1f}M"
-    if n >= 1e3: return f"{n/1e3:.0f}K"
+    if not n:
+        return "-"
+    if n >= 1e9:
+        return f"{n/1e9:.1f}B"
+    if n >= 1e6:
+        return f"{n/1e6:.1f}M"
+    if n >= 1e3:
+        return f"{n/1e3:.0f}K"
     return str(n)
 
 
 def chg_class(v):
-    if v is None: return "neutral"
+    if v is None:
+        return "neutral"
     return "up" if v > 0 else ("down" if v < 0 else "neutral")
 
 
 def chg_str(v, decimals=2):
-    if v is None: return "-"
+    if v is None:
+        return "-"
     sign = "+" if v > 0 else ""
     return f"{sign}{v:.{decimals}f}%"
 
@@ -267,28 +320,65 @@ def sparkline_svg(closes: list, width=80, height=28) -> str:
         y = height - (c - mn) / rng * height
         pts.append(f"{x:.1f},{y:.1f}")
     color = "#00d4aa" if closes[-1] >= closes[0] else "#ff4757"
-    return (f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}">'
-            f'<polyline points="{" ".join(pts)}" fill="none" stroke="{color}" '
-            f'stroke-width="1.5" stroke-linejoin="round"/></svg>')
+    return (
+        f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}">'
+        f'<polyline points="{" ".join(pts)}" fill="none" stroke="{color}" '
+        f'stroke-width="1.5" stroke-linejoin="round"/></svg>'
+    )
 
 
 def mini_bar(pct, max_pct=5.0) -> str:
     capped = max(min(abs(pct or 0), max_pct), 0)
     w = capped / max_pct * 100
     color = "#00d4aa" if (pct or 0) >= 0 else "#ff4757"
-    return (f'<div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px">'
-            f'<div style="height:3px;border-radius:2px;width:{w:.0f}%;background:{color}"></div></div>')
+    return (
+        f'<div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px">'
+        f'<div style="height:3px;border-radius:2px;width:{w:.0f}%;background:{color}"></div></div>'
+    )
 
 
 def range_bar(price, low, high) -> str:
     if not all([price, low, high]) or high == low:
         return ""
     pct = max(0, min(100, (price - low) / (high - low) * 100))
-    return (f'<div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0">'
-            f'<div style="position:absolute;top:-2px;left:{pct:.0f}%;width:8px;height:8px;'
-            f'border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div>'
-            f'<div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280">'
-            f'<span>${low:,.2f}</span><span>${high:,.2f}</span></div>')
+    return (
+        f'<div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0">'
+        f'<div style="position:absolute;top:-2px;left:{pct:.0f}%;width:8px;height:8px;'
+        f'border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div>'
+        f'<div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280">'
+        f"<span>${low:,.2f}</span><span>${high:,.2f}</span></div>"
+    )
+
+
+def build_indices_html(indices_data: list) -> str:
+    cards = []
+    for item in indices_data:
+        d = item["data"]
+        if not d:
+            continue
+        chg = d.get("change_pct", 0)
+        cc = chg_class(chg)
+        pre = d.get("pre_chg")
+        pre_html = ""
+        if pre is not None:
+            pre_html = (
+                f'<span class="pre-badge {chg_class(pre)}">PRE {chg_str(pre)}</span>'
+            )
+        spark = sparkline_svg(d.get("closes", []))
+        cards.append(f"""
+        <div class="index-card {cc}-border">
+          <div class="index-top">
+            <div>
+              <div class="index-name">{item['short']}</div>
+              <div class="index-fullname">{item['name']}</div>
+            </div>
+            <div class="index-right">{spark}{pre_html}</div>
+          </div>
+          <div class="index-price">{d['price']:,.2f}</div>
+          <div class="index-chg {cc}">{chg_str(chg)}</div>
+          {mini_bar(chg)}
+        </div>""")
+    return "\n".join(cards)
 
 
 def build_futures_html(futures_data: list) -> str:
@@ -299,13 +389,15 @@ def build_futures_html(futures_data: list) -> str:
         d = item["data"]
         if not d:
             continue
-        chg   = d.get("change_pct", 0)
-        cc    = chg_class(chg)
+        chg = d.get("change_pct", 0)
+        cc = chg_class(chg)
         price = d.get("price", 0)
-        pre   = d.get("pre_chg")
+        pre = d.get("pre_chg")
         pre_html = ""
         if pre is not None:
-            pre_html = f'<span class="pre-badge {chg_class(pre)}">PRE {chg_str(pre)}</span>'
+            pre_html = (
+                f'<span class="pre-badge {chg_class(pre)}">PRE {chg_str(pre)}</span>'
+            )
         spark = sparkline_svg(d.get("closes", []))
         # color border based on direction
         border_cc = "up-border" if chg > 0 else ("down-border" if chg < 0 else "")
@@ -331,15 +423,22 @@ def build_news_html(news: list) -> str:
 
     # badge color per ticker
     colors = {
-        "NVDA":"#00d4aa","AMD":"#00d4aa","MSFT":"#3b82f6","AAPL":"#3b82f6",
-        "GOOGL":"#3b82f6","META":"#ffa502","AMZN":"#ffa502","TSLA":"#ff4757",
-        "SPY":"#6b7280","QQQ":"#6b7280",
+        "NVDA": "#00d4aa",
+        "AMD": "#00d4aa",
+        "MSFT": "#3b82f6",
+        "AAPL": "#3b82f6",
+        "GOOGL": "#3b82f6",
+        "META": "#ffa502",
+        "AMZN": "#ffa502",
+        "TSLA": "#ff4757",
+        "SPY": "#6b7280",
+        "QQQ": "#6b7280",
     }
     rows = []
     for n in news:
-        col   = colors.get(n["ticker"], "#6b7280")
+        col = colors.get(n["ticker"], "#6b7280")
         badge = f'<span style="font-size:10px;padding:1px 7px;border-radius:4px;background:{col}22;color:{col};font-family:monospace;font-weight:600">{n["ticker"]}</span>'
-        url   = n.get("url","#")
+        url = n.get("url", "#")
         rows.append(f"""
         <div class="news-row">
           <div class="news-meta">{badge} <span class="news-pub">{n['publisher']}</span> <span class="news-date">{n['date']}</span></div>
@@ -348,19 +447,19 @@ def build_news_html(news: list) -> str:
         </div>""")
     return "\n".join(rows)
 
-
-
     cards = []
     for item in indices_data:
         d = item["data"]
         if not d:
             continue
-        chg  = d.get("change_pct", 0)
-        cc   = chg_class(chg)
-        pre  = d.get("pre_chg")
+        chg = d.get("change_pct", 0)
+        cc = chg_class(chg)
+        pre = d.get("pre_chg")
         pre_html = ""
         if pre is not None:
-            pre_html = f'<span class="pre-badge {chg_class(pre)}">PRE {chg_str(pre, 2)}</span>'
+            pre_html = (
+                f'<span class="pre-badge {chg_class(pre)}">PRE {chg_str(pre, 2)}</span>'
+            )
         spark = sparkline_svg(d.get("closes", []))
         cards.append(f"""
         <div class="index-card {cc}-border">
@@ -381,24 +480,36 @@ def build_news_html(news: list) -> str:
 def build_stocks_html(stocks_data: list) -> str:
     rows = []
     for item in stocks_data:
-        d    = item["data"]
+        d = item["data"]
         meta = SCALP_META.get(item["ticker"], DEFAULT_SCALP)
         if not d:
-            rows.append(f'<tr><td>{item["ticker"]}</td><td colspan="8" style="color:#6b7280">No data</td></tr>')
+            rows.append(
+                f'<tr><td>{item["ticker"]}</td><td colspan="8" style="color:#6b7280">No data</td></tr>'
+            )
             continue
-        chg   = d.get("change_pct", 0)
-        cc    = chg_class(chg)
-        pre   = d.get("pre_chg")
-        pre_html = f'<span class="{chg_class(pre)}" style="font-size:10px;font-family:monospace">{chg_str(pre)}</span>' if pre is not None else '<span style="color:#6b7280;font-size:10px">-</span>'
+        chg = d.get("change_pct", 0)
+        cc = chg_class(chg)
+        pre = d.get("pre_chg")
+        pre_html = (
+            f'<span class="{chg_class(pre)}" style="font-size:10px;font-family:monospace">{chg_str(pre)}</span>'
+            if pre is not None
+            else '<span style="color:#6b7280;font-size:10px">-</span>'
+        )
         spark = sparkline_svg(d.get("closes", []), 60, 22)
         price = d.get("price", 0)
-        w52h  = d.get("week52_high", 0)
-        w52l  = d.get("week52_low",  0)
-        w52_pct = ((price - w52l) / (w52h - w52l) * 100) if w52h and w52l and w52h != w52l else 0
-        w52_bar = (f'<div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle">'
-                   f'<div style="width:{w52_pct:.0f}%;height:3px;background:#ffa502;border-radius:2px"></div></div>')
+        w52h = d.get("week52_high", 0)
+        w52l = d.get("week52_low", 0)
+        w52_pct = (
+            ((price - w52l) / (w52h - w52l) * 100)
+            if w52h and w52l and w52h != w52l
+            else 0
+        )
+        w52_bar = (
+            f'<div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle">'
+            f'<div style="width:{w52_pct:.0f}%;height:3px;background:#ffa502;border-radius:2px"></div></div>'
+        )
         watch_li = "".join(f"<li>{w}</li>" for w in meta["key_levels"])
-        cat_li   = "".join(f"<li>{c}</li>" for c in meta["catalysts"])
+        cat_li = "".join(f"<li>{c}</li>" for c in meta["catalysts"])
         expanded = f"""
         <tr class="stock-expanded" id="exp-{item['ticker']}" style="display:none">
           <td colspan="9" style="padding:0 12px 12px 48px">
@@ -445,12 +556,12 @@ def build_stocks_html(stocks_data: list) -> str:
 
 def build_crypto_html(crypto_data: list, global_data: dict) -> str:
     total_mcap = global_data.get("total_market_cap", {}).get("usd") or 0
-    btc_dom    = global_data.get("market_cap_percentage", {}).get("btc") or 0
-    eth_dom    = global_data.get("market_cap_percentage", {}).get("eth") or 0
-    total_vol  = global_data.get("total_volume", {}).get("usd") or 0
+    btc_dom = global_data.get("market_cap_percentage", {}).get("btc") or 0
+    eth_dom = global_data.get("market_cap_percentage", {}).get("eth") or 0
+    total_vol = global_data.get("total_volume", {}).get("usd") or 0
 
     mcap_g = f"${total_mcap/1e12:.2f}T" if total_mcap else "-"
-    vol_g  = f"${total_vol/1e9:.0f}B"   if total_vol  else "-"
+    vol_g = f"${total_vol/1e9:.0f}B" if total_vol else "-"
 
     global_bar = f"""
     <div class="crypto-global">
@@ -468,12 +579,12 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
         if not d:
             continue
 
-        price   = d.get("current_price") or 0
-        chg_1h  = d.get("price_change_percentage_1h_in_currency") or 0
+        price = d.get("current_price") or 0
+        chg_1h = d.get("price_change_percentage_1h_in_currency") or 0
         chg_24h = d.get("price_change_percentage_24h_in_currency") or 0
-        chg_7d  = d.get("price_change_percentage_7d_in_currency") or 0
-        volume  = d.get("total_volume") or 0
-        mcap    = d.get("market_cap") or 0
+        chg_7d = d.get("price_change_percentage_7d_in_currency") or 0
+        volume = d.get("total_volume") or 0
+        mcap = d.get("market_cap") or 0
         ath_pct = d.get("ath_change_percentage") or 0
 
         spark_prices = d.get("sparkline_in_7d", {}).get("price", [])
@@ -491,9 +602,9 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
         else:
             price_str = f"${price:.6f}"
 
-        vol_str  = f"${volume/1e6:.0f}M" if volume else "-"
-        mcap_str = f"${mcap/1e9:.1f}B"   if mcap   else "-"
-        ath_str  = f"{ath_pct:.0f}%"      if ath_pct else "-"
+        vol_str = f"${volume/1e6:.0f}M" if volume else "-"
+        mcap_str = f"${mcap/1e9:.1f}B" if mcap else "-"
+        ath_str = f"{ath_pct:.0f}%" if ath_pct else "-"
         logo_url = d.get("image", "")
 
         cards.append(f"""
@@ -536,15 +647,17 @@ def build_crypto_html(crypto_data: list, global_data: dict) -> str:
 
 def build_macro_html() -> str:
     week_events = [
-        {"day": "Lunes",      "event": "PMI Manufacturing Flash",     "impact": "medium"},
-        {"day": "Martes",     "event": "Consumer Confidence (CB)",    "impact": "high"},
-        {"day": "Miercoles",  "event": "ADP Employment / Fed Minutes","impact": "high"},
-        {"day": "Jueves",     "event": "Jobless Claims / GDP",        "impact": "high"},
-        {"day": "Viernes",    "event": "NFP / CPI / PCE",             "impact": "critical"},
+        {"day": "Lunes", "event": "PMI Manufacturing Flash", "impact": "medium"},
+        {"day": "Martes", "event": "Consumer Confidence (CB)", "impact": "high"},
+        {"day": "Miercoles", "event": "ADP Employment / Fed Minutes", "impact": "high"},
+        {"day": "Jueves", "event": "Jobless Claims / GDP", "impact": "high"},
+        {"day": "Viernes", "event": "NFP / CPI / PCE", "impact": "critical"},
     ]
     rows = ""
     for e in week_events:
-        ic = {"critical": "red", "high": "amber", "medium": "neutral"}.get(e["impact"], "neutral")
+        ic = {"critical": "red", "high": "amber", "medium": "neutral"}.get(
+            e["impact"], "neutral"
+        )
         rows += f"""
         <div class="macro-row">
           <span class="macro-day">{e['day']}</span>
@@ -574,13 +687,15 @@ def build_macro_html() -> str:
     </div>"""
 
 
-def build_html(indices_data, stocks_data, crypto_html, macro_html, futures_data=None, news=None) -> str:
-    now          = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    today        = datetime.date.today()
+def build_html(
+    indices_data, stocks_data, crypto_html, macro_html, futures_data=None, news=None
+) -> str:
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    today = datetime.date.today()
     indices_html = build_indices_html(indices_data)
-    stocks_html  = build_stocks_html(stocks_data)
+    stocks_html = build_stocks_html(stocks_data)
     futures_html = build_futures_html(futures_data or [])
-    news_html    = build_news_html(news or [])
+    news_html = build_news_html(news or [])
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -780,7 +895,7 @@ def main():
         time.sleep(0.3)
 
     print("\nFetching crypto...")
-    crypto_raw  = cg_get_markets()
+    crypto_raw = cg_get_markets()
     global_data = cg_global()
     print(f"  Got {len(crypto_raw)} coins")
 
@@ -789,10 +904,12 @@ def main():
     print(f"  Got {len(news)} relevant news items")
 
     crypto_html = build_crypto_html(crypto_raw, global_data)
-    macro_html  = build_macro_html()
+    macro_html = build_macro_html()
 
     print("\nGenerating HTML...")
-    html = build_html(indices_data, stocks_data, crypto_html, macro_html, futures_data, news)
+    html = build_html(
+        indices_data, stocks_data, crypto_html, macro_html, futures_data, news
+    )
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(html, encoding="utf-8")
