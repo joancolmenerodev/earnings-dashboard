@@ -128,7 +128,7 @@ td{padding:10px 12px;vertical-align:middle}
 <div class="header">
   <div>
     <h1><span class="live-dot"></span>Day Trading Dashboard</h1>
-    <p>NASDAQ · S&P 500 · Futuros · Crypto · Noticias — 2026-11-20 02:29 UTC</p>
+    <p>NASDAQ · S&P 500 · Futuros · Crypto · Noticias — 2026-11-20 20:51 UTC</p>
   </div>
 </div>
 <div class="tabs">
@@ -144,28 +144,211 @@ td{padding:10px 12px;vertical-align:middle}
 <div class="signal-card">
   <div class="signal-top">
     <div class="signal-main-block">
-      <div class="signal-emoji">→</div>
+      <div class="signal-emoji">▼▼</div>
       <div>
-        <div class="signal-label-big" style="color:#6b7280">NEUTRAL</div>
-        <div class="signal-score-text">Puntuacion: <span style="color:#6b7280;font-weight:700">+0</span></div>
+        <div class="signal-label-big" style="color:#ff4757">VENTA FUERTE</div>
+        <div class="signal-score-text">Puntuacion: <span style="color:#ff4757;font-weight:700">-5</span></div>
       </div>
     </div>
     <div class="risk-block">
-      <div class="risk-label" style="color:#ff6b35">RIESGO ELEVADO</div>
-      <div class="risk-vix">VIX <span style="color:#ff6b35;font-weight:700">20.0</span> <span style="font-size:10px;color:#6b7280">(+0.0% — estable)</span></div>
+      <div class="risk-label" style="color:#ff4757">RIESGO EXTREMO</div>
+      <div class="risk-vix">VIX <span style="color:#ff4757;font-weight:700">37.7</span> <span style="font-size:10px;color:#6b7280">(+32.6% — subiendo)</span></div>
     </div>
   </div>
-  <div class="signal-factors-grid"><div class="sig-factor"><span style="color:#ff4757;font-weight:700;min-width:14px">✗</span><span>VIX 20.0 (+0.0%) — volatilidad elevada, precaución</span></div><div class="sig-factor"><span style="color:#6b7280;font-weight:700;min-width:14px">≈</span><span>Futuros planos — NQ +0.00% · ES +0.00%</span></div><div class="sig-factor"><span style="color:#00d4aa;font-weight:700;min-width:14px">✓</span><span>Noticias alcistas — 7 positivas / 2 negativas</span></div></div>
+  <div class="signal-factors-grid"><div class="sig-factor"><span style="color:#ff4757;font-weight:700;min-width:14px">✗</span><span>VIX 37.7 (+32.6%) — miedo en el mercado</span></div><div class="sig-factor"><span style="color:#ff4757;font-weight:700;min-width:14px">✗</span><span>Futuros bajistas — NQ -5.41% · ES -3.57%</span></div><div class="sig-factor"><span style="color:#ff4757;font-weight:700;min-width:14px">✗</span><span>Amplitud negativa — 0/4 índices al alza</span></div><div class="sig-factor"><span style="color:#6b7280;font-weight:700;min-width:14px">≈</span><span>Noticias mixtas — 6 positivas / 1 negativas</span></div></div>
   <div class="signal-setup">
-    <span style="color:#ffa502;font-weight:600;margin-right:6px">Setup:</span>Riesgo elevado sin dirección. Mejor no operar.
+    <span style="color:#ffa502;font-weight:600;margin-right:6px">Setup:</span>Pánico en el mercado. NO OPERAR. Si operas, micro-size en shorts y salida rápida.
   </div>
 </div>
   <div class="section-title">Indices y ETFs</div>
-  <div class="indices-grid"></div>
+  <div class="indices-grid">
+        <div class="index-card down-border">
+          <div class="index-top">
+            <div>
+              <div class="index-name">NQ</div>
+              <div class="index-fullname">NASDAQ 100</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,2.7 40.0,1.1 60.0,9.3 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">25,152.71</div>
+          <div class="index-chg down">-5.15%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card down-border">
+          <div class="index-top">
+            <div>
+              <div class="index-name">SPX</div>
+              <div class="index-fullname">S&P 500</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,4.4 40.0,5.4 60.0,14.0 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">6,936.65</div>
+          <div class="index-chg down">-3.33%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:67%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card up-border">
+          <div class="index-top">
+            <div>
+              <div class="index-name">VIX</div>
+              <div class="index-fullname">VIX</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,28.0 20.0,23.2 40.0,24.9 60.0,17.5 80.0,0.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">37.71</div>
+          <div class="index-chg up">+32.59%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#00d4aa"></div></div>
+        </div>
+
+        <div class="index-card down-border">
+          <div class="index-top">
+            <div>
+              <div class="index-name">QQQ</div>
+              <div class="index-fullname">QQQ ETF</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,2.7 40.0,1.3 60.0,9.4 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">611.98</div>
+          <div class="index-chg down">-5.13%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card down-border">
+          <div class="index-top">
+            <div>
+              <div class="index-name">SPY</div>
+              <div class="index-fullname">SPY ETF</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,4.4 40.0,5.7 60.0,14.1 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">692.28</div>
+          <div class="index-chg down">-3.30%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:66%;background:#ff4757"></div></div>
+        </div></div>
   <div class="section-title" style="margin-top:0.5rem">Futuros — NQ · ES · YM · RTY · Gold · Oil</div>
-  <div class="indices-grid"></div>
+  <div class="indices-grid">
+        <div class="index-card down-border" style="border-top:2px solid #ff4757">
+          <div class="index-top">
+            <div>
+              <div class="index-name">NQ Fut</div>
+              <div class="index-fullname">NASDAQ 100 Fut</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,2.8 40.0,1.3 60.0,9.0 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">25,161.50</div>
+          <div class="index-chg down">-5.41%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card down-border" style="border-top:2px solid #ff4757">
+          <div class="index-top">
+            <div>
+              <div class="index-name">ES Fut</div>
+              <div class="index-fullname">S&P 500 Fut</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,4.5 40.0,5.5 60.0,13.6 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">6,940.50</div>
+          <div class="index-chg down">-3.57%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:71%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card down-border" style="border-top:2px solid #ff4757">
+          <div class="index-top">
+            <div>
+              <div class="index-name">YM Fut</div>
+              <div class="index-fullname">Dow Jones Fut</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,7.1 40.0,11.6 60.0,20.7 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">48,296.00</div>
+          <div class="index-chg down">-1.80%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:36%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card down-border" style="border-top:2px solid #ff4757">
+          <div class="index-top">
+            <div>
+              <div class="index-name">RTY</div>
+              <div class="index-fullname">Russell 2000</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 20.0,7.1 40.0,5.2 60.0,15.5 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">2,592.20</div>
+          <div class="index-chg down">-2.67%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:53%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card down-border" style="border-top:2px solid #ff4757">
+          <div class="index-top">
+            <div>
+              <div class="index-name">Gold</div>
+              <div class="index-fullname">Gold</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.9 20.0,0.0 40.0,9.8 60.0,14.4 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">3,515.60</div>
+          <div class="index-chg down">-4.61%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:92%;background:#ff4757"></div></div>
+        </div>
+
+        <div class="index-card up-border" style="border-top:2px solid #00d4aa">
+          <div class="index-top">
+            <div>
+              <div class="index-name">Oil</div>
+              <div class="index-fullname">Crude Oil</div>
+            </div>
+            <div class="index-right"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,2.9 20.0,0.0 40.0,27.5 60.0,28.0 80.0,23.5" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="index-price">83.66</div>
+          <div class="index-chg up">+0.54%</div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:11%;background:#00d4aa"></div></div>
+        </div></div>
   <div class="section-title" style="margin-top:0.5rem">Noticias relevantes NQ / S&P 500</div>
   <div class="news-list">
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 18:00</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/the-buckle-inc-exceeds-third-quarter-earnings-estimates" target="_blank">The Buckle, Inc. (NYSE: BKE) Exceeds Third-Quarter Earnings Estimates</a>
+          <p class="news-text">The Buckle, Inc. (NYSE: BKE) reported third-quarter earnings of $0.94 per diluted share , surpassing the $0.875 estimate . Revenue for the quarter reached $329.2 million , matching analyst expectation</p>
+        </div>
+
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 16:00</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/bitfufu-nasdaq-fufu-reports-q3-2026-earnings-eps-beats-estimates-revenue-falls-short" target="_blank">BitFuFu (NASDAQ:FUFU) Reports Q3 2026 Earnings: EPS Beats Estimates, Revenue Falls Short</a>
+          <p class="news-text">BitFuFu (NASDAQ:FUFU) reported third-quarter 2026 earnings per share of $0.14 , significantly above the $0.03 estimate. Revenue of $37.7 million fell short of the $42.7 million estimate and declined y</p>
+        </div>
+
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 14:04</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/moog-inc-exceeds-earnings-estimates-strong-fiscal-2027-guidance" target="_blank">Moog Inc. (NYSE: MOG-A) Exceeds Earnings Estimates and Provides Strong Fiscal 2027 Guidance</a>
+          <p class="news-text">Moog Inc. (NYSE: MOG-A) reported earnings per share of $3.37 , significantly above the $2.68 estimate. The company's revenue reached $1.25 billion , surpassing the $1.13 billion estimate. Moog Inc. is</p>
+        </div>
+
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 13:00</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/danaos-corporation-nyse-dac-q3-2026-earnings-preview" target="_blank">Danaos Corporation (NYSE: DAC) Q3 2026 Earnings Preview</a>
+          <p class="news-text">Danaos Corporation (NYSE: DAC) is expected to report Q3 2026 earnings of $7.71 per share. Revenue is estimated at $279.2 million for the quarter ending September 30, 2026. The company's trailing price</p>
+        </div>
+
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(0,212,170,0.1);color:#00d4aa;font-family:monospace;font-weight:700">▲ BULLISH</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 12:02</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/bjs-wholesale-club-holdings-nyse-bj-reports-strong-q3-earnings-and-revenue-beat" target="_blank">BJ’s Wholesale Club Holdings (NYSE: BJ) Reports Strong Q3 Earnings and Revenue Beat</a>
+          <p class="news-text">BJ’s Wholesale Club Holdings (NYSE: BJ) reported earnings per share of $1.73 , significantly exceeding the $1.26 estimate. Revenue reached $6.28 billion , surpassing the $5.97 billion estimate. The st</p>
+        </div>
+
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(0,212,170,0.1);color:#00d4aa;font-family:monospace;font-weight:700">▲ BULLISH</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 11:00</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/ubs-reiterates-buy-rating-on-jones-lang-lasalle-amid-record-revenue" target="_blank">UBS Reiterates Buy Rating on Jones Lang LaSalle (NYSE: JLL) Amid Record Revenue and Share Repurchase Plan</a>
+          <p class="news-text">UBS reiterated its Buy rating on Jones Lang LaSalle. Jones Lang LaSalle reported record third-quarter 2026 revenue and expanding profit margins. The company plans a $500 million accelerated share repu</p>
+        </div>
+
+        <div class="news-row">
+          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-20 07:00</span></div>
+          <a class="news-title" href="https://financialmodelingprep.com/market-news/matthews-international-corporation-exceeds-q4-2026-earnings-revenue-estimates" target="_blank">Matthews International Corporation (NASDAQ: MATW) Exceeds Q4 2026 Earnings and Revenue Estimates</a>
+          <p class="news-text">Matthews International Corporation (NASDAQ: MATW) reported adjusted earnings of $0.39 per share , significantly beating the Zacks Consensus Estimate of $0.27 . The company's revenue reached $256.70 mi</p>
+        </div>
+
         <div class="news-row">
           <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-19 23:14</span></div>
           <a class="news-title" href="https://financialmodelingprep.com/market-news/ubs-reiterates-buy-rating-on-the-tjx-companies-inc-after-strong-q3-earnings" target="_blank">UBS Reiterates Buy Rating on The TJX Companies, Inc. (NYSE: TJX) After Strong Q3 Earnings</a>
@@ -194,48 +377,6 @@ td{padding:10px 12px;vertical-align:middle}
           <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-19 05:00</span></div>
           <a class="news-title" href="https://financialmodelingprep.com/market-news/walmart-nasdaq-wmt-earnings-preview-and-stock-analysis" target="_blank">Walmart (NASDAQ: WMT) Earnings Preview and Stock Analysis</a>
           <p class="news-text">Analysts project Walmart to report earnings of $0.64 per share and revenue of $187.4 billion for the upcoming quarter. Walmart's stock has shown mixed reactions to recent earnings reports, with a 6.5%</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 22:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/alpha-tau-medical-drts-prepares-for-earnings-amid-positive-clinical-trial-results" target="_blank">Alpha Tau Medical (NASDAQ: DRTS) Prepares for Earnings Amid Positive Clinical Trial Results</a>
-          <p class="news-text">Alpha Tau Medical (NASDAQ: DRTS) is set to report earnings on November 19, 2026, with estimated earnings of -$0.15 per share and revenue of $125,000 . Positive clinical results from the U.S. REGAIN tr</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 21:00</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/williams-sonoma-inc-nyse-wsm-q3-earnings-preview-and-analyst-coverage" target="_blank">Williams-Sonoma, Inc. (NYSE: WSM) Q3 Earnings Preview and Analyst Coverage</a>
-          <p class="news-text">Williams-Sonoma, Inc. (NYSE: WSM) is set to report Q3 earnings with estimates around $2.18 per share and $1.998 billion in revenue. Stifel analyst Michael Montani initiated coverage of Williams-Sonoma</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(0,212,170,0.1);color:#00d4aa;font-family:monospace;font-weight:700">▲ BULLISH</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 19:04</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/td-cowen-reiterates-buy-rating-on-gilead-sciences-nasdaq-gild" target="_blank">TD Cowen Reiterates Buy Rating on Gilead Sciences (NASDAQ: GILD)</a>
-          <p class="news-text">TD Cowen reiterated its Buy rating on Gilead Sciences. Gilead expects HIV and oncology treatments to drive growth, reporting its strongest growth in over a decade in the third quarter. The company is </p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(0,212,170,0.1);color:#00d4aa;font-family:monospace;font-weight:700">▲ BULLISH</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 17:03</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/zim-integrated-shipping-services-ltd-nyse-zim-reports-strong-q3-2026-earnings-beat-and-raises-full-year-guidance" target="_blank">ZIM Integrated Shipping Services Ltd. (NYSE: ZIM) Reports Strong Q3 2026 Earnings Beat and Raises Full-Year Guidance</a>
-          <p class="news-text">ZIM Integrated Shipping Services Ltd. (NYSE: ZIM) reported Q3 2026 earnings of $6.88 per share , significantly exceeding the $5.12 estimate. Revenue for Q3 2026 reached $2.71 billion , surpassing the </p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 13:04</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/lowes-nyse-low-exceeds-earnings-estimates-and-raises-full-year-outlook" target="_blank">Lowe's (NYSE: LOW) Exceeds Earnings Estimates and Raises Full-Year Outlook</a>
-          <p class="news-text">Lowe's (NYSE: LOW) reported adjusted earnings per share of $3.10 , beating estimates of $2.88 . Revenue reached $22.80 billion , surpassing the $22.40 billion estimate, with comparable sales up 1.8% .</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#3b82f622;color:#3b82f6;font-family:monospace;font-weight:600">MSFT</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(107,114,128,0.08);color:#6b7280;font-family:monospace;font-weight:700">— NEUTRAL</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 12:13</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/microsoft-stock-falls-amid-outages-oppenheimer-reiterates-outperform" target="_blank">Microsoft (NASDAQ: MSFT) Stock Falls Amid Outages, Oppenheimer Reiterates Outperform</a>
-          <p class="news-text">Oppenheimer reiterated its Outperform rating on Microsoft (NASDAQ: MSFT) when shares were at $506.24. Microsoft presented Copilot as a lower-cost option than OpenAI’s ChatGPT and Anthropic’s Claude. M</p>
-        </div>
-
-        <div class="news-row">
-          <div class="news-meta"><span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#6b728022;color:#6b7280;font-family:monospace;font-weight:600">MACRO</span><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(0,212,170,0.1);color:#00d4aa;font-family:monospace;font-weight:700">▲ BULLISH</span><span class="news-pub">Financial Modeling Prep</span><span class="news-date">2026-11-18 12:06</span></div>
-          <a class="news-title" href="https://financialmodelingprep.com/market-news/target-corporation-reports-strong-earnings-and-sales-growth" target="_blank">Target Corporation (NYSE: TGT) Reports Strong Earnings and Sales Growth</a>
-          <p class="news-text">Target Corporation (NYSE: TGT) surpassed analyst estimates for both earnings per share and revenue. The retailer achieved its strongest quarterly sales growth in approximately five years, driven by st</p>
         </div></div>
 </div>
 
@@ -247,21 +388,621 @@ td{padding:10px 12px;vertical-align:middle}
         <th>Empresa</th><th>Sector</th><th>Precio</th><th>Cambio</th>
         <th>Pre-mkt</th><th>Volumen</th><th>Day range</th><th>52w pos</th><th>5d chart</th><th>Senal</th>
       </tr></thead>
-      <tbody><tr><td>NVDA</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>GOOGL</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>MSFT</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>AAPL</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>META</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>AMZN</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>TSLA</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>AMD</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>PLTR</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>MU</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>AVGO</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>NFLX</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>SMCI</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>ARM</td><td colspan="9" style="color:#6b7280">No data</td></tr>
-<tr><td>MSTR</td><td colspan="9" style="color:#6b7280">No data</td></tr></tbody>
+      <tbody>
+        <tr class="stock-row" onclick="toggleRow('NVDA')" data-ticker="NVDA">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/nvda.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">NVDA</div>
+                <div style="font-size:11px;color:#6b7280">NVIDIA</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">AI/Semis</span></td>
+          <td class="price-cell" style="font-family:monospace">$127.25</td>
+          <td class="down" style="font-family:monospace">-12.83%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">511.0M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:5%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$126.30</span><span>$143.72</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:1%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,0.5 30.0,3.9 45.0,7.7 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -12.8%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-NVDA" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Soporte psicologico en redondos ($100, $110, $120...)</li><li>ATH como resistencia clave</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Respeta VWAP con fuerza. Pre-market gaps frecuentes en noticias de IA.</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Comentarios de hyperscalers</li><li>Noticias de export controls</li><li>Datos de chips</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">4-8% daily range en dias de noticias</p>
+                <p class="exp-note">Alta IV en earnings. Gamma squeeze frecuente.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('GOOGL')" data-ticker="GOOGL">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/googl.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">GOOGL</div>
+                <div style="font-size:11px;color:#6b7280">Alphabet</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Mega Cap</span></td>
+          <td class="price-cell" style="font-family:monospace">$267.19</td>
+          <td class="down" style="font-family:monospace">-2.01%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">41.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:9%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$265.66</span><span>$283.14</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:1%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,4.7 30.0,1.7 45.0,14.7 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.08);border-color:#ff475740">SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Presion bajista -2.0%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-GOOGL" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Soporte en 8-EMA en grafico 15min</li><li>Gap fills frecuentes</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Movimientos mas lentos que NVDA. Buen seguimiento de tendencia intraday.</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>DOJ antitrust news</li><li>AI announcements</li><li>Cloud metrics</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Spread mas amplio que NVDA. Mejor operar en el subyacente.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('MSFT')" data-ticker="MSFT">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/msft.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">MSFT</div>
+                <div style="font-size:11px;color:#6b7280">Microsoft</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Mega Cap</span></td>
+          <td class="price-cell" style="font-family:monospace">$484.81</td>
+          <td class="down" style="font-family:monospace">-2.71%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">27.6M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:13%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$482.00</span><span>$503.80</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:65%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,7.8 30.0,6.4 45.0,13.1 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Presion bajista -2.7%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-MSFT" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>200-day MA como soporte mayor</li><li>Niveles de earnings anteriores</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">El mas estable de los mega caps. Rebotes en VWAP muy limpios.</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Azure cloud numbers</li><li>Copilot adoption news</li><li>OpenAI developments</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">1.5-3% daily range</p>
+                <p class="exp-note">IV relativamente baja fuera de earnings. Bueno para spreads.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('AAPL')" data-ticker="AAPL">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/aapl.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">AAPL</div>
+                <div style="font-size:11px;color:#6b7280">Apple</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Mega Cap</span></td>
+          <td class="price-cell" style="font-family:monospace">$343.57</td>
+          <td class="down" style="font-family:monospace">-1.62%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">49.1M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:14%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$341.86</span><span>$354.30</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:85%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,2.1 30.0,0.8 45.0,8.5 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.08);border-color:#ff475740">SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Debilidad relativa -1.6%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-AAPL" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('META')" data-ticker="META">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/meta.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">META</div>
+                <div style="font-size:11px;color:#6b7280">Meta</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Mega Cap</span></td>
+          <td class="price-cell" style="font-family:monospace">$565.34</td>
+          <td class="down" style="font-family:monospace">-5.18%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">19.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:22%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$558.68</span><span>$588.69</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:17%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,2.7 30.0,3.6 45.0,10.9 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -5.2%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-META" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('AMZN')" data-ticker="AMZN">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/amzn.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">AMZN</div>
+                <div style="font-size:11px;color:#6b7280">Amazon</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Mega Cap</span></td>
+          <td class="price-cell" style="font-family:monospace">$247.24</td>
+          <td class="down" style="font-family:monospace">-3.94%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">53.4M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:11%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$245.71</span><span>$259.97</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:56%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,10.7 15.0,10.6 30.0,0.0 45.0,11.1 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.08);border-color:#ff475740">SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Presion bajista -3.9%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-AMZN" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('TSLA')" data-ticker="TSLA">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/tsla.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">TSLA</div>
+                <div style="font-size:11px;color:#6b7280">Tesla</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">EV/Tech</span></td>
+          <td class="price-cell" style="font-family:monospace">$347.48</td>
+          <td class="down" style="font-family:monospace">-7.19%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">34.5M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:11%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$344.33</span><span>$373.88</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:25%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,2.4 15.0,2.2 30.0,0.0 45.0,5.7 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -7.2%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-TSLA" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>$200, $250, $300 niveles psicologicos fuertes</li><li>Pre-market high/low criticos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Alta volatilidad. Fakeouts frecuentes en VWAP. Confirmar con volumen.</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Musk tweets/news</li><li>Delivery numbers</li><li>FSD news</li><li>China data</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">4-10% daily range</p>
+                <p class="exp-note">IV cronicamente alta. Premium selling viable en rangos.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('AMD')" data-ticker="AMD">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/amd.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">AMD</div>
+                <div style="font-size:11px;color:#6b7280">AMD</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">AI/Semis</span></td>
+          <td class="price-cell" style="font-family:monospace">$428.37</td>
+          <td class="down" style="font-family:monospace">-12.43%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">58.3M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:14%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$421.10</span><span>$474.79</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:51%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,5.6 15.0,5.8 30.0,0.0 45.0,8.9 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -12.4%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-AMD" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Ratio AMD/NVDA como senal de rotacion</li><li>$100 soporte psicologico</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Correlacion alta con NVDA. Suele seguir con rezago de 15-30min.</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>MI300X AI chip news</li><li>Data center wins</li><li>NVDA news</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">3-6% daily range</p>
+                <p class="exp-note">Buena liquidez en opciones. Spreads razonables.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('PLTR')" data-ticker="PLTR">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/pltr.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">PLTR</div>
+                <div style="font-size:11px;color:#6b7280">Palantir</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">AI/Data</span></td>
+          <td class="price-cell" style="font-family:monospace">$144.39</td>
+          <td class="down" style="font-family:monospace">-6.05%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">25.6M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:14%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$143.04</span><span>$152.51</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:36%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,5.3 30.0,5.1 45.0,9.2 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -6.0%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-PLTR" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('MU')" data-ticker="MU">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/mu.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">MU</div>
+                <div style="font-size:11px;color:#6b7280">Micron</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Semis</span></td>
+          <td class="price-cell" style="font-family:monospace">$596.08</td>
+          <td class="down" style="font-family:monospace">-13.67%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">49.6M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:8%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$590.00</span><span>$668.99</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:38%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,1.2 30.0,2.5 45.0,5.1 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -13.7%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-MU" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('AVGO')" data-ticker="AVGO">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/avgo.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">AVGO</div>
+                <div style="font-size:11px;color:#6b7280">Broadcom</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">AI/Semis</span></td>
+          <td class="price-cell" style="font-family:monospace">$303.53</td>
+          <td class="down" style="font-family:monospace">-12.44%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">41.5M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:5%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$301.53</span><span>$342.90</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:7%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,9.0 15.0,5.4 30.0,0.0 45.0,3.2 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -12.4%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-AVGO" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('NFLX')" data-ticker="NFLX">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/nflx.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">NFLX</div>
+                <div style="font-size:11px;color:#6b7280">Netflix</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">Streaming</span></td>
+          <td class="price-cell" style="font-family:monospace">$57.02</td>
+          <td class="down" style="font-family:monospace">-2.45%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">50.0M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:9%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$56.78</span><span>$59.35</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:0%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,6.3 30.0,5.5 45.0,13.5 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.08);border-color:#ff475740">SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Presion bajista -2.5%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-NFLX" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('SMCI')" data-ticker="SMCI">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/smci.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">SMCI</div>
+                <div style="font-size:11px;color:#6b7280">Super Micro</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">AI Infra</span></td>
+          <td class="price-cell" style="font-family:monospace">$21.79</td>
+          <td class="down" style="font-family:monospace">-8.62%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">39.7M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:11%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$21.57</span><span>$23.52</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:7%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,6.0 30.0,4.5 45.0,8.1 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -8.6%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-SMCI" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('ARM')" data-ticker="ARM">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/arm.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">ARM</div>
+                <div style="font-size:11px;color:#6b7280">Arm Holdings</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">AI/Semis</span></td>
+          <td class="price-cell" style="font-family:monospace">$152.68</td>
+          <td class="down" style="font-family:monospace">-13.82%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">8.1M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:1%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$152.48</span><span>$170.65</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:15%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,6.0 15.0,0.0 30.0,0.5 45.0,4.5 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -13.8%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-ARM" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="stock-row" onclick="toggleRow('MSTR')" data-ticker="MSTR">
+          <td>
+            <div style="display:flex;align-items:center;gap:8px">
+              <img class="stock-logo" src="https://logo.clearbit.com/mstr.com" onerror="this.style.display='none'" alt="">
+              <div>
+                <div style="font-weight:600;font-size:13px;font-family:monospace">MSTR</div>
+                <div style="font-size:11px;color:#6b7280">MicroStrategy</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sector-pill">BTC Proxy</span></td>
+          <td class="price-cell" style="font-family:monospace">$79.03</td>
+          <td class="down" style="font-family:monospace">-8.24%</td>
+          <td><span style="color:#6b7280;font-size:10px">-</span></td>
+          <td style="color:#6b7280;font-size:11px;font-family:monospace">27.8M</td>
+          <td><div style="position:relative;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin:4px 0"><div style="position:absolute;top:-2px;left:5%;width:8px;height:8px;border-radius:50%;background:#ffa502;transform:translateX(-50%)"></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280"><span>$78.52</span><span>$87.95</span></div></td>
+          <td><div style="width:50px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:0%;height:3px;background:#ffa502;border-radius:2px"></div></div></td>
+          <td><svg width="60" height="22" viewBox="0 0 60 22"><polyline points="0.0,0.0 15.0,6.0 30.0,11.7 45.0,15.5 60.0,22.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></td>
+          <td><div class="sig-badge" style="color:#ff4757;background:rgba(255,71,87,0.12);border-color:#ff475740">STRONG SELL</div><div style="font-size:9px;color:#6b7280;margin-top:2px;max-width:80px;line-height:1.3">Caida fuerte -8.2%</div></td>
+        </tr>
+        
+        <tr class="stock-expanded" id="exp-MSTR" style="display:none">
+          <td colspan="10" style="padding:0 12px 12px 48px">
+            <div class="expanded-grid">
+              <div>
+                <div class="exp-title">Niveles clave</div>
+                <ul class="exp-list"><li>Pre-market high y low como niveles clave</li><li>Redondos psicologicos</li></ul>
+                <div class="exp-title" style="margin-top:8px">VWAP / Setup</div>
+                <p class="exp-note">Seguir tendencia del mercado general (QQQ/SPY).</p>
+              </div>
+              <div>
+                <div class="exp-title">Catalizadores</div>
+                <ul class="exp-list"><li>Noticias sectoriales</li><li>Datos macro del dia</li></ul>
+                <div class="exp-title" style="margin-top:8px">Range / Opciones</div>
+                <p class="exp-note">2-4% daily range</p>
+                <p class="exp-note">Revisar IV rank vs historico antes de operar opciones.</p>
+              </div>
+            </div>
+          </td>
+        </tr></tbody>
     </table>
   </div>
   <p style="font-size:11px;color:var(--muted);margin-top:8px;font-family:'JetBrains Mono',monospace">
@@ -273,10 +1014,10 @@ td{padding:10px 12px;vertical-align:middle}
   <div class="section-title">Crypto — BTC · ETH · ZEC · Altcoins</div>
   
     <div class="crypto-global">
-      <div class="cg-item"><span class="cg-label">Total MCap</span><span class="cg-val">$2.13T</span></div>
-      <div class="cg-item"><span class="cg-label">BTC Dom</span><span class="cg-val amber">58.0%</span></div>
-      <div class="cg-item"><span class="cg-label">ETH Dom</span><span class="cg-val">9.9%</span></div>
-      <div class="cg-item"><span class="cg-label">24h Vol</span><span class="cg-val">$78B</span></div>
+      <div class="cg-item"><span class="cg-label">Total MCap</span><span class="cg-val">$2.03T</span></div>
+      <div class="cg-item"><span class="cg-label">BTC Dom</span><span class="cg-val amber">57.8%</span></div>
+      <div class="cg-item"><span class="cg-label">ETH Dom</span><span class="cg-val">9.6%</span></div>
+      <div class="cg-item"><span class="cg-label">24h Vol</span><span class="cg-val">$114B</span></div>
     </div>
 <div class="crypto-grid">
 
@@ -287,22 +1028,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">BTC</div>
               <div class="crypto-name">Bitcoin</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,6.2 8.4,6.8 12.6,9.0 16.8,11.9 21.1,17.1 25.3,28.0 29.5,18.8 33.7,21.6 37.9,21.2 42.1,22.3 46.3,20.4 50.5,20.9 54.7,22.2 58.9,24.1 63.2,22.4 67.4,21.4 71.6,26.5 75.8,27.4 80.0,24.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,9.3 8.4,7.2 12.6,13.3 16.8,17.0 21.1,14.8 25.3,16.5 29.5,15.9 33.7,18.6 37.9,16.2 42.1,16.2 46.3,16.4 50.5,21.5 54.7,18.6 58.9,19.6 63.2,25.6 67.4,23.7 71.6,20.7 75.8,27.3 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$61,509</div>
+          <div class="crypto-price">$58,494</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.87%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-1.99%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-13.49%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val up">+0.00%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-5.90%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-15.09%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$33712M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$52173M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1237.2B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1176.6B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-51%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-54%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:20%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:59%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -312,22 +1053,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">ETH</div>
               <div class="crypto-name">Ethereum</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,7.0 8.4,7.3 12.6,8.4 16.8,9.8 21.1,16.8 25.3,28.0 29.5,18.8 33.7,19.7 37.9,20.4 42.1,21.3 46.3,19.0 50.5,19.1 54.7,19.9 58.9,22.3 63.2,20.8 67.4,19.8 71.6,24.2 75.8,23.2 80.0,20.4" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,9.4 8.4,5.8 12.6,15.8 16.8,18.1 21.1,17.2 25.3,17.3 29.5,16.9 33.7,19.8 37.9,17.5 42.1,16.3 46.3,17.7 50.5,21.9 54.7,20.0 58.9,20.6 63.2,26.7 67.4,21.7 71.6,19.7 75.8,24.9 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$1,731</div>
+          <div class="crypto-price">$1,605</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.16%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.45%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-13.77%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.94%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-8.97%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-17.24%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$11199M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$18027M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$211.6B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$196.2B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-65%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-68%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:24%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:90%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -337,22 +1078,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">ZEC</div>
               <div class="crypto-name">Zcash</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,2.7 8.4,3.2 12.6,6.2 16.8,11.9 21.1,24.0 25.3,28.0 29.5,13.0 33.7,16.0 37.9,19.7 42.1,18.6 46.3,19.0 50.5,13.1 54.7,6.1 58.9,7.4 63.2,2.3 67.4,2.0 71.6,8.8 75.8,12.9 80.0,2.5" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,15.3 8.4,15.5 12.6,28.0 16.8,13.1 21.1,11.1 25.3,15.7 29.5,16.9 33.7,19.5 37.9,15.3 42.1,10.4 46.3,3.2 50.5,10.8 54.7,3.3 58.9,6.1 63.2,13.3 67.4,11.2 71.6,2.1 75.8,15.7 80.0,25.2" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$862.59</div>
+          <div class="crypto-price">$747.23</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-2.37%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-5.09%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-10.12%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.56%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-16.08%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-19.40%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$774M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$1077M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$14.7B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$12.7B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-73%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-77%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:51%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -362,22 +1103,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">SOL</div>
               <div class="crypto-name">Solana</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,2.7 8.4,2.9 12.6,8.9 16.8,11.2 21.1,17.7 25.3,28.0 29.5,20.0 33.7,20.6 37.9,20.7 42.1,21.8 46.3,21.0 50.5,19.8 54.7,17.9 58.9,18.7 63.2,14.8 67.4,12.9 71.6,16.2 75.8,16.3 80.0,14.1" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,16.3 8.4,13.6 12.6,25.0 16.8,28.0 21.1,24.9 25.3,27.0 29.5,25.5 33.7,28.0 37.9,27.6 42.1,23.5 46.3,21.4 50.5,23.5 54.7,17.2 58.9,18.3 63.2,22.5 67.4,19.1 71.6,17.1 75.8,21.3 80.0,23.2" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$71.85</div>
+          <div class="crypto-price">$67.68</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.30%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.13%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-11.73%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.17%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-7.33%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-14.82%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$2311M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$3364M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$42.5B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$40.1B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-76%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-77%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:21%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:73%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -387,22 +1128,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">XRP</div>
               <div class="crypto-name">XRP</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,0.6 8.4,2.5 12.6,6.0 16.8,9.1 21.1,16.2 25.3,28.0 29.5,15.4 33.7,18.4 37.9,16.4 42.1,19.9 46.3,16.9 50.5,16.7 54.7,16.3 58.9,16.5 63.2,13.2 67.4,7.3 71.6,12.1 75.8,15.6 80.0,10.3" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,14.2 8.4,12.6 12.6,28.0 16.8,23.1 21.1,24.5 25.3,25.5 29.5,24.6 33.7,27.3 37.9,26.0 42.1,23.1 46.3,21.8 50.5,23.9 54.7,19.3 58.9,15.3 63.2,23.2 67.4,22.5 71.6,14.7 75.8,23.4 80.0,24.7" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.950081</div>
+          <div class="crypto-price">$0.890483</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.92%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-1.34%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-8.04%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.44%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-7.69%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-12.59%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$1699M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$2242M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$60.3B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$56.6B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-74%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-76%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:13%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:77%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -412,22 +1153,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">AVAX</div>
               <div class="crypto-name">Avalanche</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,0.8 8.4,0.7 12.6,3.8 16.8,5.9 21.1,16.1 25.3,28.0 29.5,20.7 33.7,21.3 37.9,22.0 42.1,22.8 46.3,22.1 50.5,23.1 54.7,21.5 58.9,23.1 63.2,21.9 67.4,22.3 71.6,25.2 75.8,24.7 80.0,23.3" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,6.7 8.4,7.2 12.6,18.4 16.8,23.4 21.1,22.2 25.3,21.7 29.5,22.0 33.7,23.7 37.9,22.9 42.1,22.9 46.3,21.8 50.5,24.6 54.7,23.6 58.9,24.1 63.2,27.1 67.4,25.1 71.6,24.2 75.8,26.1 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$6.87</div>
+          <div class="crypto-price">$6.48</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.20%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.14%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-17.32%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.74%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-7.16%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-22.67%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$173M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$194M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$3.1B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$2.9B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-95%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-96%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:21%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:72%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -437,22 +1178,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">LINK</div>
               <div class="crypto-name">Chainlink</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,3.9 8.4,3.4 12.6,6.4 16.8,9.1 21.1,18.8 25.3,28.0 29.5,17.7 33.7,17.7 37.9,19.4 42.1,20.5 46.3,19.1 50.5,19.7 54.7,18.8 58.9,20.0 63.2,18.8 67.4,18.0 71.6,21.0 75.8,21.5 80.0,18.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,11.6 8.4,10.3 12.6,23.3 16.8,22.3 21.1,19.4 25.3,19.4 29.5,20.1 33.7,21.5 37.9,20.4 42.1,20.4 46.3,19.0 50.5,22.5 54.7,19.9 58.9,21.5 63.2,24.5 67.4,22.6 71.6,20.5 75.8,24.6 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$8.82</div>
+          <div class="crypto-price">$8.36</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.64%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.52%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-12.49%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-0.68%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-6.96%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-16.38%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$184M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$266M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$6.8B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$6.4B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-83%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-84%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:25%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:70%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -462,22 +1203,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">ARB</div>
               <div class="crypto-name">Arbitrum</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,6.3 8.4,4.7 12.6,7.5 16.8,10.7 21.1,16.5 25.3,28.0 29.5,17.1 33.7,16.2 37.9,18.0 42.1,18.5 46.3,20.1 50.5,19.5 54.7,20.2 58.9,20.5 63.2,21.1 67.4,22.3 71.6,24.1 75.8,25.7 80.0,25.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,5.7 8.4,4.4 12.6,14.5 16.8,14.2 21.1,10.8 25.3,10.8 29.5,10.9 33.7,12.8 37.9,13.5 42.1,12.5 46.3,13.0 50.5,15.1 54.7,15.1 58.9,16.7 63.2,18.3 67.4,18.4 71.6,18.2 75.8,21.7 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.118219</div>
+          <div class="crypto-price">$0.111983</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-2.12%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-7.04%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-21.46%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.33%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-9.09%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-22.90%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$82M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$106M</span>
             &nbsp;·&nbsp;
             <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$0.8B</span>
             &nbsp;·&nbsp;
             <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-95%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:70%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:91%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -512,22 +1253,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">SUI</div>
               <div class="crypto-name">Sui</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,0.2 8.4,0.0 12.6,3.2 16.8,6.5 21.1,17.0 25.3,28.0 29.5,18.2 33.7,19.8 37.9,19.3 42.1,20.3 46.3,19.8 50.5,20.2 54.7,18.3 58.9,19.7 63.2,18.1 67.4,16.9 71.6,20.7 75.8,20.2 80.0,17.3" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,9.9 8.4,10.0 12.6,21.4 16.8,22.6 21.1,20.8 25.3,21.5 29.5,20.5 33.7,22.7 37.9,22.0 42.1,20.8 46.3,19.1 50.5,22.8 54.7,20.7 58.9,21.5 63.2,23.7 67.4,21.6 71.6,20.4 75.8,24.3 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.698061</div>
+          <div class="crypto-price">$0.638361</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.40%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.80%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-13.23%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.83%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-10.08%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-20.67%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$262M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$427M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$2.9B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$2.6B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-87%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-88%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:28%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:100%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -539,20 +1280,20 @@ td{padding:10px 12px;vertical-align:middle}
             </div>
             <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,28.0 4.2,28.0 8.4,28.0 12.6,28.0 16.8,28.0 21.1,28.0 25.3,28.0 29.5,28.0 33.7,28.0 37.9,28.0 42.1,28.0 46.3,28.0 50.5,28.0 54.7,28.0 58.9,28.0 63.2,28.0 67.4,28.0 71.6,28.0 75.8,28.0 80.0,28.0" fill="none" stroke="#00d4aa" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.000004</div>
+          <div class="crypto-price">$0.000003</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-3.31%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-5.91%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-21.38%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.44%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-9.63%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-23.76%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$353M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$333M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1.5B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$1.4B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-87%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-88%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:59%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:96%;background:#ff4757"></div></div>
         </div>
 
         <div class="crypto-card">
@@ -562,22 +1303,22 @@ td{padding:10px 12px;vertical-align:middle}
               <div class="crypto-ticker">DOGE</div>
               <div class="crypto-name">Dogecoin</div>
             </div>
-            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,4.4 8.4,2.8 12.6,5.8 16.8,8.9 21.1,16.6 25.3,28.0 29.5,21.3 33.7,21.1 37.9,21.3 42.1,22.5 46.3,19.7 50.5,20.5 54.7,21.1 58.9,21.6 63.2,19.7 67.4,18.6 71.6,21.1 75.8,21.3 80.0,19.1" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <div style="margin-left:auto"><svg width="80" height="28" viewBox="0 0 80 28"><polyline points="0.0,0.0 4.2,10.5 8.4,9.1 12.6,19.9 16.8,23.3 21.1,22.3 25.3,22.6 29.5,22.3 33.7,23.3 37.9,20.9 42.1,21.6 46.3,21.6 50.5,22.6 54.7,21.6 58.9,21.6 63.2,24.0 67.4,22.9 71.6,20.6 75.8,24.0 80.0,28.0" fill="none" stroke="#ff4757" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           </div>
-          <div class="crypto-price">$0.056984</div>
+          <div class="crypto-price">$0.053116</div>
           <div class="crypto-changes">
-            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.41%</div></div>
-            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-2.96%</div></div>
-            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-13.87%</div></div>
+            <div class="chg-item"><div class="chg-label">1h</div><div class="chg-val down">-1.59%</div></div>
+            <div class="chg-item"><div class="chg-label">24h</div><div class="chg-val down">-8.92%</div></div>
+            <div class="chg-item"><div class="chg-label">7d</div><div class="chg-val down">-18.87%</div></div>
           </div>
           <div class="crypto-footer">
-            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$402M</span>
+            <span class="cg-label">Vol 24h</span> <span style="font-size:11px;font-family:monospace">$625M</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$8.9B</span>
+            <span class="cg-label">MCap</span> <span style="font-size:11px;font-family:monospace">$8.3B</span>
             &nbsp;·&nbsp;
-            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-92%</span>
+            <span class="cg-label">vs ATH</span> <span class="down" style="font-size:11px;font-family:monospace">-93%</span>
           </div>
-          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:30%;background:#ff4757"></div></div>
+          <div style="height:3px;border-radius:2px;background:rgba(255,255,255,0.05);margin-top:4px"><div style="height:3px;border-radius:2px;width:89%;background:#ff4757"></div></div>
         </div>
 </div>
 </div>
@@ -623,7 +1364,7 @@ td{padding:10px 12px;vertical-align:middle}
 </div>
 
 <div class="footer">
-  Day Trading Dashboard · 2026-11-20 02:29 UTC · Yahoo Finance + CoinGecko + FMP ·
+  Day Trading Dashboard · 2026-11-20 20:51 UTC · Yahoo Finance + CoinGecko + FMP ·
   No es asesoramiento financiero
 </div>
 <script>
